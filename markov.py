@@ -60,17 +60,20 @@ class Markov:
                     if i[1] == output[0]:
                         back_pos.insert(0, i[0])
 
-                #print(for_pos)
-                #print(back_pos)
+                #print('Foward: {}'.format(for_pos))
+                #print('Backward: {}'.format(back_pos))
                 if len(for_pos) is not 0:
                     output.append(random.choice(for_pos))
 
                 if len(back_pos) is not 0:
                     output.insert(0, random.choice(back_pos))
 
+            #print('In end:', output[-1] in self.end)
+            #print('In begin:', output[0] in self.start)
+            
+            count = 0
             #Add to the end first.
-            #for i in xrange(50):
-            while output[-1] not in self.end:
+            while output[-1] not in self.end or count < 5:
                 phrase = (output[-2], output[-1])
                 if phrase in self.forward.keys():
                     output.append(random.choice(self.forward[phrase]))
@@ -79,9 +82,9 @@ class Markov:
                     print()
                     break
 
+            count = 0
             #Add to beginning.
-            #for i in xrange(50):
-            while output[0] not in self.start:
+            while output[0] not in self.start or count < 5:
                 phrase = (output[0], output[1])
                 if phrase in self.backward.keys():
                     output.insert(0, random.choice(self.backward[phrase]))
