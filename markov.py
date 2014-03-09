@@ -47,7 +47,7 @@ class Markov:
     def get_string(self, user = None, output = None):
         if output is None:
             output = [random.choice(self.start + self.end)]
-        print(output)
+        #print(output)
         try:
             if len(output) is 1:
                 for_pos = []
