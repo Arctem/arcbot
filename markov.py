@@ -78,8 +78,8 @@ class Markov:
                 if phrase in self.forward.keys():
                     output.append(random.choice(self.forward[phrase]))
                 else:
-                    print(phrase)
-                    print()
+                    #print(phrase)
+                    #print()
                     break
 
             count = 0
@@ -89,8 +89,8 @@ class Markov:
                 if phrase in self.backward.keys():
                     output.insert(0, random.choice(self.backward[phrase]))
                 else:
-                    print(phrase)
-                    print()
+                    #print(phrase)
+                    #print()
                     break
             return ' '.join(output)
         except IndexError:
