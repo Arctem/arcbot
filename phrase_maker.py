@@ -20,7 +20,7 @@ data = {
         'creatures' : ['skeletons', 'rats', 'dragons', 'demons', 'butterflies', 'wolves', 'zombies', 'men', 'women', 'snakes', 'crabs', 'ants', 'donkeys', 'submarines', 'cats', 'kittens', 'bears', 'rhino', 'bees', 'cheerleaders'],
         'user_body' : ['arm', 'leg', 'toe', 'chest', 'head', 'finger', 'hand', 'foot', 'eye', 'groin'],
         'enemy_body' : ['hide', 'shell', 'claws', 'horn', 'armor'],
-        'location' : ['Undead Asylum', 'Firelink Shrine', 'Undead Burg', 'Undead Parish', 'Depths', 'Blighttown', 'Quelaag\'s Domain', 'The Great Hollow', 'Ash Lake', 'Sen\'s Fortress', 'Anor Londo', 'Painted World of Ariamis', 'Darkroot Garden', 'Darkroot Basin', 'New Londo Ruins', 'The Duke\'s Archives', 'Crystal Cave', 'Demon Ruins', 'Lost Izalith', 'The Catacombs', 'Tomb of Giants', 'Black Mesa', 'City 17', 'The Pacific Ocean', 'Castamere', 'The Wall', 'Westeros', 'Essos'],
+        'location' : ['Undead Asylum', 'Firelink Shrine', 'Undead Burg', 'Undead Parish', 'Depths', 'Blighttown', 'Quelaag\'s Domain', 'The Great Hollow', 'Ash Lake', 'Sen\'s Fortress', 'Anor Londo', 'Painted World of Ariamis', 'Darkroot Garden', 'Darkroot Basin', 'New Londo Ruins', 'The Duke\'s Archives', 'Crystal Cave', 'Demon Ruins', 'Lost Izalith', 'The Catacombs', 'Tomb of Giants', 'Black Mesa', 'City 17', 'The Pacific Ocean', 'Castamere', 'The Wall', 'Westeros', 'Essos', 'Hammond Industries'],
         'hazard_any' : ['a {hazard}', '{hazards}'],
         'hazard' : ['spike', 'swinging axe', 'fire', 'acid pool', 'bottomless pit', 'chasm', 'banana peel', 'horde of {creatures}', '{container} of {creatures}'],
         'hazards' : ['spikes', 'flames', 'spikes', 'banana peels'],
@@ -97,7 +97,7 @@ data = {
         'location' : ['{Adj_good} {Place}'],
         'place' : ['flooded {place}', 'woods', 'forest', 'hills', 'ruins', 'mountain', 'ridge', 'valley', 'cliffs', 'steppe', 'plains', 'sea', 'pillars', 'waterfalls', 'brothel', 'dimension'],
         'malady' : ['{thing} allergies', '{monster}-rot'],
-        'god' : ['Pelor', 'Asmodeus', 'Dagon', 'Cthulhu', 'Nektor', 'Nyctasha', 'Atropos', 'Chadde', 'Voldemort', 'Your Mom', 'Azathoth', 'Shub-Niggurath', 'Yog-Sothoth', 'Nyarlathotep', 'Yig', 'Mordiggian', 'Eul', '{Gen/karst}'],
+        'god' : ['Pelor', 'Asmodeus', 'Dagon', 'Cthulhu', 'Nektor', 'Nyctasha', 'Atropos', 'Chadde', 'Voldemort', 'Your Mom', 'Azathoth', 'Shub-Niggurath', 'Yog-Sothoth', 'Nyarlathotep', 'Yig', 'Mordiggian', 'Eul', 'Hammond', '{Gen/karst}'],
         'relic' : ['the {Adjective} {Thing}', '{God}\'s {Thing}', 'the {Thing} of {Adjective} {Place}', '{God}\'s {Body_part}'],
         'number' : ['two', 'three', 'four', 'countless', 'many'],
         'body_part' : ['arm', 'leg', 'chest', 'breast', 'groin', 'head', 'nose', 'ear', 'finger', 'toe', 'torso', 'knee', 'elbow'],
@@ -116,10 +116,10 @@ data = {
         'boss' : ['{Boss_first} {Boss_last}'],
 
         'brit_first' : ['{brit_first_male}', '{brit_first_fem}'],
-        'brit_first_male' : ['Mr.', 'Sir', 'wilbert', 'mudd', 'rooster', 'ruddigore', 'brick', 'thaddeus', 'bollox', 'zebulon', 'egress', 'winston', 'manfred', 'edwind'],
+        'brit_first_male' : ['Mr.', 'Sir', 'wilbert', 'mudd', 'rooster', 'ruddigore', 'brick', 'thaddeus', 'bollox', 'zebulon', 'egress', 'winston', 'manfred', 'edwind', 'hammond'],
         'brit_first_fem' : ['Miss', 'Lady', 'zylphia', 'bellis', 'ada', 'penny', 'kimberly', 'mimsy', 'hattie'],
 
-        'brit_last_premade' : ['chuzzlewit', 'warddle', 'scadde', 'beamish', 'toves', 'chuddlewick'],
+        'brit_last_premade' : ['chuzzlewit', 'warddle', 'scadde', 'beamish', 'toves', 'chuddlewick', 'hammond'],
         'brit_last_ending' : ['son', 'bottom'],
 
         'cog_last' : ['{metal}{component}', '{component}{component}', '{metal}{brit_last_ending}', '{component}{brit_last_ending}', '{cog_last_premade}', '{brit_last_premade}'],
@@ -141,12 +141,12 @@ data = {
         'boss_first' : ['{boss_prefix}{boss_first}', '{boss_first}{boss_postfix}', '{boss_title}', '{boss_weather}', '{boss_animal}'],
         'boss_title' : ['commander', 'sergeant', 'dr.'],
         'boss_weather' : ['blizzard', 'thunder', 'blaze', 'burn', 'firestorm', 'glacier', 'gravity', 'volt'],
-        'boss_animal' : ['rabbit', 'buffalo', 'hawk', 'wolf', 'snail', 'stingray', 'beetle', 'eagle', 'octopus', 'ostrich', 'gator'],
+        'boss_animal' : ['rabbit', 'buffalo', 'hawk', 'wolf', 'snail', 'stingray', 'beetle', 'eagle', 'octopus', 'ostrich', 'gator', 'hammond'],
         'boss_prefix' : ['omni', 'mega', 'giga'],
         'boss_postfix' : ['oid', 'saurus'],
         
         'boss_last' : ['{boss_prefix}{boss_last}', '{boss_last}{boss_postfix}', '{boss_animal}', '{boss_word}', '{boss_weather}'],
-        'boss_word' : ['doppler', 'psyche', 'hunter', 'slash', 'dynamo'],
+        'boss_word' : ['doppler', 'psyche', 'hunter', 'slash', 'dynamo', 'hammond'],
     }
 }
 
