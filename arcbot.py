@@ -46,7 +46,7 @@ class ArcBot(IRCBot):
             channel = ('#csb',), nick = 'arcbot',
             #channel = ('#testing',), nick = 'testbot',
             #name = "Captain of the USS Wahoo")
-            name = "Ultimate Botting Machine: http://i.imgur.com/mrrKP.png")
+            name = "Ultimate Botting Machine: http://i.imgur.com/mrrKP.png https://www.youtube.com/watch?v=L9biyJcBhRs")
         self.start_time = time.time()
         
         self.ipv6 = False
