@@ -118,7 +118,7 @@ class ArcBot(IRCBot):
     def add_to_buffer(self, is_action, connection, event, output):
         #output = output.replace('dragonborn', 'dovahkiin').replace('Dragonborn', 'Dovahkiin')
         #output = output.replace('arcbot', self.nick)
-        if random.randint(1, 4) is 1:
+        if random.randint(1, 4) is 0:
             replacement = random.choice(('Doctor CockMaster Flex', 'Flannery "Dicks" Norton', 'Lieutenant Panic'))
             output = output.replace('Karst', replacement).replace('karst', replacement).replace('Utanith', 'Sugar-Dirty Sugar-Sex-Dragon-Kitten')
         IRCBot.add_to_buffer(self, connection, event, output, is_action)
