@@ -1,6 +1,9 @@
 import sys
 import random
 import pickle
+import re
+from wiki.wikipedia import Wikipedia
+from wiki.wiki2plain import Wiki2Plain
 
 class Markov:
     def __init__(self, filename = None):
@@ -134,8 +137,50 @@ def load(filename):
     return pickle.load(open(filename, 'rb'))
 
 def main():
-    m = load('markov_new.botdat')
-    print(m.get_string(user = 'joe', output = sys.argv[1:]))
+    if raw_input('Wahooify? ').lower() == 'y':
+        wahooify()
+    else:
+        m = load('markov_new.botdat')
+        print(m.get_string(user = 'joe', output = sys.argv[1:]))
+
+def wahooify():
+    lang = 'en'
+    wiki = Wikipedia(lang)
+
+    try:
+        raw = wiki.article('USS Wahoo (SS-238)')
+    except:
+        raw = None
+
+    if raw:
+        wiki2plain = Wiki2Plain(raw)
+        content = wiki2plain.text
+        content = re.sub(' \(.*?\)', '', content)
+        #content = re.sub('\[.*?\]', '', content)
+        content = [i for i in content.split('==Awards==')[0].split('\n') if len(i) > 0 and i[0] != '=']
+        #content = (". ".join(content)).split(". ")
+        new_content = []
+        for i in content:
+            for k in i.split(". "):
+                new_content.append(k.strip() + '.')
+            new_content[-1] = new_content[-1][:-1]
+        content = new_content
+        #content = [i for i in content.split('\n') if len(i) > 0]
+        
+        f = open('wahoo.txt', 'w')
+        for i in content:
+            f.write(i)
+            f.write('\n')
+            print len(i)
+        f.close()
+        
+        m = Markov()
+        f = open('wahoo_fixed.txt', 'r')
+        for line in f.read().split('\n'):
+            m.add_string(line)
+            #print line
+        print m.get_string(['Wahoo'])
+        m.save('markov_new.botdat')
 
 def reimport():
     m = Markov()
