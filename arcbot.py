@@ -467,7 +467,10 @@ class ArcBot(IRCBot):
                 
         elif command[0].lower() == 'markov3': #The new new markov system.
             if len(command) is 1:
-                self.add_to_buffer(False, connection, event, self.markov_new.get_string(user = user))
+                if self.nick == 'wahoobot' and random.randint(1, 4) is 1:
+                    self.add_to_buffer(False, connection, event, self.markov_new.get_string(user = user, output = ['Wahoo']))
+                else:
+                    self.add_to_buffer(False, connection, event, self.markov_new.get_string(user = user))
             else:
                 self.add_to_buffer(False, connection, event, self.markov_new.get_string(user = user, output = command[1:]))
 
