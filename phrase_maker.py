@@ -109,7 +109,7 @@ data = {
     }, 
 
     'name' : {
-        'template' : ['{cog}', '{native}', '{boss}'],
+        'template' : ['{cog}', '{boss}'], #'{native}', ],
 
         'cog' : ['{Brit_first} {Cog_last}'],
         'native' : ['{Native_first} {Native_last}', '{Native_verbs} With {Native_animals}'],
