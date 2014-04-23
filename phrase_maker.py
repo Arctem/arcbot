@@ -10,6 +10,9 @@ data = {
         'vowel' : list('aeiouy'),
         'consonant' : list('bcdfghjklmnpqrstvwxyz'),
         'karst' : ['Karst', 'Flannery', 'Flanneroo'],
+
+        'number' : ['{digit}{number}', '{digit}'],
+        'digit' : '1234567890',
     },
 
     'fate' : {
@@ -58,11 +61,11 @@ data = {
         'adjective' : ['intelligent', 'incredible', 'strange', 'dragon', 'sexy', 'naked', 'pointy', 'sharp', 'moist', 'based', 'foxy', 'tight', 'wet', 'slick', 'flaccid', 'erect', 'smooth'],
         
         'nick' : ['{username}', '{adjective} {nick}', '{nick} von {nick}', 'Honey-{nick}', 'sugar-{nick}', 'dirty {nick}', 'sex-{nick}', '{Nick} Master',  '{nick}-face', 'sexy', 'smurf', 'Pokemon Master', 'baby', 'bunny', 'kitten', 'waifu', '{adjective} whore', 'slut'],
-        'action' : ['{adverb} {action}']*8 + ['tickle', 'shove a potato in', 'shove a {thing} in', 'cook', 'eat', 'fondle', 'stare {adverb} at', 'strip', 'ravage', 'whip', 'flog', 'spank', 'bite', 'nip', 'yiff', 'have an {adjective} conversation with', 'suckle', 'nuzzle', 'Shrek', 'wreck', 'devour', 'tongue', 'diddle', 'twiddle', 'caress', 'flick', 'pinch', 'squeeze', 'dildo', 'sniff', 'headbutt', 'smurf', 'shock', 'penetrate', 'quiz', 'fuck', 'pope'],
-        'thing' : ['{adjective} {thing}']*5 + ['{gen/karst}', 'penis', 'vagina', 'face', 'monkey', 'butt', 'tits', 'murrhole', 'potato', 'nipple', 'balls', 'pussy', 'dick', 'crotch area', 'nethers', 'no-no zone', 'special place', 'boobs', 'titties', 'love pillow', 'waifu', 'man-meat'],
+        'action' : ['{adverb} {action}']*8 + ['tickle', 'shove a potato in', 'shove a {thing} in', 'cook', 'eat', 'fondle', 'stare {adverb} at', 'strip', 'ravage', 'whip', 'flog', 'spank', 'bite', 'nip', 'yiff', 'have an {adjective} conversation with', 'suckle', 'nuzzle', 'Shrek', 'wreck', 'devour', 'tongue', 'diddle', 'twiddle', 'caress', 'flick', 'pinch', 'squeeze', 'dildo', 'sniff', 'headbutt', 'smurf', 'shock', 'penetrate', 'quiz', 'fuck', 'pope', 'dingle'],
+        'thing' : ['{adjective} {thing}']*5 + ['{gen/karst}', 'penis', 'vagina', 'face', 'monkey', 'butt', 'tits', 'murrhole', 'potato', 'nipple', 'balls', 'pussy', 'dick', 'crotch area', 'nethers', 'no-no zone', 'special place', 'boobs', 'titties', 'love pillow', 'waifu', 'man-meat', 'yiffstick', 'cherry'],
         'time' : ['late {time}', 'morning', 'night', 'evening', 'dusk', 'afternoon', 'class'],
         'location' : ['West Hall', 'the {location} bathroom', 'a public {location}', 'space', 'White House', 'between dimensions', 'heaven', 'hell', 'Vatican', 'Atlantis', 'Anti-Atlantis'],
-        'substance' : ['{thing}-juice', 'jello', 'cum', 'whipped cream', 'honey', 'gravy', 'mayo', 'chocolate'],
+        'substance' : ['{thing}-juice', 'jello', 'cum', 'whipped cream', 'honey', 'gravy', 'mayo', 'chocolate', 'hot sauce'],
         
         'opening' : ['Hey {nick},', '{nick},'],
         'middle' : ["I'm gonna {action} your {thing} all {time}", "I'm gonna cover your {thing} in {substance}"],
@@ -75,7 +78,7 @@ data = {
         'char' : ['{Name/template}', '{Title} {Name}', '{Name}{name}', '{Name} {Name}', '{Name}{epithet}'],
         'name' : ['{gen/vowel}{name}', '{gen/consonant}{name}', '{name}{gen/vowel}', '{name}{gen/consonant}']*6 + ['{username}', '{gen/karst}', 'fish', 'thor', 'aztec', 'boros', 'beau', 'nyx', 'cyka', 'dagon'],
         'title' : ['Lieutenant', 'Lord', 'Sergeant', 'Colonel', 'Overlord', 'Professor', 'Doctor', 'Janitor', "{God}'s Favored", 'Admiral', 'Prince', 'Princess'],
-        'race' : ['half-{monster}', 'half-{race}', 'hobbit', 'halfling', 'human', 'elf', 'monkey', 'jewish', 'canadian', 'drow', 'dwarf', 'gnome', 'dorf'],
+        'race' : ['half-{monster}', 'half-{race}', 'were{race}', 'were{monster}', 'hobbit', 'halfling', 'human', 'elf', 'monkey', 'jewish', 'canadian', 'drow', 'dwarf', 'gnome', 'dorf', 'tauren'],
         'class' : ['paladin', 'monk', 'rogue', 'warrior', 'fighter', 'knight', 'wizard', 'sorceror', 'pirate', 'samurai', 'ranger', '{adjective} dancer', '{adjective} Magus', 'sandwich', 'lumberjack', 'ninja', 'programmer', '{thing}omancer', 'witcher', 'biologist', 'gentleman', 'lady', 'aristocrat', 'disciple of {God}', 'cowboy', 'companion', 'seductress', 'stripper', 'druid', 'bard', 'barbarian', 'cleric of {God}', 'alchemist', 'cavalier', 'oracle', 'summoner', 'witch', 'necromancer'],
         'adjective' : ['{adj_bad}', '{adj_good}', '{adj_neutral}']*4 + ['very {adjective}'],
         'adj_bad' : ['zombie', 'giant', 'fiery', 'tiny', 'demon', 'possessed', 'marauding', 'angry'],
@@ -125,8 +128,8 @@ data = {
         'cog_last' : ['{metal}{component}', '{component}{component}', '{metal}{brit_last_ending}', '{component}{brit_last_ending}', '{cog_last_premade}', '{brit_last_premade}'],
         'cog_last_premade' : ['bootstrappe', 'coalscofle', 'matchelocke'],
 
-        'metal' : ['brass', 'coal', 'steel', 'bronze', 'iron', 'ash', 'salt'],
-        'component' : ['cog', 'gimbal', 'gear', 'widget', 'locke', 'saw', 'pipe', 'mill', 'tack'],
+        'metal' : ['brass', 'coal', 'steel', 'bronze', 'iron', 'ash', 'salt', 'silver', 'copper'],
+        'component' : ['cog', 'gimbal', 'gear', 'widget', 'locke', 'saw', 'pipe', 'mill', 'tack', 'whistle'],
 
         'native_first' : ['{native_verbing}'],
         'native_verbing' : ['flying', 'speeding', 'riding', 'hunting', 'dancing', 'laughing'],
@@ -147,6 +150,22 @@ data = {
         
         'boss_last' : ['{boss_prefix}{boss_last}', '{boss_last}{boss_postfix}', '{boss_animal}', '{boss_word}', '{boss_weather}'],
         'boss_word' : ['doppler', 'psyche', 'hunter', 'slash', 'dynamo', 'hammond'],
+    },
+
+    'movie' : {
+        'template' : ['{start}: {subtitle}'],
+
+        'protaganist' : ['{Name}', '{Name} and {Name}'],
+        'name' : ['Alien', 'Andrew', 'Benji', 'Chase', 'Chris', 'Jett', 'Flannery', 'Matt', 'Predator', 'Russell', 'Sarah', 'Tyler Perry', '{Username}'],
+
+        'start' : ['{Start} Part {gen/number}', 'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}'],
+
+        'subtitle' : ['{Name} vs. {Name}', '{Hype_noun}', 'The Search for {Item}', 'The Search for {Adjective}', '{Title}, Where\'s My {Item}?'],
+
+        'adjective' : ['more', 'extreme', 'awesome', 'sweet', 'sick'],
+        'title' : ['Dude', 'Doc', 'Bro', 'Broseph'],
+        'item' : ['{adjective} {item}', 'money', 'dosh', 'pussy', 'robot', 'pot', 'car'],
+        'hype_noun' : ['Excitement', 'Showdown', 'Arena', 'Reckoning'],
     }
 }
 
@@ -245,7 +264,7 @@ def main():
     elif 'demo' in sys.argv:
         demo()
     else:
-        print(make('dnd'))
+        print(make('movie'))
 
 def test():
     for key in sorted(data.keys()):
