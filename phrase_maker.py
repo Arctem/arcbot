@@ -13,6 +13,10 @@ data = {
 
         'number' : ['{digit}{number}', '{digit}'],
         'digit' : '1234567890',
+
+        'roman_number' : ['{roman_ones}']*3 + ['{roman_tens}{roman_ones}'],
+        'roman_tens' : ['X'],
+        'roman_ones' : ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX'],
     },
 
     'fate' : {
