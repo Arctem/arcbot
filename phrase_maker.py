@@ -156,14 +156,16 @@ data = {
         'template' : ['{start}: {subtitle}'],
 
         'protaganist' : ['{Name}', '{Name} and {Name}'],
-        'name' : ['Alien', 'Andrew', 'Benji', 'Chase', 'Chris', 'Jett', 'Flannery', 'Matt', 'Predator', 'Russell', 'Sarah', 'Tyler Perry', '{Username}'],
+        'name' : ['Alien', 'Andrew', 'arcbot', 'Ben', 'Benji', 'Chase', 'Chris', 'Jett', 'Flannery', 'Matt', 'Nico', 'Niko', 'Predator', 'Russell', 'Sarah', 'Stalin', 'Tyler Perry', '{Username}'],
 
         'start' : ['{Start} Part {gen/number}', 'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}'],
 
-        'subtitle' : ['{Name} vs. {Name}', '{Hype_noun}', 'The Search for {Item}', 'The Search for {Adjective}', '{Title}, Where\'s My {Item}?'],
+        'subtitle' : ['{Name} vs. {Name}', '{Hype_noun}', 'The Search for {Item}', 'The Search for {Adjective}', '{Title}, Where\'s My {Item}?', '{Name} Joins the {Organization}', '{Name} Visits {Place}', '{Name} and {Name} Go To {Place}'],
 
         'adjective' : ['more', 'extreme', 'awesome', 'sweet', 'sick'],
         'title' : ['Dude', 'Doc', 'Bro', 'Broseph'],
+        'organization' : ['army', 'navy', 'government', 'Ku Klux Klan', 'Klan', 'bronies'],
+        'place' : ['Washington', 'the Congo', 'Space', 'Russia'],
         'item' : ['{adjective} {item}', 'money', 'dosh', 'pussy', 'robot', 'pot', 'car'],
         'hype_noun' : ['Excitement', 'Showdown', 'Arena', 'Reckoning'],
     }
