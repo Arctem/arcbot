@@ -1,3 +1,5 @@
+import signal
+from contextlib import contextmanager
 
 '''Markov data is stored in the following format: 2 word key. Words separated by ','. Rest of words will be separated by '|'. Only whitespace is linebreaks, which lead to a new key.'''
 
@@ -40,3 +42,14 @@ def save_markov(data, name):
                 f.write('{}{}'.format(WORD_SPLITTER, k))
         f.write('\n')
     f.close()
+
+@contextmanager
+def time_limit(seconds):
+    def signal_handler(signum, frame):
+        raise TimeoutException, "Timed out!"
+    signal.signal(signal.SIGALRM, signal_handler)
+    signal.alarm(seconds)
+    try:
+        yield
+    finally:
+        signal.alarm(0)
