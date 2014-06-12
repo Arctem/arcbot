@@ -110,7 +110,7 @@ data = {
         'relic' : ['the {Adjective} {Thing}', '{God}\'s {Thing}', 'the {Thing} of {Adjective} {Place}', '{God}\'s {Body_part}'],
         'number' : ['two', 'three', 'four', 'countless', 'many'],
         'body_part' : ['arm', 'leg', 'chest', 'breast', 'groin', 'head', 'nose', 'ear', 'finger', 'toe', 'torso', 'knee', 'elbow'],
-        'epithet' : [', the {Adjective},', ', the {Title},', ' of the {Location}'],
+        'epithet' : [' the {Adjective},', ', the {Title},', ' of the {Location}'],
 
         'opening' : ['{Char} is a {Race} {Class}', '{Story} tell of a {Class}'],
         'middle' : ['who specializes in {activity}', 'who is {alignment}', 'who hails from {location}', 'who suffers from {malady}', 'who worships {God}', 'who has a {Adjective} {Animal} companion', 'whose {body_part} is {adjective}'],
@@ -180,6 +180,13 @@ data = {
         'place' : ['Washington', 'the Congo', 'Space', 'Russia', 'Prison', 'Guantanamo Bay', 'West Hall', 'Alta 209', 'White Castle'],
         'item' : ['{adjective} {item}', 'money', 'dosh', 'pussy', 'dick', 'robot', 'pot', 'car', 'sex', 'porn', 'booze', 'dildo', 'fleshlight'],
         'hype_noun' : ['Excitement', 'Showdown', 'Arena', 'Reckoning', 'Electric Boogaloo', 'XXX', 'Triple X'],
+    },
+
+    'how' : {
+        'template' : ['You should {verb} {adverb}.'],
+
+        'verb' : ['masturbate', 'poop', 'fart'],
+        'adverb' : open('adverbs.txt', 'r').read().split('\n')
     }
 }
 
