@@ -424,10 +424,10 @@ class ArcBot(IRCBot):
         elif command[0].lower() == 'cookie' or command[0].lower() == 'cookies':
             self.add_to_buffer(True, connection, event, 'gives cookies to EVERYONE!')
             print ' Giving out cookies.'
-        elif command[0].lower() == 'restart' and ('arctem' == user.lower() or 'rarctem' == user.lower()):
+        elif command[0].lower() == 'restart' and 'arctem' == user.lower():
             self.irc.disconnect_all('restarting')
             os.system('python arcbot.py')
-        elif ' '.join(command[:]).lower().startswith('i hate you') and ('arctem' == user.lower() or 'rarctem' == user.lower()):
+        elif ' '.join(command[:]).lower().startswith('i hate you') and 'arctem' == user.lower():
             print '{} told me to quit. :('.format(user)
             self.irc.disconnect_all('quitting forever')
             exit(0)
@@ -482,7 +482,7 @@ class ArcBot(IRCBot):
             print ' Printing out an entry from my todo list.'
             self.add_to_buffer(False, connection, event, 'TODO: {}'.format(random.choice(self.todo)))
         elif command[0] == 'crash': #Remove this.
-            if ('arctem' == user.lower() or 'rarctem' == user.lower()):
+            if 'arctem' == user.lower():
                 print '{}'.format([4, 3, 2][42])
             else:
                 self.add_to_buffer(False, connection, event, '{}: You\'re not my real {}!'.format(user, random.choice(['mom', 'dad'])))
@@ -501,7 +501,7 @@ class ArcBot(IRCBot):
                 else:
                     self.add_to_buffer(False, connection, event, '{}: No links stored.'.format(user))
             else:
-                if command[1] == 'remove' and ('arctem' == user.lower() or 'rarctem' == user.lower()):
+                if command[1] == 'remove' and 'arctem' == user.lower():
                     if command[2] in self.links:
                         self.links.remove(command[2])
                         self.add_to_buffer(False, connection, event, '{}: Link removed.'.format(user))
@@ -588,7 +588,7 @@ class ArcBot(IRCBot):
                 self.add_to_buffer(False, connection, event, '{}: {}'.format(user, phrase_maker.get_categories(command[1])))
         elif command[0] == 'shush' or ' '.join(command) == 'shut up' or ' '.join(command) == 'be quiet':
             self.add_to_buffer(False, connection, event, 'You can\'t stop the signal!')
-        elif command[0] == 'clear' and command[1] == 'markov' and ('arctem' == user.lower() or 'rarctem' == user.lower()):
+        elif command[0] == 'clear' and command[1] == 'markov' and 'arctem' == user.lower():
             print ' Clearing Markov database.'
             self.add_to_buffer(False, connection, event, 'Clearing Markov database.')
             self.markov_old = {}
