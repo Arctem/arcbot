@@ -18,7 +18,8 @@ except:
 
 cmd_folder = os.path.dirname(os.path.abspath('../ircbot/ircbot.py'))
 if cmd_folder not in sys.path:
-     sys.path.insert(0, cmd_folder)
+     sys.path.append(cmd_folder)
+sys.path.append(os.path.abspath('python-irclib-0.4.8'))
 
 from urllib2 import urlopen #For link testing.
 from BeautifulSoup import BeautifulSoup

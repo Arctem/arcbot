@@ -8,7 +8,7 @@ WORD_SPLITTER = ':;.;:'
 TUPLE_SPLITTER = '~|~|~|~'
 
 def load_markov(name):
-    #try:
+    try:
         f = open(name, 'r')
         lines = f.read().split()
         f.close()
@@ -24,9 +24,9 @@ def load_markov(name):
                     dict[phrase].append(k)
         print(' Loaded markov dictionary with {} phrases.'.format(len(dict)))
         return dict
-    #except:
-     #   print ' Could not load file {}.'.format(name)
-      #  return {}
+    except:
+        print ' Could not load file {}.'.format(name)
+        return {}
         
 
 def save_markov(data, name):
