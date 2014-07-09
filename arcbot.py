@@ -348,7 +348,7 @@ class ArcBot(IRCBot):
             v = random.choice(self.verbs)
             n2 = random.choice(self.nouns)
             print ' Looking around me for {} doing {}.'.format(n, v)
-            connection.privmsg(event.target(), random.choice(self.look_around_phrases).format(noun = n, Noun = n.capitalize(), verb = v, Verb = v.capitalize(), noun2 = n2, Noun2 = n2.capitalize()))
+            connection.privmsg(event.target(), random.choice(self.look_around_phrases).format(noun = n, Noun = phrase_maker.make_capital(n), verb = v, Verb = phrase_maker.make_capital(v), noun2 = n2, Noun2 = phrase_maker.make_capital(n2)))
             self.nouns = []
             self.verbs = []
         #else:
