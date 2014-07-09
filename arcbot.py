@@ -343,12 +343,12 @@ class ArcBot(IRCBot):
                     else:
                         break
                 self.verbs.append(' '.join(phrase))
-        if random.randint(1, 50) is 1 and len(self.nouns) is not 0 and len(self.verbs) is not 0:
+        if random.randint(1, 50) < len(self.nouns) is not 0 and len(self.verbs) is not 0:
             n = random.choice(self.nouns)
             v = random.choice(self.verbs)
             n2 = random.choice(self.nouns)
             print ' Looking around me for {} doing {}.'.format(n, v)
-            connection.privmsg(event.target(), random.choice(self.look_around_phrases).format(noun = n, Noun = n.capitalize(), verb = v, Verb = v.capitalize(), noun2 = n2, Noun2 = n.capitalize()))
+            connection.privmsg(event.target(), random.choice(self.look_around_phrases).format(noun = n, Noun = n.capitalize(), verb = v, Verb = v.capitalize(), noun2 = n2, Noun2 = n2.capitalize()))
             self.nouns = []
             self.verbs = []
         #else:
