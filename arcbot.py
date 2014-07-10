@@ -343,7 +343,7 @@ class ArcBot(IRCBot):
                     else:
                         break
                 self.verbs.append(' '.join(phrase))
-        if random.randint(1, 50) < len(self.nouns) is not 0 and len(self.verbs) is not 0:
+        if random.randint(1, 100) < len(self.nouns) is not 0 and len(self.verbs) is not 0:
             n = random.choice(self.nouns)
             v = random.choice(self.verbs)
             n2 = random.choice(self.nouns)
