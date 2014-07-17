@@ -284,6 +284,9 @@ def main():
         test()
     elif 'demo' in sys.argv:
         demo()
+    elif len(sys.argv) > 1:
+        for i in range(5):
+            print(make(sys.argv[1]))
     else:
         print(make('movie'))
 
