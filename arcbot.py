@@ -61,7 +61,7 @@ class ArcBot(IRCBot):
         self.greetings = ('Greetings, son of Skyrim!', 'Well, look who decided to finally show up!', 'It\'s {}! Can I have your autograph?', 'Greetings, brave Sir {}. Shall we ride forth to slay the dragon?', 'Rise and shine, {}.', 'Have at ye, foul villain!', 'Aw darn, {}! You cut the ponytail! Sellout...', '{} has joined the game.', 'A wild {} appeared!', 'Sup nerd.')
         self.hello_variations = ('hi', 'hello', "what's up?", 'yo', 'sup?', '\'sup?', 'wassup?', 'hey', 'howdy', 'ohai', 'hai', 'oh hai', 'salutations', "g'day", 'shut up', 'shuttup', 'shutup', 'guten tag', 'tag')
         self.eight_ball = ('Please ask again.', 'Yes.', 'Verily.', 'Don\'t even think about it.', 'I wouldn\'t do that if I were you.', 'The guard probably won\'t like that.', 'Negative, I am a meat popsicle.')
-        self.look_around_phrases = ('Look around you. Just look around you. Can you see what we\'re looking for? That\'s right, {noun}.', 'Who\'s that Pokémon? It\'s {noun}!', 'Breaking news report! {Noun} found guilty of {verb}!', 'Everything changed when the {Noun} Nation attacked.')
+        self.look_around_phrases = ('Look around you. Just look around you. Can you see what we\'re looking for? That\'s right, {noun}.', 'Who\'s that Pokémon? It\'s {Noun}!', 'Breaking news report! {Noun} found guilty of {verb}!', 'Everything changed when the {Noun} Nation attacked.', 'In the next World Cup game, {Noun} will be playing against {Noun2}!', 'The Supreme Court has declared {Noun} to be legally equivalent to {Noun2}.', 'In CSE101, Hamdy has begun teaching a unit on {noun}.')
         self.banned_links = ('goatse', 'spacedicks', '/b/', 'pony', 'ponies', 'unicorn', '//192.', '//10.', 'localhost', '.ru', 'niggers', 'facebook', 'the_naked_roommate')
         
         self.ignore_list = ('haxbot', 'oblivion-guard', 'totaldowner', 'stats', 'stats_', 'sekacpus', 'supcakes', 'zikotterM', 'Destructo')
@@ -343,11 +343,12 @@ class ArcBot(IRCBot):
                     else:
                         break
                 self.verbs.append(' '.join(phrase))
-        if random.randint(1, 50) is 1 and len(self.nouns) is not 0 and len(self.verbs) is not 0:
+        if random.randint(1, 100) < len(self.nouns) is not 0 and len(self.verbs) is not 0:
             n = random.choice(self.nouns)
             v = random.choice(self.verbs)
+            n2 = random.choice(self.nouns)
             print ' Looking around me for {} doing {}.'.format(n, v)
-            connection.privmsg(event.target(), random.choice(self.look_around_phrases).format(noun = n, Noun = n.capitalize(), verb = v, Verb = v.capitalize()))
+            connection.privmsg(event.target(), random.choice(self.look_around_phrases).format(noun = n, Noun = phrase_maker.make_capital(n), verb = v, Verb = phrase_maker.make_capital(v), noun2 = n2, Noun2 = phrase_maker.make_capital(n2)))
             self.nouns = []
             self.verbs = []
         #else:
