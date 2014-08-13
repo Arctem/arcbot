@@ -44,7 +44,7 @@ class ArcBot(IRCBot):
     max_markov_length = 75
     
     def __init__(self):
-        IRCBot.__init__(self, network = 'sudo-rmrf.net', #add irc. to allow also Jesse's server
+        IRCBot.__init__(self, network = 'irc.sudo-rmrf.net', #add irc. to allow also Jesse's server
             channel = ('#csb',), nick = 'arcbot',
             #channel = ('#testing',), nick = 'testbot',
             name = "Ultimate Botting Machine: http://i.imgur.com/mrrKP.png https://www.youtube.com/watch?v=L9biyJcBhRs")
@@ -343,7 +343,7 @@ class ArcBot(IRCBot):
                     else:
                         break
                 self.verbs.append(' '.join(phrase))
-        if random.randint(1, 200) < len(self.nouns) is not 0 and len(self.verbs) is not 0:
+        if random.randint(1, 300 + len(self.nouns)) < len(self.nouns) is not 0 and len(self.verbs) is not 0:
             n = random.choice(self.nouns)
             v = random.choice(self.verbs)
             n2 = random.choice(self.nouns)
