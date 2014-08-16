@@ -18,18 +18,19 @@ except:
 
 cmd_folder = os.path.dirname(os.path.abspath('../ircbot/ircbot.py'))
 if cmd_folder not in sys.path:
-     sys.path.append(cmd_folder)
+    sys.path.append(cmd_folder)
 sys.path.append(os.path.abspath('python-irclib-0.4.8'))
+
+import ircbot
+from ircbot import IRCBot
 
 from urllib2 import urlopen #For link testing.
 from BeautifulSoup import BeautifulSoup
 import random
 import pickle
 import time
-import ircbot
-from ircbot import IRCBot
 import botutil, arcbot_util
-import phrase_maker
+import phrase_maker.phrase_maker as phrase_maker
 from markov import Markov
 from markov import load as load_markov
 
