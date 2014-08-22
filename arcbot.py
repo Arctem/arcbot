@@ -19,7 +19,7 @@ except:
 sys.path.append(os.path.abspath('python-irclib-0.4.8'))
 
 import ircbot.ircbot as ircbot
-from ircbot import IRCBot
+from ircbot.ircbot import IRCBot
 
 from urllib2 import urlopen #For link testing.
 from BeautifulSoup import BeautifulSoup
