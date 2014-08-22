@@ -1,0 +1,3 @@
+[submodule "phrase_maker"]
+	path = phrase_maker
+	url = git@github.com:Arctem/phrase_maker.git
