@@ -16,12 +16,9 @@ except:
     print ' Could not load nltk for language analysis.'
     nltk = None
 
-cmd_folder = os.path.dirname(os.path.abspath('../ircbot/ircbot.py'))
-if cmd_folder not in sys.path:
-    sys.path.append(cmd_folder)
 sys.path.append(os.path.abspath('python-irclib-0.4.8'))
 
-import ircbot
+import ircbot.ircbot as ircbot
 from ircbot import IRCBot
 
 from urllib2 import urlopen #For link testing.
