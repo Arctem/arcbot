@@ -21,7 +21,7 @@ sys.path.append(os.path.abspath('python-irclib-0.4.8'))
 import ircbot.ircbot as ircbot
 from ircbot.ircbot import IRCBot
 
-from urllib2 import urlopen #For link testing.
+import urllib2 #For link testing.
 from BeautifulSoup import BeautifulSoup
 import random
 import pickle
@@ -525,7 +525,9 @@ class ArcBot(IRCBot):
                     #    if i in command[1]:
                     #        valid = True
                     try:
-                        code = urlopen(command[1]).code
+                        request = urllib2.Request(command[1], headers = {'User-Agent' : 'Totally a Browser'})
+                        connection = urllib2.urlopen(request)
+                        code = connection.code
                         if code / 100 is 2:
                             valid = True
                     except:
