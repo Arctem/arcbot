@@ -526,8 +526,7 @@ class ArcBot(IRCBot):
                     #        valid = True
                     try:
                         request = urllib2.Request(command[1], headers = {'User-Agent' : 'Totally a Browser'})
-                        connection = urllib2.urlopen(request)
-                        code = connection.code
+                        code = urllib2.urlopen(request).code
                         if code / 100 is 2:
                             valid = True
                     except:
