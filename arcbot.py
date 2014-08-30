@@ -27,9 +27,20 @@ import random
 import pickle
 import time
 import botutil, arcbot_util
-import phrase_maker.phrase_maker as phrase_maker
 from markov import Markov
 from markov import load as load_markov
+
+#Initializes phrase data.
+import phrase_maker.phrase_maker as phrase_maker
+import imp, phrase_data
+mods = phrase_data.modules
+for mod_file in mods:
+    if '__init__' in mod_file:
+        continue
+    else:
+        mod = imp.load_source('test', mod_file)
+        phrase_maker.load_module(mod)
+
 
 class ArcBot(IRCBot):
     MARKOV_START = ('__START__', '__START__')
