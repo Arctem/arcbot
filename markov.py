@@ -80,6 +80,7 @@ class Markov:
                 phrase = (output[-2], output[-1])
                 if phrase in self.forward.keys():
                     output.append(random.choice(self.forward[phrase]))
+                    count += 1
                 else:
                     #print(phrase)
                     #print()
@@ -91,6 +92,7 @@ class Markov:
                 phrase = (output[0], output[1])
                 if phrase in self.backward.keys():
                     output.insert(0, random.choice(self.backward[phrase]))
+                    count += 1
                 else:
                     #print(phrase)
                     #print()
