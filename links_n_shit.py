@@ -1,8 +1,5 @@
-from pprint import pprint
 import requests
-import json
 import random
-import shutil
 
 base = r'https://www.reddit.com/'
 title_list = ['I don\'t know how I feel about carjackers.',
@@ -75,5 +72,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-        
-
