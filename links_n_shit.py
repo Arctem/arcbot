@@ -35,7 +35,9 @@ def choose_link():
     return chosen
 
 def submit(link, client, subreddit='WordsNShit'):
-    captcha, iden = validate_captcha(client)
+    captcha = validate_captcha(client)
+    if captcha:
+        captcha, iden = captcha
     
     title = random.choice(title_list)
     
