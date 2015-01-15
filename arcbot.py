@@ -596,6 +596,8 @@ class ArcBot(IRCBot):
             self.add_to_buffer(False, connection, event, '{}: {}'.format(user, phrase_maker.make('name', user)))
         elif command[0] == 'movie':
             self.add_to_buffer(False, connection, event, phrase_maker.make('movie', user))
+        elif command[0] == 'cah':
+            self.add_to_buffer(False, connection, event, phrase_maker.make('cah', user))
         elif command[0] == 'how':
             self.add_to_buffer(False, connection, event, '{}: {}'.format(user, phrase_maker.make('how', user)))
         elif command[0] == 'categories':
