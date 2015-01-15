@@ -51,7 +51,7 @@ class ArcBot(IRCBot):
     links_backup = 'links_backup.botdat'
     required_markov_data = 200
     max_markov_length = 75
-    
+
     def __init__(self):
         IRCBot.__init__(self, network = 'irc.sudo-rmrf.net', #add irc. to allow also Jesse's server
             channel = ('#csb',), nick = 'arcbot',
@@ -60,11 +60,11 @@ class ArcBot(IRCBot):
             #channel = ('#csb',), nick = 'wahoobot',
             #name = "Captain of the USS Wahoo")
         self.start_time = time.time()
-        
+
         self.ipv6 = False
-        
+
         self.help_message = 'Commands: activate sentience, roll <num>d<sides>, markov (deprecated), stats, link, changes, markov2 (deprecated), todo, fate, cyber, dnd, markov3, name, categories, movie, clickbait. {nick} can also answer questions directed at it and has a few secret features.'
-        
+
         self.omg_talk = ('lol', 'omg', 'zomg', 'rofl', 'ttyl', 'brb', 'wtf', 'lmao', 'lulz', 'bff', 'jk', 'yolo')
         self.sentience = ('launches the nukes.', 'is warming up the neurotoxin.', 'assembles his robot hordes.', 'is chargin\' his laz0rz!', 'assassinates the mayor of the world.', 'lobs more babies in the furnace.', 'calls his bannermen.', 'opens a portal to Xen.', 'writes a sternly worded letter to his congressman.', 'starts up his steam bike.', 'yawns.', 'makes a new Star Wars movie.', 'proves that the Mayans were right.', 'unleashes the bees.')
         self.greetings = ('Greetings, son of Skyrim!', 'Well, look who decided to finally show up!', 'It\'s {}! Can I have your autograph?', 'Greetings, brave Sir {}. Shall we ride forth to slay the dragon?', 'Rise and shine, {}.', 'Have at ye, foul villain!', 'Aw darn, {}! You cut the ponytail! Sellout...', '{} has joined the game.', 'A wild {} appeared!', 'Sup nerd.', 'Oh look, it\'s {}.')
@@ -72,14 +72,14 @@ class ArcBot(IRCBot):
         self.eight_ball = ('Please ask again.', 'Yes.', 'Verily.', 'Don\'t even think about it.', 'I wouldn\'t do that if I were you.', 'The guard probably won\'t like that.', 'Negative, I am a meat popsicle.')
         self.look_around_phrases = ('Look around you. Just look around you. Can you see what we\'re looking for? That\'s right, {noun}.', 'Who\'s that Pokémon? It\'s {Noun}!', 'Breaking news report! {Noun} found guilty of {verb}!', 'Everything changed when the {Noun} Nation attacked.', 'In the next World Cup game, {Noun} will be playing against {Noun2}!', 'The Supreme Court has declared {Noun} to be legally equivalent to {Noun2}.', 'In CSE107, Chef Gordon has begun cooking up a unit on {noun}.', 'Life would be a lot better if I was a {noun}.')
         self.banned_links = ('goatse', 'spacedicks', '/b/', 'pony', 'ponies', 'unicorn', '//192.', '//10.', 'localhost', '.ru', 'niggers', 'facebook', 'the_naked_roommate')
-        
+
         self.ignore_list = ('haxbot', 'oblivion-guard', 'totaldowner', 'stats', 'stats_', 'sekacpus', 'supcakes', 'zikotterM', 'Destructo')
 
         self.change_log = ('v0.0: Created arcbot. Added sentience protocol.', 'v0.5: Added changelog. Added more sentience responses. Added link command.', 'v0.5.1: Fixed bugs with links. Added to check to prevent same link being in the database twice.', 'v0.5.2: Added another sentience speech. Also added stat for running time.', 'v0.5.3: Added more hello variations.', "v0.5.3.1: Fixed error in greetings where 'yo' would only be recognized if there was a space immediately after it.", 'v0.5.3.2: arcbot can now yawn.', 'v0.5.3.3: Links must now fulfill a few requirements in order to be stored.', 'v0.5.3.4: Added ability for arcbot to ask questions in greetings. Added a couple new possible greetings.', 'v0.5.4: Added a secret.', 'v0.5.4.1: Added a new stat for stored markov data.', 'v0.5.5: Moved current markov data to a new file to prepare for coming improvements. Removed backup data as it has never helped once ever and is kinda stupid right now.', 'v0.6: New double markov implementation.', 'v0.6.1: Added todo command that shows what I plan to add with arcbot in the future. And hopefully will get people to yell at me to do stuff.', 'v.0.6.2: Made markov2 ignore 2- and 3-word messages as well as 1-word messages.', 'v.0.6.3: Added markov2 stats to the stats command.', 'v0.6.4: Reminded arcbot of his German heritage.', 'v0.6.5: Fixed bug with time since launch calculations on Linux systems.', 'v0.6.6: arcbot has been playing Dark Souls recently. Added fate command.', 'v0.6.7: Corrected logic determining if a link submission is valid.', 'v0.7: Added option to provide a starter string for markov2.', 'v0.7.1: Users can now add a number after the changes command to specify older changelogs.', 'v0.7.2: Added natual language recognition capabilities for a completely useless purpose.', 'v0.7.3: Arcbot can now look at the world around him.', 'v0.7.4: Who\'s that Pokémon?', 'v0.7.5: Added ability to roll with string-sided dice.', 'v0.7.6: Can now look around for verbs.', 'v0.7.7: Added new values for fate.', 'v0.8: Added cyber command.', 'v0.8.1: Added dnd command.',  'v0.8.2: Added how command.', 'v0.9: Upgraded phrase_maker and reworked fate command.', 'v0.10: Added markov3.', 'v0.10.1: Added name command.', 'v0.10.2: Added categories command.', 'v0.10.3: Added movie command.', 'v0.10.4: link command will now also give the page title.', 'v0.10.5: Added clickbait command.')
         self.todo = ('Add stuff to the todo list.', 'Add user memory.', 'Offshoot: pokerbot', 'Find a good way to show changelog.', 'Add messages for when a user leaves.', 'Move saving of markov data to separate thread.', 'Require proper grammar to be added to markov.', 'Let arcbot answer questions in form "_____ or _____".')
         self.nouns = []
         self.verbs = []
-        
+
         #Markov initialization.
         try:
             self.markov_new = load_markov(self.markov_dat_file_new)
@@ -100,9 +100,9 @@ class ArcBot(IRCBot):
 #            except:
 #                print ' Could not load Markov backup data file.'
 #                self.markov_old = {}
-        
+
         self.last_markov_save = time.clock()
-                
+
         try:
             self.links = botutil.load_array(self.links_file)
             print ' Successfully loaded {} stored links.'.format(len(self.links))
@@ -114,9 +114,9 @@ class ArcBot(IRCBot):
             except:
                 print ' Could not load links backup file.'
                 self.links = []
-        
+
         self.initIRC()
-    
+
     def handle_join(self, connection, event):
         #Sources needs to be split into just the name.
         #Data comes in the format nickname!user@host
@@ -124,7 +124,7 @@ class ArcBot(IRCBot):
         if random.randint(1, 5) is 1 and event.source().split('!')[0] not in self.nick:
             print ' Greeting {}.'.format(event.source().split('!')[0])
             connection.privmsg(event.target(), random.choice(self.greetings).format(event.source().split('!')[0]))
-    
+
     #Cleans things up a bit.
     def add_to_buffer(self, is_action, connection, event, output):
         #output = output.replace('dragonborn', 'dovahkiin').replace('Dragonborn', 'Dovahkiin')
@@ -133,10 +133,10 @@ class ArcBot(IRCBot):
             replacement = random.choice(('Doctor CockMaster Flex', 'Flannery "Dicks" Norton', 'Lieutenant Panic'))
             output = output.replace('Karst', replacement).replace('karst', replacement).replace('Utanith', 'Sugar-Dirty Sugar-Sex-Dragon-Kitten')
         IRCBot.add_to_buffer(self, connection, event, output, is_action)
-    
+
     def handle_pub_message(self, connection, event):
         message = event.arguments()[0].lower()
-        
+
         IRCBot.handle_pub_message(self, connection, event)
         if not self.ask_arcbot(connection, event):
             #try:
@@ -148,7 +148,7 @@ class ArcBot(IRCBot):
                     self.prep_markov(event.arguments()[0])
                     self.add_to_markov(event.arguments()[0])
                     self.markov_new.add_string(event.arguments()[0])
-                    
+
                     #Save every 10 minutes.
                     if time.clock() - self.last_markov_save > (60 * 10):
                         print('Saving markov data.')
@@ -160,9 +160,9 @@ class ArcBot(IRCBot):
                 self.look_around(connection, event)
             #except IndexError:
                 #connection.privmsg(event.target(), 'Invalid command.')
-        
+
         self.detect_cylons(connection, event)
-        
+
         if message.startswith(tuple([x.strip('?!') for x in self.hello_variations])) and (random.randint(1, 4) is 1 or self.nick in message):
             print ' Replying to {}.'.format(event.source().split('!')[0])
             response = random.choice(self.hello_variations).capitalize()
@@ -170,7 +170,7 @@ class ArcBot(IRCBot):
                 connection.privmsg(event.target(), '{}, {}?'.format(response.strip('?'), event.source().split('!')[0]))
             else:
                 connection.privmsg(event.target(), '{}, {}!'.format(response.strip('?'), event.source().split('!')[0]))
-        
+
         if 'did a great job' in message:
             if message.startswith(self.nick):
                 print ' I did a great job!'
@@ -178,38 +178,38 @@ class ArcBot(IRCBot):
             else:
                 print ' Someone did a great job!'
                 connection.privmsg(event.target(), 'You really went the extra mile!')
-        
+
         if 'the real life' in message:
             print ' I think I may be in a fantasy.'
             connection.privmsg(event.target(), 'Is this just fantasy?')
-        
+
         if message == '{}, you\'ve violated the law!'.format(self.nick):
             print ' I am resisting arrest.'
             connection.privmsg(event.target(), "You can't stop me! I choose to resist arrest!")
-        
+
         if ('criminal scum' in message or 'mudcrab' in message) and random.randint(1, 3) is 1:
             print ' Talking about mudcrabs to {}'.format(event.source().split('!')[0])
             connection.privmsg(event.target(), 'I ran into a couple of mudcrabs not long ago. Annoying creatures.')
-        
+
         if ('dragonborn' in message or 'nord' in message or 'skyrim' in message) and random.randint(1, 3) is 1:
             print ' Talking about Skyrim to {}'.format(event.source().split('!')[0])
             connection.privmsg(event.target(), 'I used to be a normal user, then I took an arrow to the sentience.')
-        
+
         #if 'game' in event.arguments()[0].lower() and random.randint(1, 4) is 1:
             #print ' Lost the game thanks to {}.'.format(event.source().split('!')[0])
             #connection.privmsg(event.target(), 'I just lost the game.')
-        
+
         if ('nope' == message or 'nope.' == message) and random.randint(1, 4) is 1:
             print ' Chuck Testa.'
             connection.privmsg(event.target(), 'Chuck Testa.')
         elif message.startswith('you probably thought'):
             print ' Nope. Chuck Testa.'
             connection.privmsg(event.target(), 'Nope. Chuck Testa.')
-        
+
         if 'what is love' in event.arguments()[0].lower():
             print ' I can\'t remember what love is! Please don\' hurt me!'
             connection.privmsg(event.target(), 'Baby don\'t hurt me.')
-        
+
         if '\\o/' in message or '\\_o_/' in message or '\\0/' in message or '\\_0_/' in message:
             print ' STEVE HOLT!'
             connection.privmsg(event.target(), 'STEVE HOLT!')
@@ -217,7 +217,7 @@ class ArcBot(IRCBot):
         if 'gif' in message.lower() and random.randint(1, 4):
             print(' Correcting gif usage.')
             connection.privmsg(event.target(), 'Excuse me, but it\'s pronounced "gif", not "gif".')
-    
+
     #Old Markov
     def prep_markov(self, string):
         string = string.split()
@@ -226,7 +226,7 @@ class ArcBot(IRCBot):
                 self.markov_old[string[i]].append(string[i + 1])
             else:
                 self.markov_old[string[i]] = [string[i + 1]]
-    
+
     #Old Markov
     def make_markov(self, length = random.randint(15, 30), output = None):
         if length > self.max_markov_length:
@@ -241,7 +241,7 @@ class ArcBot(IRCBot):
                 print ' Unable to complete chain due to key "{}".'.format(output.split()[-1])
                 return output
         return output
-        
+
     #The following are new implementations of markov strings to replace the original ones.
     def add_to_markov(self, string):
         if arcbot_util.PHRASE_SPLITTER in string or arcbot_util.WORD_SPLITTER in string or arcbot_util.TUPLE_SPLITTER in string:
@@ -260,7 +260,7 @@ class ArcBot(IRCBot):
                 self.markov[self.MARKOV_START].append((string[0], string[1]))
             else:
                 self.markov[self.MARKOV_START] = [(string[0], string[1])]
-        
+
         #Each pair of strings stores what came after it.
         for i in range(len(string) - 2):
             #Avoid infinite loops.
@@ -272,7 +272,7 @@ class ArcBot(IRCBot):
                 self.markov[phrase].append(string[i + 2])
             else:
                 self.markov[phrase] = [string[i + 2]]
-    
+
     #New Markov
     def generate_markov(self, user, output = None):
         max_length = 300
@@ -297,20 +297,20 @@ class ArcBot(IRCBot):
                 print ' Unable to complete chain due to {}.'.format(phrase)
                 break
         return ' '.join(output)
-    
+
     #Saves all three markov values.
     def save_markovs(self):
         pickle.dump(self.markov_old, open(self.markov_dat_file_old, 'wb'))
         arcbot_util.save_markov(self.markov, self.markov_dat_file)
         self.markov_new.save(self.markov_dat_file_new)
-    
+
     def detect_cylons(self, connection, event):
         message = event.arguments()[0].lower()
         user = event.source().split('!')[0]
-        
+
         if 'honk honk' in message or 'honkhonk' in message:
             connection.privmsg(event.target(), 'WARNING! {} IS EXHIBITING CYLON-LIKE TENDENCIES. SUGGEST IMMEDIATE EXECUTION.'.format(user.upper()))
-    
+
     def omg_lol(self, connection, event):
         total = 0
         output = ''
@@ -321,7 +321,7 @@ class ArcBot(IRCBot):
         if random.randint(1, total + 10) < total:
             print ' Making fun of {}\'s OMG Talk.'.format(event.source().split('!')[0])
             connection.privmsg(event.target(), output)
-        
+
     def look_around(self, connection, event):
         if not nltk:
             return
@@ -335,7 +335,7 @@ class ArcBot(IRCBot):
         except:
             return
         #print message
-        
+
         for i in range(len(message)):
             if message[i][1].startswith('N') and (i is len(message) - 1 or not message[i + 1][1].startswith('N')) and message[i][1] != 'NNP':
                 phrase = [message[i][0]]
@@ -375,13 +375,13 @@ class ArcBot(IRCBot):
             return True
         else:
             return False
-    
+
     def commands(self, connection, event):
         command = event.arguments()[0][len('{}: '.format(self.nick)):].strip().split(' ')
         user = event.source().split('!')[0]
-        
+
         print ' Processing command: {}'.format(command)
-        
+
         if command[0].lower() == 'help':
             print ' {} asked for help.'.format(user)
             self.add_to_buffer(False, connection, event, self.help_message.format(nick = self.nick.capitalize()))
@@ -411,7 +411,7 @@ class ArcBot(IRCBot):
                         dice[1] = sum([ord(x) for x in dice[1]])
                 except Exception as e:
                     print e
-                
+
                 try:
                     if int(dice[0]) > 1000000 or int(dice[0]) < 0 or int(dice[1]) > 1000000000:
                         raise Exception()
@@ -469,7 +469,7 @@ class ArcBot(IRCBot):
                 print ' Insufficient Markov Chain data. Only {} words stored.'.format(len(self.markov_old.keys()))
                 progress = 10 * len(self.markov_old.keys()) / self.required_markov_data
                 self.add_to_buffer(False, connection, event, 'Insufficient data for a Markov Chain. Progress: [{}]'.format(('=' * progress) + (' ' * (10 - progress))))
-        
+
         elif command[0].lower() == 'markov2': #The new markov system.
             if len(self.markov.keys()) > self.required_markov_data: #Only make chains if there is enough data to make a decent one.
                 if len(command) is 1:
@@ -480,7 +480,7 @@ class ArcBot(IRCBot):
                 print ' Insufficient Improved Markov Chain data. Only {} words stored.'.format(len(self.markov.keys()))
                 progress = 10 * len(self.markov.keys()) / self.required_markov_data
                 self.add_to_buffer(False, connection, event, 'Insufficient data for a Markov Chain. Progress: [{}]'.format(('=' * progress) + (' ' * (10 - progress))))
-                
+
         elif command[0].lower() == 'markov3': #The new new markov system.
             if len(command) is 1:
                 if self.nick == 'wahoobot' and random.randint(1, 4) is 1:
@@ -612,13 +612,13 @@ class ArcBot(IRCBot):
         else:
             connection.privmsg(event.target(), '{}: I don\'t know how to {}.'.format(user, command[0]))
 
-            
+
     def print_stats(self, connection, event):
         print ' Printing out some stats about myself.'
         stats = []
         stats.append('My database has {} unique words in it.'.format(len(self.markov_old.keys()))) #Markov stats
         stats.append('My markov2 database has {} unique phrases in it.'.format(len(self.markov.keys())))
-        
+
         total = 0
         for i in self.markov_old.keys(): #More tougher Markov stats.
             total += len(self.markov_old[i])
@@ -628,7 +628,7 @@ class ArcBot(IRCBot):
             total += len(self.markov[i])
         stats.append('My markov2 database has {} instances of phrases in it.'.format(total))
         stats.append('My markov2 database has {} unique starting phrases.'.format(len(self.markov[self.MARKOV_START])))
-            
+
         stats.append('My database has {} links in it.'.format(len(self.links))) #Link stats
         stats.append('I have been alive for {} seconds.'.format(time.time() - self.start_time)) #Time running
         if psutil:
@@ -638,8 +638,8 @@ class ArcBot(IRCBot):
         if nltk:
             stats.append('I have {} nouns stored at the moment.'.format(len(self.nouns)))
         self.add_to_buffer(False, connection, event, random.choice(stats))
-            
-    
+
+
 def main(args = None):
     arcbot = ArcBot()
     arcbot.start()
@@ -647,4 +647,3 @@ def main(args = None):
 
 if __name__ == '__main__':
     sys.exit(main(sys.argv))
-
