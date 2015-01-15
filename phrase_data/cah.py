@@ -9,7 +9,7 @@ data = {
     }
 }
 
-with open('against-humanity/source/cards.json') as card_file:
+with open('phrase_data/against-humanity/source/cards.json') as card_file:
     all_cards = json.loads(card_file.read())
     for card in all_cards:
         if card['numAnswers'] is 0:
