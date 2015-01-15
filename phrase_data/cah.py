@@ -21,5 +21,5 @@ with open('phrase_data/against-humanity/source/cards.json') as card_file:
             elif card['text'][-1] == '?':
                 data['cah']['black_card'].append(card['text'] + ' ' + '{white_card}')
             else:
-                card['text'].replace('_', '{white_card}')
-                data['cah']['black_card'].append(card['text'])
+                modified = card['text'].replace('_', '{white_card}')
+                data['cah']['black_card'].append(modified)
