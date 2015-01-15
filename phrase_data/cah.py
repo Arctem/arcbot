@@ -15,7 +15,7 @@ with open('against-humanity/source/cards.json') as card_file:
         if card['numAnswers'] is 0:
             data['cah']['white_card'].append(card['text'])
         else:
-            if card['text'].count('_') != card['numAnswers']:
+            if card['text'].count('_') != card['numAnswers']\
                     and card['text'][-1] != '?':
                 print(card)
             elif card['text'][-1] != '?':
