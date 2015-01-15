@@ -1,6 +1,6 @@
 data = {
   'clickbait' : {
-        'template' : ['{crazy_event} {emote_stinger}', '{crazy_event}', '{crazy_question} {evidence_stinger}', '{crazy_question}', '{list_of_things}', '{amazing_find}'],
+        'template' : ['{crazy_event} {emote_stinger}', '{crazy_question} {evidence_stinger}', '{crazy_question}', '{list_of_things}', '{amazing_find}'],
 
         'crazy_event' : ['{Singular_person,Celebrity} {verb} {normal_action,odd_action} {singular_object,singular_animal}!'],
         'crazy_question' : ['Was {Old_celebrity} a {bad_thing,weird_thing}?', 'Is {Current_celebrity} a {bad_thing,weird_thing}?'],
