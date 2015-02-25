@@ -650,20 +650,22 @@ class ArcBot(IRCBot):
     def print_stats(self, connection, event):
         print ' Printing out some stats about myself.'
         stats = []
-        stats.append('My database has {} unique words in it.'.format(len(self.markov_old.keys()))) #Markov stats
+        stats.append('My markov database has {} unique words in it.'.format(len(self.markov_old.keys()))) #Markov stats
         stats.append('My markov2 database has {} unique phrases in it.'.format(len(self.markov.keys())))
+        all_markov_new_keys = set(self.markov_new.forward) | set(self.markov_new.backward)
+        stats.append('My markov3 database has {} unique phrases in it.'.format(len(all_markov_new_keys)))
 
         total = 0
         for i in self.markov_old.keys(): #More tougher Markov stats.
             total += len(self.markov_old[i])
-        stats.append('My database has {} instances of words in it.'.format(total))
+        stats.append('My markov database has {} instances of words in it.'.format(total))
         total = 0
         for i in self.markov.keys(): #More tougher Markov stats.
             total += len(self.markov[i])
         stats.append('My markov2 database has {} instances of phrases in it.'.format(total))
         stats.append('My markov2 database has {} unique starting phrases.'.format(len(self.markov[self.MARKOV_START])))
 
-        stats.append('My database has {} links in it.'.format(len(self.links))) #Link stats
+        stats.append('I have {} links stored.'.format(len(self.links))) #Link stats
         stats.append('I have been alive for {} seconds.'.format(time.time() - self.start_time)) #Time running
         if psutil:
             stats.append('I am currently running on a {} with {} GB of RAM running {} using Python {}.'.format(platform.processor(), str(psutil.phymem_usage()[0] / (2.0 ** 30))[:5], platform.system(), platform.python_version())) #Hardware stats
