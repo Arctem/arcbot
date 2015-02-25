@@ -643,10 +643,6 @@ class ArcBot(IRCBot):
                 self.add_to_buffer(False, connection, event, '{}: {}'.format(user, phrase_maker.get_categories(command[1])))
         elif command[0] == 'shush' or ' '.join(command) == 'shut up' or ' '.join(command) == 'be quiet':
             self.add_to_buffer(False, connection, event, 'You can\'t stop the signal!')
-        elif command[0] == 'clear' and command[1] == 'markov' and 'arctem' == user.lower():
-            print ' Clearing Markov database.'
-            self.add_to_buffer(False, connection, event, 'Clearing Markov database.')
-            self.markov_old = {}
         else:
             connection.privmsg(event.target(), '{}: I don\'t know how to {}.'.format(user, command[0]))
 
