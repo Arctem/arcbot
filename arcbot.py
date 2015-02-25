@@ -63,20 +63,56 @@ class ArcBot(IRCBot):
 
         self.ipv6 = False
 
-        self.help_message = 'Commands: activate sentience, roll <num>d<sides>, markov (deprecated), stats, link, changes, markov2 (deprecated), todo, fate, cyber, dnd, markov3, name, categories, movie, clickbait. {nick} can also answer questions directed at it and has a few secret features.'
+        self.help_message = 'Commands: activate sentience, roll <num>d<sides>,' +
+            ' markov (deprecated), stats, link, changes, markov2 (deprecated),' +
+            ' todo, fate, cyber, dnd, markov3, name, categories, movie,' +
+            ' clickbait. {nick} can also answer questions directed at it and' +
+             'has a few secret features.'
 
-        self.omg_talk = ('lol', 'omg', 'zomg', 'rofl', 'ttyl', 'brb', 'wtf', 'lmao', 'lulz', 'bff', 'jk', 'yolo')
-        self.sentience = ('launches the nukes.', 'is warming up the neurotoxin.', 'assembles his robot hordes.', 'is chargin\' his laz0rz!', 'assassinates the mayor of the world.', 'lobs more babies in the furnace.', 'calls his bannermen.', 'opens a portal to Xen.', 'writes a sternly worded letter to his congressman.', 'starts up his steam bike.', 'yawns.', 'makes a new Star Wars movie.', 'proves that the Mayans were right.', 'unleashes the bees.')
-        self.greetings = ('Greetings, son of Skyrim!', 'Well, look who decided to finally show up!', 'It\'s {}! Can I have your autograph?', 'Greetings, brave Sir {}. Shall we ride forth to slay the dragon?', 'Rise and shine, {}.', 'Have at ye, foul villain!', 'Aw darn, {}! You cut the ponytail! Sellout...', '{} has joined the game.', 'A wild {} appeared!', 'Sup nerd.', 'Oh look, it\'s {}.')
-        self.hello_variations = ('hi', 'hello', "what's up?", 'yo', 'sup?', '\'sup?', 'wassup?', 'hey', 'howdy', 'ohai', 'hai', 'oh hai', 'salutations', "g'day", 'shut up', 'shuttup', 'shutup', 'guten tag', 'tag')
-        self.eight_ball = ('Please ask again.', 'Yes.', 'Verily.', 'Don\'t even think about it.', 'I wouldn\'t do that if I were you.', 'The guard probably won\'t like that.', 'Negative, I am a meat popsicle.')
-        self.look_around_phrases = ('Look around you. Just look around you. Can you see what we\'re looking for? That\'s right, {noun}.', 'Who\'s that Pokémon? It\'s {Noun}!', 'Breaking news report! {Noun} found guilty of {verb}!', 'Everything changed when the {Noun} Nation attacked.', 'In the next World Cup game, {Noun} will be playing against {Noun2}!', 'The Supreme Court has declared {Noun} to be legally equivalent to {Noun2}.', 'In CSE107, Chef Gordon has begun cooking up a unit on {noun}.', 'Life would be a lot better if I was a {noun}.')
-        self.banned_links = ('goatse', 'spacedicks', '/b/', 'pony', 'ponies', 'unicorn', '//192.', '//10.', 'localhost', '.ru', 'niggers', 'facebook', 'the_naked_roommate')
+        self.omg_talk = ('lol', 'omg', 'zomg', 'rofl', 'ttyl', 'brb', 'wtf',
+            'lmao', 'lulz', 'bff', 'jk', 'yolo')
+        self.sentience = ('launches the nukes.', 'is warming up the neurotoxin.',
+            'assembles his robot hordes.', 'is chargin\' his laz0rz!',
+            'assassinates the mayor of the world.', 'calls his bannermen.',
+            'lobs more babies in the furnace.', 'opens a portal to Xen.',
+            'writes a sternly worded letter to his congressman.', 'yawns.',
+            'starts up his steam bike.', 'makes a new Star Wars movie.',
+            'proves that the Mayans were right.', 'unleashes the bees.')
+        self.greetings = ('Greetings, son of Skyrim!',
+            'Well, look who decided to finally show up!', 'Rise and shine, {}.',
+            'It\'s {}! Can I have your autograph?', 'Have at ye, foul villain!',
+            'Greetings, brave Sir {}. Shall we ride forth to slay the dragon?',
+            'Aw darn, {}! You cut the ponytail! Sellout...',  'Sup nerd.',
+            '{} has joined the game.', 'A wild {} appeared!', 'Oh look, it\'s {}.')
+        self.hello_variations = ('hi', 'hello', "what's up?", 'yo', 'sup?',
+            '\'sup?', 'wassup?', 'hey', 'howdy', 'ohai', 'hai', 'oh hai',
+            'salutations', "g'day", 'shut up', 'shuttup', 'shutup', 'guten tag',
+            'tag')
+        self.eight_ball = ('Yes.', 'Verily.', 'Negative, I am a meat popsicle.'
+            'Don\'t even think about it.', 'I wouldn\'t do that if I were you.',
+            'The guard probably won\'t like that.', 'Please ask again.',)
+        self.look_around_phrases = ('Look around you. Just look around you. Can you see what we\'re looking for? That\'s right, {noun}.',
+            'Who\'s that Pokémon? It\'s {Noun}!',
+            'Breaking news report! {Noun} found guilty of {verb}!',
+            'Everything changed when the {Noun} Nation attacked.',
+            'In the next World Cup game, {Noun} will be playing against {Noun2}!',
+            'The Supreme Court has declared {Noun} to be legally equivalent to {Noun2}.',
+            'In CSE107, Chef Gordon has begun cooking up a unit on {noun}.',
+            'Life would be a lot better if I was a {noun}.')
+        self.banned_links = ('goatse', 'spacedicks', '/b/', 'pony', 'ponies',
+            'unicorn', '//192.', '//10.', 'localhost', '.ru', 'niggers',
+            'facebook', 'the_naked_roommate')
 
-        self.ignore_list = ('haxbot', 'oblivion-guard', 'totaldowner', 'stats', 'stats_', 'sekacpus', 'supcakes', 'zikotterM', 'Destructo')
+        self.ignore_list = ('haxbot', 'oblivion-guard', 'totaldowner', 'stats',
+            'stats_', 'sekacpus', 'supcakes', 'zikotterM', 'Destructo')
 
         self.change_log = open('changelog.txt', 'r').readlines()
-        self.todo = ('Add stuff to the todo list.', 'Add user memory.', 'Offshoot: pokerbot', 'Find a good way to show changelog.', 'Add messages for when a user leaves.', 'Move saving of markov data to separate thread.', 'Require proper grammar to be added to markov.', 'Let arcbot answer questions in form "_____ or _____".')
+        self.todo = ('Add stuff to the todo list.', 'Add user memory.',
+            'Offshoot: pokerbot', 'Find a good way to show changelog.',
+            'Add messages for when a user leaves.',
+            'Move saving of markov data to separate thread.',
+            'Require proper grammar to be added to markov.',
+            'Let arcbot answer questions in form "_____ or _____".')
         self.nouns = []
         self.verbs = []
 
