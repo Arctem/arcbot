@@ -97,7 +97,7 @@ class ArcBot(IRCBot):
             'Everything changed when the {Noun} Nation attacked.',
             'In the next World Cup game, {Noun} will be playing against {Noun2}!',
             'The Supreme Court has declared {Noun} to be legally equivalent to {Noun2}.',
-            'In CSE107, Chef Gordon has begun cooking up a unit on {noun}.',
+            'Scott Chadde, Our Lord and Saviour, is leaving Tech for {noun}.',
             'Life would be a lot better if I was a {noun}.')
         self.banned_links = ('goatse', 'spacedicks', '/b/', 'pony', 'ponies',
             'unicorn', '//192.', '//10.', 'localhost', '.ru', 'niggers',
