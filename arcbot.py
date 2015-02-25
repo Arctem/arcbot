@@ -63,10 +63,10 @@ class ArcBot(IRCBot):
 
         self.ipv6 = False
 
-        self.help_message = 'Commands: activate sentience, roll <num>d<sides>,' +
-            ' markov (deprecated), stats, link, changes, markov2 (deprecated),' +
-            ' todo, fate, cyber, dnd, markov3, name, categories, movie,' +
-            ' clickbait. {nick} can also answer questions directed at it and' +
+        self.help_message = 'Commands: activate sentience, roll <num>d<sides>,' +\
+            ' markov (deprecated), stats, link, changes, markov2 (deprecated),' +\
+            ' todo, fate, cyber, dnd, markov3, name, categories, movie,' +\
+            ' clickbait. {nick} can also answer questions directed at it and' +\
              'has a few secret features.'
 
         self.omg_talk = ('lol', 'omg', 'zomg', 'rofl', 'ttyl', 'brb', 'wtf',
