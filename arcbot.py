@@ -88,7 +88,7 @@ class ArcBot(IRCBot):
             '\'sup?', 'wassup?', 'hey', 'howdy', 'ohai', 'hai', 'oh hai',
             'salutations', "g'day", 'shut up', 'shuttup', 'shutup', 'guten tag',
             'tag')
-        self.eight_ball = ('Yes.', 'Verily.', 'Negative, I am a meat popsicle.'
+        self.eight_ball = ('Yes.', 'Verily.', 'Negative, I am a meat popsicle.',
             'Don\'t even think about it.', 'I wouldn\'t do that if I were you.',
             'The guard probably won\'t like that.', 'Please ask again.',)
         self.look_around_phrases = ('Look around you. Just look around you. Can you see what we\'re looking for? That\'s right, {noun}.',
