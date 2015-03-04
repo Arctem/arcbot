@@ -1,6 +1,7 @@
 data = {
   'movie' : {
-        'template' : ['{start}: {subtitle}'],
+        'template' : ['{movie}', '{Homage} {Award} "{movie}": {movie}'],
+        'movie' : ['{start}: {subtitle}'],
 
         'protaganist' : ['{Name}', '{Name} and {Name}', '{Formal_title} {Name}'],
         'protag_group_single' : ['The Gang', 'Everyone'],
@@ -22,8 +23,7 @@ data = {
         'start' : ['{Start} Part {gen/num_either}',
             'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}',
             '{creative_person}\'s {start}',
-            '{creative_person} Presents: {start}',
-            '{Homage} {Award} "{template}"', '{ominous}'],
+            '{creative_person} Presents: {start}', '{ominous}'],
 
         'ominous' : ['{Person} of {Spooky_thing}',
             '{Person} {spooky_status}'],
@@ -31,7 +31,7 @@ data = {
         'spooky_thing' : ['{color}', 'death', 'doom', 'destruction', 'horror',
             'mirrors'],
         'spooky_status' : ['in {Spooky_container}', 'Below', 'Watching',
-            'Above'],
+            'Above', 'Ascending'],
         'spooky_container' : ['{color}', 'the {room}', 'hell'],
         'room' : ['{color} {room}', '{room} of {spooky_thing}', 'attic',
             'basement', 'foyer'],
