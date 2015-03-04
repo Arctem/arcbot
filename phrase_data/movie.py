@@ -36,7 +36,7 @@ data = {
             'There and Back Again', 'No Gay Shit'],
 
         'homage' : ['sequel to', 'remake of', 'prequel to', 'inspired by'],
-        '{award}' : ['critical darling', 'classic', 'last year\'s {award}',
+        'award' : ['critical darling', 'classic', 'last year\'s {award}',
             'cult classic', 'buddy comedy', 'hit of the year', 'award-winning'],
 
         'adjective' : ['more', 'extreme', 'awesome', 'sweet', 'sick'],
