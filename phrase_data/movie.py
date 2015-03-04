@@ -23,7 +23,7 @@ data = {
             'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}',
             '{creative_person}\'s {start}',
             '{creative_person} Presents: {start}',
-            '{Homage} {Award} {template}'],
+            '{Homage} {Award} "{template}"'],
 
         'subtitle' : ['{sub_premade}', '{Name} vs. {Name}', '{Hype_noun}',
             'The Search for {Item}', '{Title}, Where\'s My {Item}?',
