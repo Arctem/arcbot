@@ -15,9 +15,13 @@ data = {
             'Steve Buscemi', 'Sean Connery', 'Scott Chadde', 'Nicholas Cage',
             'Dr. Hamdy Soliman', 'Batman', 'Spencer Brown', 'Gaben', 'The Dude',
             'Leonard Nimoy'],
+        'creative_person' : ['John Carpenter', 'American McGee', 'Mike Tyson',
+            'Crab Nicholson', 'John Madden', 'Tony Hawk', 'Wayne Brady'],
 
         'start' : ['{Start} Part {gen/num_either}',
-            'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}'],
+            'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}',
+            '{creative_person}\'s {start}',
+            '{creative_person} Presents: {start}'],
 
         'subtitle' : ['{sub_premade}', '{Name} vs. {Name}', '{Hype_noun}',
             'The Search for {Item}', '{Title}, Where\'s My {Item}?',
