@@ -17,7 +17,7 @@ data = {
             'Leonard Nimoy'],
         'creative_person' : ['John Carpenter', 'American McGee', 'Mike Tyson',
             'Crab Nicholson', 'John Madden', 'Tony Hawk', 'Wayne Brady',
-            'Joss Whedon', 'H.P. Lovecraft', 'Hideo Kojima', 'George Lucas'],
+            'Joss Whedon', 'H. P. Lovecraft', 'Hideo Kojima', 'George Lucas'],
 
         'start' : ['{Start} Part {gen/num_either}',
             'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}',
