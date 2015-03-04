@@ -25,15 +25,14 @@ data = {
             '{creative_person}\'s {start}',
             '{creative_person} Presents: {start}', '{ominous}'],
 
-        'ominous' : ['{Person} of {Spooky_thing}',
+        'ominous' : ['{Person} of {Color,Spooky_thing}',
             '{Person} {spooky_status}'],
         'color' : ['red', 'black', 'grey', 'green', 'yellow'],
-        'spooky_thing' : ['{color}', 'death', 'doom', 'destruction', 'horror',
-            'mirrors'],
+        'spooky_thing' : ['death', 'doom', 'destruction', 'horror', 'mirrors'],
         'spooky_status' : ['in {Spooky_container}', 'Below', 'Watching',
             'Above', 'Ascending'],
         'spooky_container' : ['{color}', 'the {room}', 'hell'],
-        'room' : ['{color} {room}', '{room} of {spooky_thing}', 'attic',
+        'room' : ['{color} {room}', '{room} of {color,spooky_thing}', 'attic',
             'basement', 'foyer'],
         'person' : ['woman', 'man', 'girl', 'boy', 'king', 'queen', 'god'],
 
