@@ -16,12 +16,14 @@ data = {
             'Dr. Hamdy Soliman', 'Batman', 'Spencer Brown', 'Gaben', 'The Dude',
             'Leonard Nimoy'],
         'creative_person' : ['John Carpenter', 'American McGee', 'Mike Tyson',
-            'Crab Nicholson', 'John Madden', 'Tony Hawk', 'Wayne Brady'],
+            'Crab Nicholson', 'John Madden', 'Tony Hawk', 'Wayne Brady',
+            'Joss Whedon'],
 
         'start' : ['{Start} Part {gen/num_either}',
             'The Adventures of {protaganist}', '{protaganist}\'s {subtitle}',
             '{creative_person}\'s {start}',
-            '{creative_person} Presents: {start}'],
+            '{creative_person} Presents: {start}',
+            '{Homage} {Award} {template}'],
 
         'subtitle' : ['{sub_premade}', '{Name} vs. {Name}', '{Hype_noun}',
             'The Search for {Item}', '{Title}, Where\'s My {Item}?',
@@ -32,6 +34,10 @@ data = {
             '{Protag_group_plural} Meet {Famous_person}', '{Fake_profession}'],
         'sub_premade' : ['Destroy All Monsters', 'The Finale',
             'There and Back Again', 'No Gay Shit'],
+
+        'homage' : ['sequel to', 'remake of', 'prequel to', 'inspired by'],
+        '{award}' : ['critical darling', 'classic', 'last year\'s {award}',
+            'cult classic', 'buddy comedy', 'hit of the year', 'award-winning'],
 
         'adjective' : ['more', 'extreme', 'awesome', 'sweet', 'sick'],
         'title' : ['{informal_title}', '{formal_title}'],
