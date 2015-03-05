@@ -18,7 +18,7 @@ data = {
         'creature' : ['adventurer', 'goblin', 'orc', 'elf', 'dwarf', 'kobold'],
         'big_creature' : ['dragon', 'troll'],
 
-        'item' : ['{equipment}'],
+        'item' : ['a {equipment}', 'the {dnd/relic}'],
         'equipment' : ['{weapon}', '{armor}'],
 
         'weapon' : ['{general_adj,weapon_adj} {weapon}',
