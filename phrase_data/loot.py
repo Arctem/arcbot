@@ -7,7 +7,7 @@ data = {
             'sneaking through', 'exploring'],
         'place' : ['a {big_creature}\'s lair'],
 
-        'encounter' : ['you find {Item} {location}!'],
+        'encounter' : ['you find {item} {location}!'],
         'location' : ['under a {dungeon_thing}', 'inside a {dungeon_container}'],
 
         'dungeon_thing' : ['{creature} skeleton', '{dungeon_container}'],
@@ -18,7 +18,7 @@ data = {
         'creature' : ['adventurer', 'goblin', 'orc', 'elf', 'dwarf', 'kobold'],
         'big_creature' : ['dragon', 'troll'],
 
-        'item' : ['a {equipment}', 'the {dnd/relic}'],
+        'item' : ['a {equipment}', '{Dnd/relic}'],
         'equipment' : ['{weapon}', '{armor}'],
 
         'weapon' : ['{general_adj,weapon_adj} {weapon}',
@@ -36,7 +36,8 @@ data = {
             'screaming', 'glowing', 'dank', 'miniature', 'toy',
             'erotic', 'invisible', 'hovering', 'opinionated', 'heavy',
             '{attr_change} to {char_stat}', '{metal}', '{odd_material}',
-            'illusory', 'vorpal', 'totally ordinary'],
+            'illusory', 'vorpal', 'totally ordinary', 'illuminated',
+            'sultry', 'orgasmatronic'],
         'weapon_adj' : ['notched', 'rusted', 'two-handed', 'double-sided',
             '{attr_change} to {weapon_stat}'],
         'blunt_adj' : ['spiked'],
