@@ -66,8 +66,8 @@ class ArcBot(IRCBot):
         self.help_message = 'Commands: activate sentience, roll <num>d<sides>,' +\
             ' markov (deprecated), stats, link, changes, markov2 (deprecated),' +\
             ' todo, fate, cyber, dnd, markov3, name, categories, movie,' +\
-            ' clickbait. {nick} can also answer questions directed at it and' +\
-             'has a few secret features.'
+            ' clickbait, loot. {nick} can also answer questions directed at' +\
+            ' it and has a few secret features.'
 
         self.omg_talk = ('lol', 'omg', 'zomg', 'rofl', 'ttyl', 'brb', 'wtf',
             'lmao', 'lulz', 'bff', 'jk', 'yolo')
@@ -626,6 +626,8 @@ class ArcBot(IRCBot):
             self.add_to_buffer(False, connection, event, phrase_maker.make('cyber', user))
         elif command[0] == 'dnd':
             self.add_to_buffer(False, connection, event, phrase_maker.make('dnd', user))
+        elif command[0] == 'loot':
+            self.add_to_buffer(False, connection, event, phrase_maker.make('loot', user))
         elif command[0] == 'clickbait':
             self.add_to_buffer(False, connection, event, phrase_maker.make('clickbait', user))
         elif command[0] == 'name':

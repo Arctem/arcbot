@@ -56,7 +56,7 @@ data = {
         'achievement' : ['ate a {thing}', 'ate a {monster}',
             'bested {Char} the {Title} {Monster} in battle',
             'recovered the {Adjective} {Thing} from the {adj_land} of {location}',
-            'defeated {enemies}', 'tamed a {animal}'],
+            'defeated {enemies}', 'tamed a {animal}', 'found a {loot/item}'],
         'alignment' : ['{Order} {Morality}'],
         'order' : ['lawful', 'neutral', 'true', 'chaotic', 'green', 'badass',
             'moderately', 'technically'],
