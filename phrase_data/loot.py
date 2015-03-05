@@ -4,7 +4,7 @@ data = {
 
         'item' : ['{weapon}', 'armor'],
 
-        'weapon' : [,'{general_adj,weapon_adj} {weapon}',
+        'weapon' : ['{general_adj,weapon_adj} {weapon}',
             '{general_adj,weapon_adj,blunt_adj} {blunt_weapon}',
             '{general_adj,weapon_adj,slash_adj} {slash_weapon}',
         	'{general_adj,weapon_adj,stab_adj} {stab_weapon}'],
