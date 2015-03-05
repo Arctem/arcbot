@@ -1,8 +1,25 @@
 data = {
   'loot' : {
-        'template' : ['{Item}'],
+        'template' : ['{opening}, {encounter}'],
 
-        'item' : ['{weapon}', '{armor}'],
+        'opening' : ['While {adventuring} {place}'],
+        'adventuring' : ['delving into', 'journeying through',
+            'sneaking through', 'exploring'],
+        'place' : ['a {big_creature}\'s lair'],
+
+        'encounter' : ['you find {Item} {location}!'],
+        'location' : ['under a {dungeon_thing}', 'inside a {dungeon_container}'],
+
+        'dungeon_thing' : ['{creature} skeleton', '{dungeon_container}'],
+        'dungeon_container' : ['treasure chest', 'crate',
+            'dead {creature}\'s {personal_container}'],
+        'personal_container' : ['pouch', 'backpack', 'satchel'],
+
+        'creature' : ['adventurer', 'goblin', 'orc', 'elf', 'dwarf', 'kobold'],
+        'big_creature' : ['dragon', 'troll'],
+
+        'item' : ['{equipment}'],
+        'equipment' : ['{weapon}', '{armor}'],
 
         'weapon' : ['{general_adj,weapon_adj} {weapon}',
             '{general_adj,weapon_adj,blunt_adj} {blunt_weapon}',
@@ -19,7 +36,7 @@ data = {
             'screaming', 'glowing', 'dank', 'miniature', 'toy',
             'erotic', 'invisible', 'hovering', 'opinionated', 'heavy',
             '{attr_change} to {char_stat}', '{metal}', '{odd_material}',
-            'illusory'],
+            'illusory', 'vorpal', 'totally ordinary'],
         'weapon_adj' : ['notched', 'rusted', 'two-handed', 'double-sided',
             '{attr_change} to {weapon_stat}'],
         'blunt_adj' : ['spiked'],
@@ -27,17 +44,17 @@ data = {
         'stab_adj' : ['collapsible'],
         'armor_adj' : ['{clothing_material}', 'reinforced',
             'one-size-fits-all', '{attr_change} to {armor_stat}', 'too tight',
-            'revealing'],
+            'revealing', 'gender-neutral', 'men\'s', 'women\'s'],
         'torso_adj' : ['{attr_change} to {torso_stat}', 'fitted'],
         'head_adj' : ['tall', 'feathered'],
-        'limb_adj' : ['{attr_change} to {limb_stat}'],
+        'limb_adj' : ['assless', '{attr_change} to {limb_stat}'],
         'foot_adj' : ['kicking', 'climbing'],
         'hand_adj' : ['punching', 'climbing'],
 
         'attr_change' : ['+1', '-1', '+2'],
         'char_stat' : ['strength', 'dexterity', 'wisdom', 'intelligence',
             'charisma', 'consitution', 'seduction', 'jumping', 'not dying',
-            'dancing', 'yodeling'],
+            'dancing', 'yodeling', 'plumbing'],
         'weapon_stat' : ['swinging wildly in all directions'],
         'armor_stat' : ['deflection', 'wearing armor'],
         'torso_stat' : ['bust size', 'boobs', 'abs'],
