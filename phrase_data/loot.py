@@ -2,7 +2,7 @@ data = {
   'loot' : {
         'template' : ['{Item}'],
 
-        'item' : ['{weapon}', 'armor'],
+        'item' : ['{weapon}', '{armor}'],
 
         'weapon' : ['{general_adj,weapon_adj} {weapon}',
             '{general_adj,weapon_adj,blunt_adj} {blunt_weapon}',
