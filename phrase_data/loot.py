@@ -18,7 +18,8 @@ data = {
         'creature' : ['adventurer', 'goblin', 'orc', 'elf', 'dwarf', 'kobold'],
         'big_creature' : ['dragon', 'troll'],
 
-        'item' : ['a {equipment}', '{Dnd/relic}'],
+        'item' : ['a {equipment}', '{Dnd/relic}',
+            'a {equipment} {decoration}', 'a {equipment} {enchantment}'],
         'equipment' : ['{weapon}', '{armor}'],
 
         'weapon' : ['{general_adj,weapon_adj} {weapon}',
@@ -68,18 +69,42 @@ data = {
             '{general_adj,armor_adj,foot_adj} {foot_armor}',
             '{general_adj,armor_adj,hand_adj} {hand_armor}'],
 
-        'torso_armor' : ['breastplate', 'chainmail',
+        'torso_armor' : ['breastplate', '{clothing_material} vest',
             '{clothing_material} armor'],
         'head_armor' : ['helm', 'cap'],
         'limb_armor' : ['bracer', 'greaves', 'leggings', 'pants'],
         'foot_armor' : ['shoes', 'boots', 'slippers'],
         'hand_armor' : ['gloves', 'gauntlets'],
 
-        'clothing_material' : ['{metal}', '{odd_material}', '{soft_material}'],
+        'clothing_material' : ['{metal}', '{odd_material}', '{soft_material}',
+            '{armor_material}'],
         'metal' : ['silver', 'iron', 'steel', 'bronze', 'copper', 'gold',
             'mithril'],
         'odd_material' : ['ice', 'stone', 'ebony', 'flame', 'marble', 'uranium',
             'cheese'],
         'soft_material' : ['leather', 'cloth', 'silk'],
+        'armor_material' : ['chainmail'],
+
+        'decoration' : ['inscribed with {literature}',
+            'with {literature,art} crudely scribbled on it'],
+        'literature' : ['a {poem}', 'the name of a past owner: {name/template}',
+            'indecipherable gibberish'],
+        'poem' : ['a {emotional} ode to {poem_thing}'],
+        'emotional' : ['heartfelt', 'loving', 'sappy'],
+        'poem_thing' : ['love', 'dicks', 'family', '{Dnd/god}'],
+        'art' : ['a crude drawing of {item,shitty_art}'],
+        'shitty_art' : ['a smily face', '{poem_thing}'],
+
+        'enchantment' : ['cursed long ago by {curser}',
+            'enchanted to {magic_action} {magic_condition}'],
+        'curser' : ['a witch', 'a long dead god', 'spiteful wizards'],
+        'magic_action' : ['grant flight', 'summon demons',
+            'glow', 'scream loudly'],
+        'magic_condition' : ['when a {big_creature,creature} is near',
+            'almost constantly', 'except when you want it to',
+            'when the moon is {moon_phase}'],
+
+        'moon_phase' : ['full', 'new', 'waxing', 'waning', 'blue',
+            'rising', 'setting'],
     }
 }
