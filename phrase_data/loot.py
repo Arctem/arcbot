@@ -95,7 +95,7 @@ data = {
         'art' : ['a crude drawing of {item,shitty_art}'],
         'shitty_art' : ['a smily face', '{poem_thing}'],
 
-        'enchantment' : ['cursed long ago by {curser}',
+        'enchantment' : ['cursed {time} by {curser}',
             'enchanted to {magic_action} {magic_condition}'],
         'curser' : ['a witch', 'a long dead god', 'spiteful wizards'],
         'magic_action' : ['grant flight', 'summon demons',
@@ -106,5 +106,7 @@ data = {
 
         'moon_phase' : ['full', 'new', 'waxing', 'waning', 'blue',
             'rising', 'setting'],
+
+        'time' : ['long ago', 'pretty recently', 'last {gen/weekday}'],
     }
 }
