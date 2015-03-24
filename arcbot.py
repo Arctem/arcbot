@@ -250,10 +250,6 @@ class ArcBot(IRCBot):
             print ' STEVE HOLT!'
             connection.privmsg(event.target(), 'STEVE HOLT!')
 
-        if 'gif' in message.lower() and random.randint(1, 4):
-            print(' Correcting gif usage.')
-            connection.privmsg(event.target(), 'Excuse me, but it\'s pronounced "gif", not "gif".')
-
     #Old Markov
     def prep_markov(self, string):
         string = string.split()
