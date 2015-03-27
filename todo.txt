@@ -1,0 +1,6 @@
+Add markov.
+Add help.
+Add random phrases.
+Add something like Bucket's word associations.
+Add way to view todo list.
+Add way to view changes.

@@ -38,3 +38,4 @@ v0.10.4: link command will now also give the page title.
 v0.10.5: Added clickbait command.
 v0.10.6: Added cah command. Moved changelog to separate file.
 v0.10.7: Added loot command.
+v0.11: Transferring to new ircbot library.

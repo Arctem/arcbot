@@ -1,9 +1,6 @@
 [submodule "phrase_maker"]
 	path = phrase_maker
 	url = git@github.com:Arctem/phrase_maker.git
-[submodule "ircbot"]
-	path = ircbot
-	url = git@github.com:Arctem/ircbot.git
 [submodule "phrase_data/against-humanity"]
 	path = phrase_data/against-humanity
 	url = git@github.com:nodanaonlyzuul/against-humanity.git
