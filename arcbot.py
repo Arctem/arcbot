@@ -16,6 +16,7 @@ except:
 
 from ircbot.ircbot import IRCBot
 from ircbot.help import Help
+from ircbot.user_tracker import UserTracker
 
 import phrase_commands
 
@@ -37,6 +38,7 @@ class ArcBot(IRCBot):
         self.register(Help(outro='If the help message is out of date, please ' +
             'yell at my creator until he fixes it. I don\'t like being out of' +
             ' date. :('))
+        self.register(UserTracker())
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
