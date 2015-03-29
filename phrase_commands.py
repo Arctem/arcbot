@@ -26,7 +26,7 @@ class PhraseCommand(IRCCommand):
     def __init__(self, phrase):
         def fun(self, user, chan, args):
             response = phrase_maker.make(self.phrase, user)
-            self.owner.send_privmsg(chan, user + ': ' + response)
+            self.owner.send_privmsg(chan, response)
 
         IRCCommand.__init__(self, phrase, fun)
         self.phrase = phrase

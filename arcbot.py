@@ -15,6 +15,7 @@ except:
     nltk = None
 
 from ircbot.ircbot import IRCBot
+from ircbot.help import Help
 
 import phrase_commands
 
@@ -33,6 +34,9 @@ class ArcBot(IRCBot):
             " http://i.imgur.com/mrrKP.png" +
             " https://www.youtube.com/watch?v=L9biyJcBhRs")
 
+        self.register(Help(outro='If the help message is out of date, please ' +
+            'yell at my creator until he fixes it. I don\'t like being out of' +
+            ' date. :('))
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
