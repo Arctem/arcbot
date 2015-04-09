@@ -19,6 +19,7 @@ from ircbot.help import Help
 from ircbot.user_tracker import UserTracker
 
 import phrase_commands
+from link_command import Link
 from markov import Markov
 
 #from markov import Markov
@@ -28,7 +29,6 @@ from markov import Markov
 class ArcBot(IRCBot):
     markov_dat_file = 'markov.botdat'
     links_file = 'links.botdat'
-    links_backup = 'links_backup.botdat'
 
     def __init__(self):
         IRCBot.__init__(self, 'newarcbot',
@@ -41,6 +41,7 @@ class ArcBot(IRCBot):
             ' date. :('))
         self.register(UserTracker())
         self.register(Markov(ArcBot.markov_dat_file))
+        self.register(Link(ArcBot.links_file))
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
@@ -48,7 +49,7 @@ class ArcBot(IRCBot):
 
     def start(self):
         pass
-        
+
 
 def main(args = None):
     arcbot = ArcBot()
