@@ -2,19 +2,62 @@ import sys
 import random
 import pickle
 import re
-from wiki.wikipedia import Wikipedia
-from wiki.wiki2plain import Wiki2Plain
 
-class Markov:
+from ircbot.plugin import IRCPlugin
+
+class Markov(IRCPlugin):
     def __init__(self, filename = None):
+        IRCPlugin.__init__(self)
+        self.filename = filename
         self.forward = {}
         self.backward = {}
         self.start = []
         self.end = []
         self.min_length = 5
 
-    def save(self, filename):
-        pickle.dump(self, open(filename, 'wb'), 2) #protocol 2 for compatibility with python2
+        self.triggers['PRIVMSG'] = self.privmsg
+
+        if self.filename:
+            self.load()
+
+    def privmsg(self, prefix, args):
+        channel = args[0]
+        args = args[1]
+        user = prefix.split('!')[0]
+
+        reg = re.compile('^{}[:,] markov'.format(self.owner.nick))
+        trig = bool(reg.match(args))
+
+        if trig:
+            msg = self.get_string(user, args.split()[1:] or None)
+            self.owner.send_privmsg(channel, msg)
+
+        elif len(args.split()) > self.min_length and\
+                self.owner.nick not in args.split()[0]:
+            self.add_string(args)
+            if self.filename:
+                self.save()
+
+        return trig
+
+    def name(self):
+        return 'markov'
+
+    def description(self):
+        return None
+
+    def save(self):
+        data = [self.forward, self.backward, self.start, self.end]
+        with open(self.filename, 'wb') as load_file:
+            pickle.dump(data, load_file)
+
+    def load(self):
+        try:
+            with open(self.filename, 'rb') as load_file:
+                data = pickle.load(load_file)
+            self.forward, self.backward, self.start, self.end = data
+        except FileNotFoundError:
+            print(' Could not load markov file {}.'.format(self.filename))
 
     def add_string(self, string):
         if type(string) is str:
@@ -23,7 +66,7 @@ class Markov:
             print(' Avoided adding {}-word string to markov data.'.format(len(string)))
             return
 
-        for i in xrange(len(string) - 2):
+        for i in range(len(string) - 2):
             #Avoid infinite loops.
             if string[i] == string[i + 1] == string[i + 2]:
                 print(' Skipped adding repeated word {} to markov.'.format(string[i]))
@@ -103,97 +146,3 @@ class Markov:
                 return '{}: No valid markov chain.'.format(user)
             else:
                 return 'No valid markov chain.'
-        
-    def convert(self, filename):
-        import arcbot_util
-        old = arcbot_util.load_markov(filename)
-        total = len(old.keys())
-        count = 0
-        print('Converting {} keys.'.format(total))
-        for key in old.keys():
-            count += 1
-            if count % (total // 10) is 0:
-                print('{}/{}'.format(count, total))
-            #Ignore some weird error values.
-            if len(key) is not 2:
-                continue
-
-            #Do special things with start values.
-            if key == ('__START__', '__START__'):
-                self.start = [x[0] for x in old[key]]
-                continue
-
-            #print('{} values for {}.'.format(len(old[key]), key))
-            self.forward[key] = []
-            for value in old[key]:
-                #Add to forward list.
-                self.forward[key].append(value)
-                back_key = (key[1], value)
-                if back_key in self.backward.keys():
-                    self.backward[back_key].append(key[0])
-                else:
-                    self.backward[back_key] = [key[0]]
-
-
-def load(filename):
-    return pickle.load(open(filename, 'rb'))
-
-def main():
-    if raw_input('Wahooify? ').lower() == 'y':
-        wahooify()
-    else:
-        m = load('markov_new.botdat')
-        print(m.get_string(user = 'joe', output = sys.argv[1:]))
-
-def wahooify():
-    lang = 'en'
-    wiki = Wikipedia(lang)
-
-    try:
-        raw = wiki.article('USS Wahoo (SS-238)')
-    except:
-        raw = None
-
-    if raw:
-        wiki2plain = Wiki2Plain(raw)
-        content = wiki2plain.text
-        content = re.sub(' \(.*?\)', '', content)
-        #content = re.sub('\[.*?\]', '', content)
-        content = [i for i in content.split('==Awards==')[0].split('\n') if len(i) > 0 and i[0] != '=']
-        #content = (". ".join(content)).split(". ")
-        new_content = []
-        for i in content:
-            for k in i.split(". "):
-                new_content.append(k.strip() + '.')
-            new_content[-1] = new_content[-1][:-1]
-        content = new_content
-        #content = [i for i in content.split('\n') if len(i) > 0]
-        
-        f = open('wahoo.txt', 'w')
-        for i in content:
-            f.write(i)
-            f.write('\n')
-            print len(i)
-        f.close()
-        
-        m = Markov()
-        f = open('wahoo_fixed.txt', 'r')
-        for line in f.read().split('\n'):
-            m.add_string(line)
-            #print line
-        print m.get_string(['Wahoo'])
-        m.save('markov_new.botdat')
-
-def reimport():
-    m = Markov()
-    m.convert('markov.botdat')
-    print(m.get_string(['Rob']))
-    m.save('markov_new.botdat')
-    #print(m.get_string(['Nate']))
-
-    n = load('markov_new.botdat')
-    print(n.get_string(['Rob']))
-    n.save('markov_new.botdat')
-
-if __name__ == '__main__':
-    main()
