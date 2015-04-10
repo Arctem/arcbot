@@ -29,7 +29,7 @@ class Markov(IRCCommand):
         trig = bool(reg.match(args))
 
         if trig:
-            msg = self.get_string(user, args.split()[1:] or None)
+            msg = self.get_string(user, args.split()[2:] or None)
             self.owner.send_privmsg(channel, msg)
 
         elif len(args.split()) > self.min_length and\
