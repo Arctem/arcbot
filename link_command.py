@@ -1,3 +1,4 @@
+import random
 import re
 import urllib.request as request
 
@@ -19,6 +20,7 @@ class Link(IRCCommand):
         self.load()
 
     def link_trigger(self, user, chan, args):
+        print(args)
         if args:
             args = args.split()
             if args[0] in self.links:
@@ -26,6 +28,7 @@ class Link(IRCCommand):
                     .format(user))
             elif Link.valid_link(args[0]):
                 self.links.append(args[0])
+                self.save()
                 self.owner.send_privmsg(chan, '{}: Link added.'.format(user))
             else:
                 self.owner.send_privmsg(chan, '{}: Invalid link.'.format(user))
@@ -40,7 +43,7 @@ class Link(IRCCommand):
     def load(self):
         try:
             with open(self.link_file, 'r') as link_file:
-                self.links = link_file.read.split('\n')
+                self.links = link_file.read().split('\n')
         except FileNotFoundError:
             self.links = []
 
