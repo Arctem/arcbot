@@ -3,11 +3,11 @@ import random
 import pickle
 import re
 
-from ircbot.plugin import IRCPlugin
+from ircbot.command import IRCCommand
 
-class Markov(IRCPlugin):
+class Markov(IRCCommand):
     def __init__(self, filename = None):
-        IRCPlugin.__init__(self)
+        IRCCommand.__init__(self, 'markov', None)
         self.filename = filename
         self.forward = {}
         self.backward = {}
@@ -39,12 +39,6 @@ class Markov(IRCPlugin):
                 self.save()
 
         return trig
-
-    def name(self):
-        return 'markov'
-
-    def description(self):
-        return None
 
     def save(self):
         data = [self.forward, self.backward, self.start, self.end]
