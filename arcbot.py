@@ -31,7 +31,7 @@ class ArcBot(IRCBot):
     links_file = 'links.botdat'
 
     def __init__(self):
-        IRCBot.__init__(self, 'newarcbot',
+        IRCBot.__init__(self, 'arcbot',
             "Ultimate Botting Machine:" +
             " http://i.imgur.com/mrrKP.png" +
             " https://www.youtube.com/watch?v=L9biyJcBhRs")
