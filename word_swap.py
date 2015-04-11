@@ -21,8 +21,11 @@ class WordSwap(IRCPlugin):
             new_phrase = self.replace_word(tagged)
             self.owner.send_privmsg(channel, new_phrase)
             self.clean_data()
+            return True
         else:
             self.add_data(tagged)
+
+        return False
 
     def add_data(self, tagged):
         for word, tag in tagged:
