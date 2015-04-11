@@ -7,13 +7,6 @@ except:
     print(' Could not import psutil for CPU and RAM tracking.')
     psutil = None
 
-try:
-    import nltk
-    print(' Succeeded in loading nltk for natural language analysis.')
-except:
-    print(' Could not load nltk for language analysis.')
-    nltk = None
-
 from ircbot.ircbot import IRCBot
 from ircbot.help import Help
 from ircbot.user_tracker import UserTracker
@@ -22,6 +15,7 @@ from karst import Karst
 from link_command import Link
 from markov import Markov
 import phrase_commands
+from word_swap import WordSwap
 
 #from markov import Markov
 #from markov import load as load_markov
@@ -44,6 +38,7 @@ class ArcBot(IRCBot):
         self.register(Markov(ArcBot.markov_dat_file))
         self.register(Link(ArcBot.links_file))
         self.register(Karst())
+        self.register(WordSwap())
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
