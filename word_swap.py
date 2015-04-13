@@ -17,13 +17,14 @@ class WordSwap(IRCPlugin):
         phrase = nltk.word_tokenize(args[0])
         tagged = nltk.pos_tag(phrase)
 
-        if random.randint(0, self.count) > 100:
+        if random.randint(0, self.count) > 50:
             new_phrase = self.replace_word(tagged)
             self.owner.send_privmsg(channel, new_phrase)
             self.clean_data()
             return True
         else:
             self.add_data(tagged)
+            self.count += 1
 
         return False
 
