@@ -42,7 +42,7 @@ class WordSwap(IRCPlugin):
             if tag in self.data:
                 replace = random.choice(self.data[tag])
                 if replace != word:
-                    phrase = list(map(lambda w: w[1], tagged))
+                    phrase = list(map(lambda w: w[0], tagged))
                     phrase[index] = replace
                     return ' '.join(phrase)
 
