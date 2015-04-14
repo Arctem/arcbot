@@ -12,6 +12,6 @@ class Karst(IRCPlugin):
         trig = 'karst' in user.lower() and '2spookybot' in args[0]
         
         if trig:
-            self.owner.send_privmsg(chan, "{}: Why can't you love me for who I am!?"
+            self.owner.send_privmsg(channel, "{}: Why can't you love me for who I am!?"
                 .format(user))
         return trig
