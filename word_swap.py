@@ -7,7 +7,7 @@ class WordSwap(IRCPlugin):
     def __init__(self):
         IRCPlugin.__init__(self)
 
-        self.triggers['PRIVMSG'] = self.privmsg
+        self.triggers['PRIVMSG'] = (0, self.privmsg)
         self.clean_data()
 
     def privmsg(self, prefix, args):

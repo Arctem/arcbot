@@ -15,7 +15,7 @@ class Markov(IRCCommand):
         self.end = []
         self.min_length = 5
 
-        self.triggers['PRIVMSG'] = self.privmsg
+        self.triggers['PRIVMSG'] = (9, self.privmsg)
 
         if self.filename:
             self.load()
@@ -81,7 +81,7 @@ class Markov(IRCCommand):
                 self.backward[phrase] = [string[i]]
 
         if string[0] == string[0].capitalize():
-            self.start.append(string[0])        
+            self.start.append(string[0])
         self.end.append(string[-1]) #TODO: check punctuation
 
     def get_string(self, user = None, output = None):
@@ -110,7 +110,7 @@ class Markov(IRCCommand):
 
             #print('In end:', output[-1] in self.end)
             #print('In begin:', output[0] in self.start)
-            
+
             count = 0
             #Add to the end first.
             while output[-1] not in self.end or count < 5:

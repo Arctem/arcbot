@@ -15,6 +15,7 @@ from karst import Karst
 from link_command import Link
 from markov import Markov
 import phrase_commands
+from thefucking import TheFucking
 from word_swap import WordSwap
 
 #from markov import Markov
@@ -35,9 +36,11 @@ class ArcBot(IRCBot):
             'yell at my creator until he fixes it. I don\'t like being out of' +
             ' date. :('))
         self.register(UserTracker())
-        self.register(Markov(ArcBot.markov_dat_file))
-        self.register(Link(ArcBot.links_file))
+
         self.register(Karst())
+        self.register(Link(ArcBot.links_file))
+        self.register(Markov(ArcBot.markov_dat_file))
+        self.register(TheFucking())
         self.register(WordSwap())
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
