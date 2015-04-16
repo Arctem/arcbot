@@ -21,6 +21,7 @@ from ircbot.user_tracker import UserTracker
 import phrase_commands
 from link_command import Link
 from markov import Markov
+from thefucking import TheFucking
 
 #from markov import Markov
 #from markov import load as load_markov
@@ -40,8 +41,9 @@ class ArcBot(IRCBot):
             'yell at my creator until he fixes it. I don\'t like being out of' +
             ' date. :('))
         self.register(UserTracker())
-        self.register(Markov(ArcBot.markov_dat_file))
         self.register(Link(ArcBot.links_file))
+        self.register(Markov(ArcBot.markov_dat_file))
+        self.register(TheFucking())
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
