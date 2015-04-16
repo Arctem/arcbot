@@ -3,7 +3,7 @@ import re
 from ircbot.plugin import IRCPlugin
 
 class TheFucking(IRCPlugin):
-    reg = re.compile(r'[tT][hH][eE] [fF][uU][cC][iI][nN][gG]')
+    reg = re.compile(r'[tT][hH][eE] [fF][uU][cC][kK][iI][nN][gG]')
 
     def __init__(self):
         IRCPlugin.__init__(self)
@@ -14,7 +14,7 @@ class TheFucking(IRCPlugin):
         user = prefix.split('!')[0]
 
         orig = args[0]
-        matches = reg.match(orig)
+        matches = self.reg.findall(orig)
         if not matches:
             return False
         else:
@@ -29,7 +29,7 @@ class TheFucking(IRCPlugin):
                     out[0] = 'THE'
                 elif fucking[0] == fucking[0].upper():
                     out[0] = 'The'
-                orig.replace(m, ' '.join(out))
+                orig = orig.replace(m, ' '.join(out))
             self.owner.send_privmsg(channel, orig)
             return True
 
