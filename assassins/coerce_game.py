@@ -20,5 +20,13 @@ class CoercionGame(object):
     else:
       self.announce('{}: You are already registered.'.format(user))
 
-
+  def player_quit(self, user):
+    if user not in self.players:
+      self.announce('{}: You are not registered!'.format(user))
+    elif self.state == 'pregame':
+      del self.players[user]
+      self.announce('{} has been removed from the list of waiting players.')
+    else: #if game is started
+      #TODO: change the target of whoever is hunting this player
+      pass
 

@@ -34,7 +34,7 @@ class Coercion(IRCCommand):
     elif cmd == 'join' and not private:
       self.games[chan].player_join(user)
     elif cmd == 'quit' and not private:
-      pass
+      self.games[chan].player_quit(user)
     elif cmd == 'start' and not private:
       pass
     elif cmd == 'score' and not private:
