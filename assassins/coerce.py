@@ -27,12 +27,12 @@ class Coercion(IRCCommand):
 
     private = not chan.startswith('#')
     if not private and chan not in self.games:
-      self.games[chan] = CoercionGame(chan)
+      self.games[chan] = CoercionGame(self, chan)
 
     if cmd == 'help':
       self.help(user, chan, args)
     elif cmd == 'join' and not private:
-      pass
+      self.games[chan].player_join(user)
     elif cmd == 'quit' and not private:
       pass
     elif cmd == 'start' and not private:
