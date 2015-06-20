@@ -3,6 +3,8 @@ from ircbot.command import IRCCommand
 from coerce_game import CoercionGame
 
 class Coercion(IRCCommand):
+  MIN_PLAYERS = 4
+
   help_msg = {
     'rules' ; 'When a round of Coercion starts, you will be assigned a ' +
       'target and a word. The first player who gets their target to say the ' +
@@ -36,7 +38,7 @@ class Coercion(IRCCommand):
     elif cmd == 'quit' and not private:
       self.games[chan].player_quit(user)
     elif cmd == 'start' and not private:
-      pass
+      self.games[chan].player_start(user)
     elif cmd == 'score' and not private:
       pass
     elif cmd == 'status':
@@ -58,3 +60,4 @@ class Coercion(IRCCommand):
       'help about from the following topics: {}'
     topics = sorted(self.help.keys())
     return base.format(', '.join(topics[:-1]) + ', and ' + topics[-1])
+

@@ -1,4 +1,6 @@
-from ircbot.command import IRCCommand
+import random
+
+from coerce import Coercion
 
 class CoercionGame(object):
   def __init__(self, parent, chan):
@@ -29,4 +31,32 @@ class CoercionGame(object):
     else: #if game is started
       #TODO: change the target of whoever is hunting this player
       pass
+
+  def player_start(self, user):
+    if self.state == 'pregame':
+      if len(players) < Coercion.MIN_PLAYERS:
+        self.announce('{}: We need at least {} players!'.format(user,
+          Coercion.MIN_PLAYERS))
+      else:
+        self.announce('Starting a game with {} players!'.format(len(players)))
+        self.assign_targets()
+        self.assign_words()
+        self.inform_players()
+        self.state = 'running'
+        self.announce('The game has now started!')
+    else:
+      self.announce('{}: The game is already in progress!'.format(user))
+
+  def assign_targets(self):
+    unused = set(self.players.keys())
+    used = {}
+    next = random.choice(unused)
+
+    while unused:
+      #prevents first player being assigned themselves
+      target = random.choice(unused - {next})
+      self.players[next].target = self.players[target]
+      unused.remove(target)
+      used.add(target)
+      next = target
 

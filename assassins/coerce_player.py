@@ -4,3 +4,6 @@ class CoercionPlayer(object):
     def __init__(self, parent, name):
         self.parent = parent
         self.name = name
+
+        self.target = None
+        self.word = None
