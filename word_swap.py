@@ -17,11 +17,16 @@ class WordSwap(IRCPlugin):
         phrase = nltk.word_tokenize(args[0])
         tagged = nltk.pos_tag(phrase)
 
-        if random.randint(0, self.count) > 50:
-            new_phrase = self.replace_word(tagged)
-            self.owner.send_privmsg(channel, new_phrase)
-            self.clean_data()
-            return True
+        if random.randint(0, self.count) > 50 and len(phrase) > 10:
+            try:
+                orig_word, new_word = self.get_replacement(tagged)
+                new_phrase = args[0].replace(orig_word, new_word)
+                self.owner.send_privmsg(channel, new_phrase)
+                self.clean_data()
+                return True
+            except NoSwapError:
+                print("Could not swap {}.".format(tagged))
+                return False
         else:
             self.add_data(tagged)
             self.count += 1
@@ -30,22 +35,30 @@ class WordSwap(IRCPlugin):
 
     def add_data(self, tagged):
         for word, tag in tagged:
+            if len(word) < 5:
+                continue
             if tag not in self.data:
                 self.data[tag] = []
             self.data[tag].append(word)
 
-    def replace_word(self, tagged):
-        while True:
-            index = random.randrange(len(tagged))
-            word = tagged[index][0]
-            tag = tagged[index][1]
-            if tag in self.data:
-                replace = random.choice(self.data[tag])
-                if replace != word:
-                    phrase = list(map(lambda w: w[0], tagged))
-                    phrase[index] = replace
-                    return ' '.join(phrase)
+    def get_replacement(self, tagged):
+        possibles = filter(lambda tag: len(tag[0]) > 5, tagged)
+        while possibles:
+            word, tag = random.choice(possibles)
+            if len(word) < 5 or tag not in self.data:
+                possibles.remove((word, tag))
+                continue
+            return word, random.choice(self.data[tag])
+        raise NoSwapError("Could not find a word to replace.")
 
     def clean_data(self):
         self.data = {}
         self.count = 0
+
+
+class NoSwapError(Exception):
+    def __init__(self):
+        self.value = value
+
+    def __str__(self):
+        return repr(self.value)
