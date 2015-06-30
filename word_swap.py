@@ -42,7 +42,7 @@ class WordSwap(IRCPlugin):
             self.data[tag].append(word)
 
     def get_replacement(self, tagged):
-        possibles = filter(lambda tag: len(tag[0]) > 5, tagged)
+        possibles = list(filter(lambda tag: len(tag[0]) > 5, tagged))
         while possibles:
             word, tag = random.choice(possibles)
             if len(word) < 5 or tag not in self.data:
@@ -57,7 +57,7 @@ class WordSwap(IRCPlugin):
 
 
 class NoSwapError(Exception):
-    def __init__(self):
+    def __init__(self, value):
         self.value = value
 
     def __str__(self):
