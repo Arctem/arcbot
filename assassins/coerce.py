@@ -22,6 +22,15 @@ class Coercion(IRCCommand):
 
     #hash of channel to CoercionGame object.
     self.games = {}
+    self.triggers['PRIVMSG'] = (9, self.privmsg)
+
+  def privmsg(self, prefix, args):
+    channel = args[0]
+    args = args[1]
+    user = prefix.split('!')[0]
+
+    if channel in self.games:
+      self.games[channel].message(user, args)
 
   def game_trigger(self, user, chan, args):
     cmd = args.split()[0] if args else 'help'

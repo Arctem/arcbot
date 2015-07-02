@@ -19,6 +19,10 @@ class CoercionGame(object):
   def announce(self, msg):
     self.parent.owner.send_privmsg(self.chan, msg)
 
+  def handle_message(self, user, msg):
+    if user in self.players:
+      #check if it matched a word and increment score
+
   def player_join(self, user):
     if user not in self.players:
       self.players[user] = CoercionPlayer(self, user)
