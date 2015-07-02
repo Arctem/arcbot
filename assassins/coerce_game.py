@@ -14,7 +14,7 @@ class CoercionGame(object):
     self.load_words()
 
   def tell_player(self, player, msg):
-    self.parent.owner.send_privmsg(player, msg)
+    self.parent.owner.send_privmsg(player.name, msg)
 
   def announce(self, msg):
     self.parent.owner.send_privmsg(self.chan, msg)
@@ -52,7 +52,7 @@ class CoercionGame(object):
       self.announce('{}: The game is already in progress!'.format(user))
 
   def assign_targets(self):
-    unused = set(self.players.keys())
+    unused = set(self.players)
     used = {}
     next = random.choice(unused)
 
@@ -69,6 +69,11 @@ class CoercionGame(object):
     for player in self.players.keys():
       self.players[player].word = random.choice(self.word_list - used_words)
       used_words.update(self.players[player].word)
+
+  def inform_players(self):
+    for player in self.players:
+      self.tell_player(player, "Your target in {} is {}. Get them to say {}."
+        .format(player.target, player.word))
 
   def load_words(self):
     self.word_list = set()
