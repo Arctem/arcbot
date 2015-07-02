@@ -6,7 +6,7 @@ class Coercion(IRCCommand):
   MIN_PLAYERS = 4
 
   help_msg = {
-    'rules' ; 'When a round of Coercion starts, you will be assigned a ' +
+    'rules' : 'When a round of Coercion starts, you will be assigned a ' +
       'target and a word. The first player who gets their target to say the ' +
       'assigned word wins the round and gets a point.',
     'join' : 'Sign up to participate in the next round of the game.',

@@ -1,6 +1,9 @@
+import os
 import random
 
 from coerce import Coercion
+
+base_dir = os.path.dirname(__file__)
 
 class CoercionGame(object):
   def __init__(self, parent, chan):
@@ -8,6 +11,7 @@ class CoercionGame(object):
     self.chan = chan
     self.players = {}
     self.state = 'pregame'
+    self.load_words()
 
   def tell_player(self, player, msg):
     self.parent.owner.send_privmsg(player, msg)
@@ -60,3 +64,14 @@ class CoercionGame(object):
       used.add(target)
       next = target
 
+  def assign_words(self):
+    used_words = {}
+    for player in self.players.keys():
+      self.players[player].word = random.choice(self.word_list - used_words)
+      used_words.update(self.players[player].word)
+
+  def load_words(self):
+    self.word_list = set()
+    with open(os.path.join(base_dir, 'word_data/base.txt'), 'r') as base:
+      self.word_list.update(base.read().split('\n'))
+    #TODO load extra lists based on channel
