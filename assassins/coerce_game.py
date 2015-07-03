@@ -1,5 +1,6 @@
 import os
 import random
+import re
 
 from coerce import Coercion
 
@@ -12,6 +13,7 @@ class CoercionGame(object):
     self.players = {}
     self.state = 'pregame'
     self.load_words()
+    self.partial_points = {}
 
   def tell_player(self, player, msg):
     self.parent.owner.send_privmsg(player.name, msg)
@@ -19,9 +21,52 @@ class CoercionGame(object):
   def announce(self, msg):
     self.parent.owner.send_privmsg(self.chan, msg)
 
-  def handle_message(self, user, msg):
-    if user in self.players:
-      #check if it matched a word and increment score
+  def handle_message(self, speaker, msg):
+    if speaker in self.players and self.state == 'running':
+      speaker = self.players[speaker]
+      for player in self.players.values():
+        if player == speaker:
+          continue
+        if re.search(player.word, msg, re.IGNORE_CASE):
+          if player.target == speaker:
+            self.end_game(winner=player)
+          else:
+            self.partial_points[player] += 1
+        #check if it matched a word and increment score
+
+  def end_game(self, winner=None):
+    if winner:
+      scores = self.calculate_scores()
+
+      self.parent.award_points(winner, scores[None])
+      self.announce("{} has won by getting {} to say {} and received {} points!"
+        .format(winner.name, winner.target.name, winner.word, scores[None]))
+
+      for player, points in scores.items:
+        if not player:
+          continue
+        self.parent.award_points(player, points)
+        self.announce("{} received {} for coercing non-targets into saying {}."
+          .format(player.name, points, player.word))
+    else:
+      self.announce("The game ended for some reason. Whoops. No points have " +
+        "been awarded.")
+
+    for p in self.players.values():
+      p.word = None
+      p.target = None
+    self.partial_points = {}
+
+    self.state = 'pregame'
+
+  def calculate_scores(self):
+    total_partial = sum(self.partial_points.values())
+    prize_pool = math.ceil(math.sqrt(total_partial))
+    winner_score = max(prize_pool, 1)
+    scores = { None: winner_score }
+    for player, points in self.partial_points.items:
+      scores[player] = min(prize_pool * (points / total_partial), .5 * prize_pool)
+    return scores
 
   def player_join(self, user):
     if user not in self.players:
@@ -50,6 +95,7 @@ class CoercionGame(object):
         self.assign_targets()
         self.assign_words()
         self.inform_players()
+        self.partial_points = { p : 0 for p in self.players.values() }
         self.state = 'running'
         self.announce('The game has now started!')
     else:

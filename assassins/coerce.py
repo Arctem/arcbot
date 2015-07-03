@@ -18,11 +18,12 @@ class Coercion(IRCCommand):
   }
 
   def __init__(self):
-    IRCCommand.__init__(self, 'assassin', self.game_trigger)
+    IRCCommand.__init__(self, 'coerce', self.game_trigger)
 
     #hash of channel to CoercionGame object.
     self.games = {}
     self.triggers['PRIVMSG'] = (9, self.privmsg)
+    self.score = {}
 
   def privmsg(self, prefix, args):
     channel = args[0]
@@ -70,3 +71,7 @@ class Coercion(IRCCommand):
     topics = sorted(self.help.keys())
     return base.format(', '.join(topics[:-1]) + ', and ' + topics[-1])
 
+  def award_points(self, player, points):
+    if player.name not in self.score:
+      self.score[player.name] = 0
+    self.score[player.name] += points
