@@ -17,6 +17,7 @@ from markov import Markov
 import phrase_commands
 from thefucking import TheFucking
 from word_swap import WordSwap
+from assassins.coerce import Coercion
 
 #from markov import Markov
 #from markov import load as load_markov
@@ -42,6 +43,7 @@ class ArcBot(IRCBot):
         self.register(Markov(ArcBot.markov_dat_file))
         self.register(TheFucking())
         self.register(WordSwap())
+        self.register(Coercion())
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
