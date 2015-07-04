@@ -2,7 +2,7 @@ import os
 import random
 import re
 
-from coerce import Coercion
+from assassins.coerce import Coercion
 
 base_dir = os.path.dirname(__file__)
 
