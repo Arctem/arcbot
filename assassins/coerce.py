@@ -66,8 +66,8 @@ class Coercion(IRCCommand):
         self.create_generic_help().format(user))
 
   def create_generic_help(self):
-    base = 'Welcome to Coercion! For more information, specify what you want ' +
-      'help about from the following topics: {}'
+    base = 'Welcome to Coercion! For more information, specify what you ' +\
+      'want help about from the following topics: {}'
     topics = sorted(self.help.keys())
     return base.format(', '.join(topics[:-1]) + ', and ' + topics[-1])
 
