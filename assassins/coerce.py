@@ -30,7 +30,12 @@ class Coercion(IRCCommand):
     args = args[1]
     user = prefix.split('!')[0]
 
-    if channel in self.games:
+    reg = re.compile(r'^{}[:,] {}'.format(self.owner.nick, self.command))
+    trig = bool(reg.match(' '.join(args)))
+
+    if trig:
+      self.game_trigger, user, channel, args)
+    elif channel in self.games:
       self.games[channel].message(user, args)
 
   def game_trigger(self, user, chan, args):
