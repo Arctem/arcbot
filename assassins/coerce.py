@@ -1,6 +1,6 @@
 from ircbot.command import IRCCommand
 
-from coerce_game import CoercionGame
+from assassins.coerce_game import CoercionGame
 
 class Coercion(IRCCommand):
   MIN_PLAYERS = 4
