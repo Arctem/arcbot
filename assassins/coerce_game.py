@@ -2,8 +2,6 @@ import os
 import random
 import re
 
-from assassins.coerce import Coercion
-
 base_dir = os.path.dirname(__file__)
 
 class CoercionGame(object):
@@ -87,9 +85,9 @@ class CoercionGame(object):
 
   def player_start(self, user):
     if self.state == 'pregame':
-      if len(players) < Coercion.MIN_PLAYERS:
+      if len(players) < self.parent.MIN_PLAYERS:
         self.announce('{}: We need at least {} players!'.format(user,
-          Coercion.MIN_PLAYERS))
+          self.parent.MIN_PLAYERS))
       else:
         self.announce('Starting a game with {} players!'.format(len(players)))
         self.assign_targets()
