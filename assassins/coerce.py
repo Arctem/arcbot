@@ -50,7 +50,7 @@ class Coercion(IRCCommand):
     elif cmd == 'start' and not private:
       self.games[chan].player_start(user)
     elif cmd == 'score' and not private:
-      pass
+      self.score(user, chan)
     elif cmd == 'status':
       pass
     else:
@@ -70,6 +70,13 @@ class Coercion(IRCCommand):
       'help about from the following topics: {}'
     topics = sorted(self.help.keys())
     return base.format(', '.join(topics[:-1]) + ', and ' + topics[-1])
+
+  def score(self, user, chan):
+    if user in self.score:
+      self.owner.send_privmsg(chan, '{}: You have {} points.'.format(user,
+        self.score[user]))
+    else:
+      self.owner.send_privmsg(chan, '{}: You have no points.'.format(user))
 
   def award_points(self, player, points):
     if player.name not in self.score:
