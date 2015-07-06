@@ -1,3 +1,5 @@
+import re
+
 from ircbot.command import IRCCommand
 
 from assassins.coerce_game import CoercionGame
@@ -31,16 +33,19 @@ class Coercion(IRCCommand):
     user = prefix.split('!')[0]
 
     reg = re.compile(r'^{}[:,] {}'.format(self.owner.nick, self.command))
-    trig = bool(reg.match(' '.join(args)))
+    trig = bool(reg.match(args))
 
     if trig:
-      self.game_trigger, user, channel, args)
+      self.game_trigger(user, channel, args)
     elif channel in self.games:
-      self.games[channel].message(user, args)
+      self.games[channel].handle_message(user, args)
+    return trig
 
   def game_trigger(self, user, chan, args):
-    cmd = args.split()[0] if args else 'help'
-    args = args.split()[1:] if args else []
+    cmd = args.split()[2] if len(args.split()) > 2 else 'help'
+    args = args.split(None, 3)[3] if len(args.split()) > 3 else []
+    print(cmd)
+    print(args)
 
     private = not chan.startswith('#')
     if not private and chan not in self.games:
@@ -55,7 +60,7 @@ class Coercion(IRCCommand):
     elif cmd == 'start' and not private:
       self.games[chan].player_start(user)
     elif cmd == 'score' and not private:
-      self.score(user, chan)
+      self.show_score(user, chan)
     elif cmd == 'status':
       pass
     else:
@@ -63,8 +68,8 @@ class Coercion(IRCCommand):
         '{}: Please include a command. Did you mean "help"?'.format(user))
 
   def help(self, user, chan, args):
-    topic = args[0]
     if args:
+      topic = args.split()[0]
       self.owner.send_privmsg(chan, '{}: {}'.format(user, self.help_msg[topic]))
     else:
       self.owner.send_privmsg(chan, user + ': ' +
@@ -73,10 +78,10 @@ class Coercion(IRCCommand):
   def create_generic_help(self):
     base = 'Welcome to Coercion! For more information, specify what you ' +\
       'want help about from the following topics: {}'
-    topics = sorted(self.help.keys())
+    topics = sorted(self.help_msg.keys())
     return base.format(', '.join(topics[:-1]) + ', and ' + topics[-1])
 
-  def score(self, user, chan):
+  def show_score(self, user, chan):
     if user in self.score:
       self.owner.send_privmsg(chan, '{}: You have {} points.'.format(user,
         self.score[user]))
