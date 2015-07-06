@@ -63,7 +63,7 @@ class CoercionGame(object):
     self.state = 'pregame'
 
   def calculate_scores(self):
-    total_partial = sum(self.partial_points.values())
+    total_partial = max(sum(self.partial_points.values()), 1)
     prize_pool = math.ceil(math.sqrt(total_partial))
     winner_score = max(prize_pool, 1)
     scores = { None: winner_score }
