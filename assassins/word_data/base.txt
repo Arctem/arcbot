@@ -55,4 +55,4 @@ target
 compiler
 java
 graph
-mad
+\b(?=\w)mad\b(?<=\w)
