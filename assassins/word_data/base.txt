@@ -35,7 +35,6 @@ apple
 google
 el.?cam
 linux
-windows
 freedom
 burrito
 hack
