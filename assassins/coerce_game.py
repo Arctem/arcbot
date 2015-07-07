@@ -24,7 +24,7 @@ class CoercionGame(object):
 
   def handle_message(self, speaker, msg):
     msg = msg.lower()
-    if speaker in self.players and self.state == 'running':
+    if self.state == 'running' and  speaker in self.players and self.players[speaker].target:
       speaker = self.players[speaker]
       for player in self.players.values():
         if player == speaker:
