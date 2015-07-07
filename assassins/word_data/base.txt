@@ -54,7 +54,6 @@ java
 graph
 \b(?=\w)mad\b(?<=\w)
 computer
-mexico
 nmt
 arcbot
 steam
@@ -72,3 +71,14 @@ http
 say
 work
 dildo
+tentacle
+crypto
+cyber
+email
+(simulate|simulation)
+sunlight
+[Hh]amdy
+node
+vidya
+spoo+ky
+doge
