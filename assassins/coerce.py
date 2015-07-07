@@ -62,7 +62,7 @@ class Coercion(IRCCommand):
     elif cmd == 'score' and not private:
       self.show_score(user, chan)
     elif cmd == 'status':
-      pass
+      self.games[chan].player_status(user)
     else:
       self.owner.send_privmsg(chan,
         '{}: Please include a command. Did you mean "help"?'.format(user))

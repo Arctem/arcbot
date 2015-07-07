@@ -86,7 +86,17 @@ class CoercionGame(object):
       self.announce('{} has been removed from the list of waiting players.')
     else: #if game is started
       #TODO: change the target of whoever is hunting this player
-      pass
+      self.announce('{}: You cannot quit while a game is in progress!'.format(user))
+
+  def player_status(self, user):
+    if self.state == 'pregame':
+      self.announce('The game is not in progress at the moment.')
+      self.announce('{} players are signed up for the next game: {}'.format(
+        len(self.players), ', '.join(self.players.keys())))
+    else:
+      self.announce('The game is currently in progress.')
+      self.announce('{} players are playing: {}'.format(len(self.players),
+        ', '.join(self.players.keys())))
 
   def player_start(self, user):
     if self.state == 'pregame':

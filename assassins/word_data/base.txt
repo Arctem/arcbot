@@ -61,3 +61,7 @@ compiler
 java
 graph
 \b(?=\w)mad\b(?<=\w)
+computer
+mexico
+nmt
+arcbot
