@@ -35,7 +35,6 @@ apple
 google
 el.?cam
 linux
-windows
 freedom
 burrito
 hack
@@ -54,7 +53,6 @@ java
 graph
 \b(?=\w)mad\b(?<=\w)
 computer
-mexico
 nmt
 arcbot
 steam
@@ -72,3 +70,15 @@ http
 say
 work
 dildo
+tentacle
+crypto
+cyber
+email
+simulat
+sunlight
+hamdy
+node
+vidya
+spoo+ky
+nerd
+dork
