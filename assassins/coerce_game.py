@@ -133,7 +133,7 @@ class CoercionGame(object):
     used_words = set()
     for player in self.players.keys():
       self.players[player].word = random.choice(list(self.word_list - used_words))
-      used_words.update(self.players[player].word)
+      used_words.update([self.players[player].word])
 
   def inform_players(self):
     for player in self.players.values():
