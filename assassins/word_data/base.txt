@@ -81,3 +81,5 @@ node
 vidya
 spoo+ky
 doge
+nerd
+dork
