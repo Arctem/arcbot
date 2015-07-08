@@ -74,12 +74,11 @@ tentacle
 crypto
 cyber
 email
-(simulate|simulation)
+simulat
 sunlight
-[Hh]amdy
+hamdy
 node
 vidya
 spoo+ky
-doge
 nerd
 dork
