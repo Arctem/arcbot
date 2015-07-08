@@ -83,7 +83,8 @@ class CoercionGame(object):
       self.announce('{}: You are not registered!'.format(user))
     elif self.state == 'pregame':
       del self.players[user]
-      self.announce('{} has been removed from the list of waiting players.')
+      self.announce('{} has been removed from the list of waiting players.'
+        .format(user.))
     else: #if game is started
       #TODO: change the target of whoever is hunting this player
       self.announce('{}: You cannot quit while a game is in progress!'.format(user))
