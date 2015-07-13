@@ -84,7 +84,7 @@ class CoercionGame(object):
     elif self.state == 'pregame':
       del self.players[user]
       self.announce('{} has been removed from the list of waiting players.'
-        .format(user.))
+        .format(user))
     else: #if game is started
       #TODO: change the target of whoever is hunting this player
       self.announce('{}: You cannot quit while a game is in progress!'.format(user))
@@ -98,6 +98,7 @@ class CoercionGame(object):
       self.announce('The game is currently in progress.')
       self.announce('{} players are playing: {}'.format(len(self.players),
         ', '.join(self.players.keys())))
+      self.inform_players(user)
 
   def player_start(self, user):
     if self.state == 'pregame':
@@ -136,8 +137,10 @@ class CoercionGame(object):
       self.players[player].word = random.choice(list(self.word_list - used_words))
       used_words.update([self.players[player].word])
 
-  def inform_players(self):
+  def inform_players(self, p=None):
     for player in self.players.values():
+      if not player.target or (not p and p != player and player.name == p):
+        continue
       self.tell_player(player, "Your target in {} is {}. Get them to say {}."
         .format(self.chan, player.target.name, player.word))
 
