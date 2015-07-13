@@ -26,9 +26,9 @@ class TheFucking(IRCPlugin):
                 elif the[0] == the[0].upper():
                     out[0] = 'Fucking'
                 if fucking == fucking.upper():
-                    out[0] = 'THE'
+                    out[1] = 'THE'
                 elif fucking[0] == fucking[0].upper():
-                    out[0] = 'The'
+                    out[1] = 'The'
                 orig = orig.replace(m, ' '.join(out))
             self.owner.send_privmsg(channel, orig)
             return True
