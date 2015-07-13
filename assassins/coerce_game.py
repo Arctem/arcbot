@@ -139,7 +139,7 @@ class CoercionGame(object):
 
   def inform_players(self, p=None):
     for player in self.players.values():
-      if not player.target or (not p and p != player and player.name == p):
+      if not player.target or (not p and p != player and player.name != p):
         continue
       self.tell_player(player, "Your target in {} is {}. Get them to say {}."
         .format(self.chan, player.target.name, player.word))
