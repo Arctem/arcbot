@@ -42,13 +42,15 @@ class WordSwap(IRCPlugin):
             self.data[tag].append(word)
 
     def get_replacement(self, tagged):
-        possibles = list(filter(lambda tag: len(tag[0]) > 5, tagged))
+        possibles = filter(lambda tag: len(tag[0]) > 5, tagged)
+        possibles = list(filter(lambda tag: tag[1] in self.data, possibles))
         while possibles:
             word, tag = random.choice(possibles)
-            if len(word) < 5 or tag not in self.data:
+            replacements = list(filter(lambda w: w != word, self.data[tag]))
+            if not replacements:
                 possibles.remove((word, tag))
                 continue
-            return word, random.choice(self.data[tag])
+            return word, random.choice(replacements)
         raise NoSwapError("Could not find a word to replace.")
 
     def clean_data(self):
