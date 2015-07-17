@@ -7,6 +7,7 @@ arcbot
 boner
 boob
 burrito
+cat
 chicken
 china
 chris
@@ -20,10 +21,11 @@ crypto
 cyber
 dick
 dildo
+dog
 dork
 dota
 duel
-dwarf
+dwar(f|v)
 el.?cam
 email
 fan.?fic
@@ -33,7 +35,7 @@ fuck
 furry
 future
 game
-google
+googl
 graduat
 graph
 hack
@@ -45,6 +47,7 @@ java
 jesse
 jett
 kansas
+kitt(en|y)
 legalize
 linux
 lunch
@@ -57,6 +60,7 @@ nerd
 nmt
 node
 president
+pupp(y|ies)
 python
 reddit
 res.?life
@@ -72,7 +76,7 @@ shit
 simulat
 socorro
 space
-spoo+ky
+spoo+k
 steam
 sunlight
 target
