@@ -52,6 +52,10 @@ def submit(link, client, subreddit='WordsNShit'):
     r = client.post(base + r'api/submit', data=payload)
     j = r.json()
     print(j)
+    for error in j['json']['errors']:
+        if error[0] == 'ALREADY_SUB':
+            return False
+    return True
 
 def validate_captcha(client):
     r = client.get(base + r'api/needs_captcha.json')
@@ -69,9 +73,12 @@ def validate_captcha(client):
 def main():
     client = login()
 
-    link = choose_link()
-    print(link)
-    submit(link, client)
+    while True:
+        link = choose_link()
+        print(link)
+        if submit(link, client):
+            #quit if successfully submitted
+            break
 
 if __name__ == '__main__':
     main()
