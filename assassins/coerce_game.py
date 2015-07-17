@@ -81,7 +81,7 @@ class CoercionGame(object):
   def player_quit(self, user):
     if user not in self.players:
       self.announce('{}: You are not registered!'.format(user))
-    elif self.state == 'pregame':
+    elif self.state == 'pregame' or not self.players[user].target:
       del self.players[user]
       self.announce('{} has been removed from the list of waiting players.'
         .format(user))
