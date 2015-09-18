@@ -8,9 +8,13 @@ class Karma(IRCPlugin):
     def __init__(self, filename=None):
         IRCPlugin.__init__(self)
 
-        help_msg = {
+        self.help_msg = {
             'enroll': 'Registers you for sending karma.',
-            'top[n] [category]': 'Shows the top n (defaults to 3) karma scores, optionally for category'
+            'top': 'top[n] [category] - Shows the top n (defaults to 3) karma scores, optionally for category',
+            'karma': 'You can award karma by saying someone\'s name and following it with ++, i.e., "arcbot ++"',
+            'karma2': 'Negative karma can be awarded by replacing ++ with --',
+            'karma3': 'Categorical karma can be awarded by specifying a category after the name, i.e.,' +
+                ' "arcbot botness ++"',
         }
 
         self.cooldown_time = 5   # Time user must wait between awarding karma, in minutes
@@ -44,6 +48,18 @@ class Karma(IRCPlugin):
         channel = args[0]
         msg = args[1].split(" ")
         if 'karma' in msg:
+            matches = re.search('^{}[:,] karma help(?: (\w+))?'.format(self.owner.nick), args[1])
+            if matches is not None:
+                if matches.groups()[0] in self.help_msg:
+                    self.owner.send_privmsg(channel,
+                                            "{}: {}".format(self.owner.nick,
+                                                            self.help_msg[matches.groups()[0]]))
+                else:
+                    self.owner.send_privmsg(channel,
+                                            "Available karma help commands: " + 
+                                            ", ".join(self.help_msg.keys()))
+                return 2
+
             if re.match('^{}[:,] karma enroll'.format(self.owner.nick), args[1]):
                 user = prefix.split('!')[0]
                 if user.lower() in self.cooldown:
