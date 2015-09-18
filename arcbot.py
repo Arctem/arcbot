@@ -18,6 +18,7 @@ import phrase_commands
 from thefucking import TheFucking
 from word_swap import WordSwap
 from assassins.coerce import Coercion
+from karma import Karma
 
 #from markov import Markov
 #from markov import load as load_markov
@@ -26,6 +27,7 @@ from assassins.coerce import Coercion
 class ArcBot(IRCBot):
     markov_dat_file = 'markov.botdat'
     links_file = 'links.botdat'
+    karma_file = 'karma.botdat'
 
     def __init__(self):
         IRCBot.__init__(self, 'arcbot',
@@ -44,6 +46,7 @@ class ArcBot(IRCBot):
         self.register(TheFucking())
         self.register(WordSwap())
         self.register(Coercion())
+        self.register(Karma(ArcBot.karma_file))
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
