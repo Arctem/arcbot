@@ -1,4 +1,4 @@
-albuquerque
+albuquerque|abq
 america
 andrew
 anime
@@ -7,12 +7,13 @@ arcbot
 boner
 boob
 burrito
+butt
 cat
 chicken
 china
 chris
 class
-coerce
+coerc
 compile
 computer
 cookie
@@ -32,7 +33,7 @@ fan.?fic
 flan
 freedom
 fuck
-furry
+furr(y|ies)
 future
 game
 googl
@@ -57,7 +58,7 @@ microsoft
 morning
 movie
 nerd
-nmt
+new mexico tech|nmt
 node
 president
 pupp(y|ies)
@@ -82,7 +83,7 @@ sunlight
 target
 tentacle
 tits
-vidya
+vid(eo|ya)
 waffle
 walmart
 window
