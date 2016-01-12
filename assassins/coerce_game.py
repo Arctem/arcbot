@@ -1,7 +1,9 @@
+import datetime
+import math
 import os
 import random
 import re
-import math
+import time
 
 from assassins.coerce_player import CoercionPlayer
 
@@ -13,6 +15,7 @@ class CoercionGame(object):
     self.chan = chan
     self.players = {}
     self.state = 'pregame'
+    self.start_time = None
     self.load_words()
     self.partial_points = {}
 
@@ -61,6 +64,7 @@ class CoercionGame(object):
     self.partial_points = {}
 
     self.state = 'pregame'
+    self.start_time = None
 
   def calculate_scores(self):
     total_partial = max(sum(self.partial_points.values()), 1)
@@ -95,7 +99,7 @@ class CoercionGame(object):
       self.announce('{} players are signed up for the next game: {}'.format(
         len(self.players), ', '.join(self.players.keys())))
     else:
-      self.announce('The game is currently in progress.')
+      self.announce('The game has been in progress for {}.'.format(self.game_duration()))
       self.announce('{} players are playing: {}'.format(len(self.players),
         ', '.join(self.players.keys())))
       self.inform_players(user)
@@ -112,6 +116,7 @@ class CoercionGame(object):
         self.inform_players()
         self.partial_points = { p : 0 for p in self.players.values() }
         self.state = 'running'
+        self.start_time = time.time()
         self.announce('The game has now started!')
     else:
       self.announce('{}: The game is already in progress!'.format(user))
@@ -149,3 +154,6 @@ class CoercionGame(object):
     with open(os.path.join(base_dir, 'word_data/base.txt'), 'r') as base:
       self.word_list.update(base.read().strip().split('\n'))
     #TODO load extra lists based on channel
+
+  def game_duration(self):
+    return str(datetime.timedelta(seconds=int(time.time() - self.start_time)))
