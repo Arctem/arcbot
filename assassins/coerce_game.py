@@ -97,11 +97,18 @@ class CoercionGame(object):
     if self.state == 'pregame':
       self.announce('The game is not in progress at the moment.')
       self.announce('{} players are signed up for the next game: {}'.format(
-        len(self.players), ', '.join(self.players.keys())))
+        len(self.players), ', '.join(sorted(self.players.keys()))))
     else:
       self.announce('The game has been in progress for {}.'.format(self.game_duration()))
-      self.announce('{} players are playing: {}'.format(len(self.players),
-        ', '.join(self.players.keys())))
+      active_players = list(filter(lambda k: self.players[k].target, self.players.keys()))
+      self.announce('{} players are playing: {}'.format(len(active_players),
+        ', '.join(sorted(active_players))))
+
+      future_players = list(filter(lambda k: not self.players[k].target, self.players.keys()))
+      if len(future_players) > 0:
+        self.announce('{} players are signed up for the next game (and are thus valid targets): {}'
+                      .format(len(future_players), ', '.join(sorted(future_players))))
+
       self.inform_players(user)
 
   def player_start(self, user):
