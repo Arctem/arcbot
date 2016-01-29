@@ -4,8 +4,10 @@ andrew
 anime
 apple
 arcbot
+bitch
 boner
 boob
+bug
 burrito
 butt
 cat
@@ -19,6 +21,7 @@ computer
 cookie
 crash
 crypto
+cunt
 cyber
 dick
 dildo
@@ -60,6 +63,8 @@ movie
 nerd
 new mexico tech|nmt
 node
+obama
+perl
 president
 pupp(y|ies)
 python
@@ -80,9 +85,14 @@ space
 spoo+k
 steam
 sunlight
+sword
 target
 tentacle
+tiny
 tits
+truck
+tube
+vagina
 vid(eo|ya)
 waffle
 walmart
