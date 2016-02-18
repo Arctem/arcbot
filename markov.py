@@ -113,7 +113,7 @@ class Markov(IRCCommand):
 
             count = 0
             #Add to the end first.
-            while output[-1] not in self.end or count < 5:
+            while output[-1] not in self.end or count < 25:
                 phrase = (output[-2], output[-1])
                 if phrase in self.forward.keys():
                     output.append(random.choice(self.forward[phrase]))
@@ -125,7 +125,7 @@ class Markov(IRCCommand):
 
             count = 0
             #Add to beginning.
-            while output[0] not in self.start or count < 5:
+            while output[0] not in self.start or count < 25:
                 phrase = (output[0], output[1])
                 if phrase in self.backward.keys():
                     output.insert(0, random.choice(self.backward[phrase]))
