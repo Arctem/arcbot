@@ -5,13 +5,40 @@ import urllib.request as request
 from ircbot.command import IRCCommand
 
 class Link(IRCCommand):
-    link_regex = re.compile(
-        r'^(?:http|ftp)s?://' # http:// or https://
-        r'(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|' #domain...
-        r'localhost|' #localhost...
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})' # ...or ip
-        r'(?::\d+)?' # optional port
-        r'(?:/?|[/?]\S+)$', re.IGNORECASE)
+    link_regex = re.compile(  r"^"
+        # protocol identifier
+        r"(?:(?:https?|ftp)://)"
+        # user:pass authentication
+        r"(?:\S+(?::\S*)?@)?"
+        r"(?:"
+        # IP address exclusion
+        # private & local networks
+        r"(?!(?:10|127)(?:\.\d{1,3}){3})"
+        r"(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})"
+        r"(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})"
+        # IP address dotted notation octets
+        # excludes loopback network 0.0.0.0
+        # excludes reserved space >= 224.0.0.0
+        # excludes network & broacast addresses
+        # (first & last IP address of each class)
+        r"(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])"
+        r"(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}"
+        r"(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))"
+        r"|"
+        # host name
+        r"(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)"
+        # domain name
+        r"(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*"
+        # TLD identifier
+        r"(?:\.(?:[a-z\u00a1-\uffff]{2,}))"
+        # TLD may end with dot
+        r"\.?"
+        r")"
+        # port number
+        r"(?::\d{2,5})?"
+        # resource path
+        r"(?:[/?#]\S*)?"
+        r"$", re.IGNORECASE)
 
     def __init__(self, link_file):
         IRCCommand.__init__(self, 'link', self.link_trigger)
