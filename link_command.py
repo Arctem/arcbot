@@ -85,7 +85,8 @@ class Link(IRCCommand):
         if not Link.link_regex.match(link):
             return "Did not match regex."
         try:
-            req = request.urlopen(link)
+            req = request.Request(link, headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
+            req = request.urlopen(req)
             if req.getcode() // 100 == 2:
                 return True
             else:
