@@ -53,12 +53,15 @@ class Link(IRCCommand):
             if args[0] in self.links:
                 self.owner.send_privmsg(chan, '{}: Link already in database.'
                     .format(user))
-            elif Link.valid_link(args[0]):
-                self.links.append(args[0])
-                self.save()
-                self.owner.send_privmsg(chan, '{}: Link added.'.format(user))
             else:
-                self.owner.send_privmsg(chan, '{}: Invalid link.'.format(user))
+                valid = Link.valid_link(args[0])
+                if valid == True:
+                    self.links.append(args[0])
+                    self.save()
+                    self.owner.send_privmsg(chan, '{}: Link added.'.format(user))
+                else:
+                    self.owner.send_privmsg(chan, '{}: Could not add link: {}'
+                        .format(user, valid))
         else:
             if self.links:
                 self.owner.send_privmsg(chan, '{}: {}'.format(user,
@@ -80,12 +83,13 @@ class Link(IRCCommand):
 
     def valid_link(link):
         if not Link.link_regex.match(link):
-            return False
+            return "Did not match regex."
         try:
             req = request.urlopen(link)
             if req.getcode() // 100 == 2:
                 return True
-        except:
-            return False
-        return False
+            else:
+                return "Return code {}.".format(req.getcode())
+        except Exception as e:
+            return e
 
