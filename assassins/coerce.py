@@ -2,11 +2,9 @@ import re
 
 from ircbot.command import IRCCommand
 
-from assassins.coerce_game import CoercionGame
+import assassins.coerce_controller as coerce_controller
 
 class Coercion(IRCCommand):
-  MIN_PLAYERS = 4
-
   help_msg = {
     'rules' : 'When a round of Coercion starts, you will be assigned a ' +
       'target and a word. The first player who gets their target to say the ' +
@@ -23,9 +21,7 @@ class Coercion(IRCCommand):
     IRCCommand.__init__(self, 'coerce', self.game_trigger)
 
     #hash of channel to CoercionGame object.
-    self.games = {}
     self.triggers['PRIVMSG'] = (9, self.privmsg)
-    self.score = {}
 
   def privmsg(self, prefix, args):
     channel = args[0]
@@ -37,8 +33,10 @@ class Coercion(IRCCommand):
 
     if trig:
       self.game_trigger(user, channel, args)
-    elif channel in self.games:
-      self.games[channel].handle_message(user, args)
+    else:
+      coerce_controller.handle_message(channel, user, args)
+      if coerce_controller.check_game_over(channel):
+        coerce_controller.finish_game(channel, self.owner.send_privmsg)
     return trig
 
   def game_trigger(self, user, chan, args):
@@ -48,21 +46,24 @@ class Coercion(IRCCommand):
     print(args)
 
     private = not chan.startswith('#')
-    if not private and chan not in self.games:
-      self.games[chan] = CoercionGame(self, chan)
 
     if cmd == 'help':
       self.help(user, chan, args)
     elif cmd == 'join' and not private:
-      self.games[chan].player_join(user)
+      coerce_controller.handle_join(chan, user, self.owner.send_privmsg)
     elif cmd == 'quit' and not private:
-      self.games[chan].player_quit(user)
+      coerce_controller.handle_quit(chan, user, self.owner.send_privmsg)
     elif cmd == 'start' and not private:
-      self.games[chan].player_start(user)
+      coerce_controller.start_game(chan, self.owner.send_privmsg)
     elif cmd == 'score' and not private:
-      self.show_score(user, chan)
+      coerce_controller.print_score(chan, user, args, self.owner.send_privmsg)
     elif cmd == 'status':
-      self.games[chan].player_status(user)
+      #self.games[chan].player_status(user)
+      coerce_controller.print_status(chan, user, self.owner.send_privmsg)
+    elif cmd == 'reset' and user == 'arctem':
+      coerce_controller.reset_game(chan)
+    elif cmd == 'end' and user == 'arctem':
+      coerce_controller.finish_game(chan, self.owner.send_privmsg)
     else:
       self.owner.send_privmsg(chan,
         '{}: Please include a command. Did you mean "help"?'.format(user))

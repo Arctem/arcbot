@@ -3,6 +3,7 @@ syntax:glob
 *.pyc
 *~
 *botdat
+*db
 #*
 arc_pass.txt
 captcha.png

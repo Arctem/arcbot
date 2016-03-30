@@ -10,6 +10,7 @@ except:
 from ircbot.ircbot import IRCBot
 from ircbot.help import Help
 from ircbot.user_tracker import UserTracker
+from ircbot import storage
 
 from karst import Karst
 from link_command import Link
@@ -19,9 +20,7 @@ from thefucking import TheFucking
 from word_swap import WordSwap
 from assassins.coerce import Coercion
 
-#from markov import Markov
-#from markov import load as load_markov
-
+storage.initialize('sqlite:///coerce.db')
 
 class ArcBot(IRCBot):
     markov_dat_file = 'markov.botdat'
@@ -47,11 +46,8 @@ class ArcBot(IRCBot):
         for cmd in phrase_commands.get_phrase_commands():
             self.register(cmd)
 
-
-
     def start(self):
         pass
-
 
 def main(args = None):
     arcbot = ArcBot()
