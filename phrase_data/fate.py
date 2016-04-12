@@ -18,23 +18,23 @@ data = {
         'weapon_user' : ['battle axe', 'spear', 'shield', 'katana', 'club', 'fist', 'large rock', 'rubber chicken', 'greatsword', 'nunchucks', 'claymore', 'impressive genitalia'],
 
         #For battle
-        'start' : ['that {initiated} at {Username}[name]'],
-        'fight' : ['{Username}[name] {user_atk}, but the {creature}[enemy] {enemy_react}', 'the {creature}[enemy] {enemy_atk} and {user_react}', 'a nearby {creature} interfered, and {damaged} {Username}[name]\'s {user_body}'],
+        'start' : ['that {initiated} at {gen/Username}'],
+        'fight' : ['{gen/Username} {user_atk}, but the {creature}[enemy] {enemy_react}', 'the {creature}[enemy] {enemy_atk} and {user_react}', 'a nearby {creature} interfered, and {damaged} {gen/Username}\'s {user_body}'],
         'morefight' : [', then {fight}'],
         'user_atk' : ['swung their {weapon_user}[user_wep]', 'dove towards the {creature}[enemy] in a daring attack'],
-        'enemy_atk' : ['pushed {Username}[name] towards {hazard_any}', 'attacked with its {weapon_enemy}[enemy_wep]'],
-        'user_react' : ['{Username}[name] screamed in pain', '{Username}[name]\'s {user_body} was {damaged}', '{Username}[name] narrowly avoided being {damaged}{morefight}', '{Username}[name] blocked with their {weapon_user}[user_wep], which was damaged beyond repair{morefight}'],
-        'enemy_react' : ['dodged the mighty blow{morefight}', 'blocked the strike with its {weapon_enemy}[enemy_wep]{morefight}', 'let {Username}\'s {weapon_user}[user_wep] glance harmlessly off its {enemy_body}{morefight}', 'turned the attack back on {Username}[name], and {user_react}'],
+        'enemy_atk' : ['pushed {gen/Username} towards {hazard_any}', 'attacked with its {weapon_enemy}[enemy_wep]'],
+        'user_react' : ['{gen/Username} screamed in pain', '{gen/Username}\'s {user_body} was {damaged}', '{gen/Username} narrowly avoided being {damaged}{morefight}', '{gen/Username} blocked with their {weapon_user}[user_wep], which was damaged beyond repair{morefight}'],
+        'enemy_react' : ['dodged the mighty blow{morefight}', 'blocked the strike with its {weapon_enemy}[enemy_wep]{morefight}', 'let {gen/Username}\'s {weapon_user}[user_wep] glance harmlessly off its {enemy_body}{morefight}', 'turned the attack back on {gen/Username}, and {user_react}'],
 
         #For death
         'life' : ['life-blood', 'will to live', 'soul', 'energy', 'grip on reality'],
         'fading' : ['fading', 'slipping away', 'flowing out of them', 'vanishing'],
         'celebrated' : ['laughed', 'looked on hungrily', 'prepared to feast', 'hunted for its next victim'],
 
-        'opening' : ['Whilst wandering through {location}, {Username}[name]'],
+        'opening' : ['Whilst wandering through {location}, {gen/Username}'],
         'event' : ['came across a {enemy_mod} {creature}[enemy]', 'was set upon by a {enemy_mod} {creature}[enemy]'],
         'battle' : ['{start}! {fight}'],
-        'death' : ['{Username}[name] felt their {life} {fading} as the {creature}[enemy] {celebrated}', '{Username}[name]\'s broken corpse tumbled into {hazard_any}'],
+        'death' : ['{gen/Username} felt their {life} {fading} as the {creature}[enemy] {celebrated}', '{gen/Username}\'s broken corpse tumbled into {hazard_any}'],
         #'death' : ['that {damaged} him with its {weapon_enemy}[enemy_wep]!', 'and fled mindlessly into {hazard_any}, spelling his end.'],
     },
 }

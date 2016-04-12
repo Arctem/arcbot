@@ -5,7 +5,7 @@ data = {
         'adverb' : ['wistfully', 'lustfully', 'fruitfully', 'nakedly', 'quickly', 'hungrily'],
         'adjective' : ['intelligent', 'incredible', 'strange', 'dragon', 'sexy', 'naked', 'pointy', 'sharp', 'moist', 'based', 'foxy', 'tight', 'wet', 'slick', 'flaccid', 'erect', 'smooth'],
         
-        'nick' : ['{username}', '{adjective} {nick}', '{nick} von {nick}', 'Honey-{nick}', 'sugar-{nick}', 'dirty {nick}', 'sex-{nick}', '{Nick} Master',  '{nick}-face', 'sexy', 'smurf', 'Pokemon Master', 'baby', 'bunny', 'kitten', 'waifu', '{adjective} whore', 'slut'],
+        'nick' : ['{gen/username}', '{adjective} {nick}', '{nick} von {nick}', 'Honey-{nick}', 'sugar-{nick}', 'dirty {nick}', 'sex-{nick}', '{Nick} Master',  '{nick}-face', 'sexy', 'smurf', 'Pokemon Master', 'baby', 'bunny', 'kitten', 'waifu', '{adjective} whore', 'slut'],
         'action' : ['{adverb} {action}']*8 + ['tickle', 'shove a potato in', 'shove a {thing} in', 'cook', 'eat', 'fondle', 'stare {adverb} at', 'strip', 'ravage', 'whip', 'flog', 'spank', 'bite', 'nip', 'yiff', 'have an {adjective} conversation with', 'suckle', 'nuzzle', 'Shrek', 'wreck', 'devour', 'tongue', 'diddle', 'twiddle', 'caress', 'flick', 'pinch', 'squeeze', 'dildo', 'sniff', 'headbutt', 'smurf', 'shock', 'penetrate', 'quiz', 'fuck', 'pope', 'dingle'],
         'thing' : ['{adjective} {thing}']*5 + ['{gen/karst}', 'penis', 'vagina', 'face', 'monkey', 'butt', 'tits', 'murrhole', 'potato', 'nipple', 'balls', 'pussy', 'dick', 'crotch area', 'nethers', 'no-no zone', 'special place', 'boobs', 'titties', 'love pillow', 'waifu', 'man-meat', 'yiffstick', 'cherry'],
         'time' : ['late {time}', 'morning', 'night', 'evening', 'dusk', 'afternoon', 'class'],

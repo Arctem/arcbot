@@ -6,7 +6,7 @@ data = {
         'protaganist' : ['{Name}', '{Name} and {Name}', '{Formal_title} {Name}'],
         'protag_group_single' : ['The Gang', 'Everyone'],
         'protag_group_plural' : ['The Guys', 'The Girls', 'We'],
-        'name' : ['{Username}', 'Alien', 'Andrew', 'arcbot', 'Ben', 'Benji',
+        'name' : ['{gen/Username}', 'Alien', 'Andrew', 'arcbot', 'Ben', 'Benji',
             'Celine', 'Chase', 'Chris', 'Elliot', 'Jett', 'Flannery', 'Ian',
             'Jesse', 'Matt', 'Nico', 'Niko', 'Predator', 'Paul Blart', 'Rob',
             'Russell', 'Sarah', 'Jake', 'Stalin', 'Tyler Perry'],

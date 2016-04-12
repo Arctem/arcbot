@@ -1,24 +1,17 @@
-import imp, phrase_data
-
 from ircbot.command import IRCCommand
 
 import phrase_maker.phrase_maker as phrase_maker
 
+import phrase_data
+
+PHRASES = ['cah', 'clickbait', 'cyber', 'dnd', 'fate', 'how', 'loot', 'movie', 'name']
 
 def get_phrase_commands():
     commands = []
-    mods = phrase_data.modules
 
-    for mod_file in mods:
-        if '__init__' in mod_file:
-            continue
-        else:
-            mod = imp.load_source('test', mod_file)
-            phrase_maker.load_module(mod)
-
-            mod_name = mod_file.split('/')[-1].rsplit('.', 1)[0]
-            
-            commands.append(PhraseCommand(mod_name))
+    for name in PHRASES
+        phrase_maker.load_module(phrase_maker.modules[name])
+        commands.append(PhraseCommand(name))
     return commands
 
 

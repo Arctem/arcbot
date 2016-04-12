@@ -32,7 +32,7 @@ data = {
             'Albert Einstein', 'Stalin'],
         'current_celebrity' : ['Jack Black', 'Obama', 'Bill Murray',
             'Hannah Montana', 'Mittens the Cat', 'Hamdy', '{gen/karst}',
-            '{Username}'],
+            '{gen/Username}'],
 
         'evidence' : ['video', 'website'],
         'the_truth' : ['the truth'], #need better name for this category

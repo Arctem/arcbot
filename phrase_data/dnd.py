@@ -2,10 +2,10 @@ data = {
   'dnd': {
         'template' : ['{opening} {middle} {end}'],
 
-        'char' : ['{Name/template}', '{Title} {Name}', '{Name}{name}',
+        'char' : ['{name/Template}', '{Title} {Name}', '{Name}{name}',
             '{Name} {Name}', '{Name}{epithet}'],
         'name' : ['{gen/vowel}{name}', '{gen/consonant}{name}',
-            '{name}{gen/vowel}', '{name}{gen/consonant}']*6 + ['{username}',
+            '{name}{gen/vowel}', '{name}{gen/consonant}']*6 + ['{gen/username}',
             '{gen/karst}', 'fish', 'thor', 'aztec', 'boros', 'beau', 'nyx',
             'cyka', 'dagon'],
         'title' : ['Lieutenant', 'Lord', 'Sergeant', 'Colonel', 'Overlord',
@@ -70,7 +70,7 @@ data = {
         'god' : ['Pelor', 'Asmodeus', 'Dagon', 'Cthulhu', 'Nektor', 'Nyctasha',
             'Atropos', 'Chadde', 'Voldemort', 'Your Mom', 'Azathoth',
             'Shub-Niggurath', 'Yog-Sothoth', 'Nyarlathotep', 'Yig',
-            'Mordiggian', 'Eul', 'Hammond', '{Gen/karst}'],
+            'Mordiggian', 'Eul', 'Hammond', '{gen/Karst}'],
         'relic' : ['the {Adjective} {Thing}', "{God}'s {Thing}",
             'the {Thing} of {Adjective} {Place}', '{God}\'s {Body_part}'],
         'number' : ['two', 'three', 'four', 'countless', 'many'],
