@@ -148,6 +148,7 @@ def handle_quit(game, name, print_func=print, s=None):
 @load_game
 def handle_message(game, speaker, msg, s=None):
   speaker = get_player(speaker, s=s)
+  msg = msg.lower()
   if game.state == 'running' and speaker:
     if s.query(CoercePlayerGame).filter_by(game = game, player = speaker).one_or_none():
       for cpg in s.query(CoercePlayerGame).filter(CoercePlayerGame.game == game, CoercePlayerGame.player != speaker, CoercePlayerGame.word != None):

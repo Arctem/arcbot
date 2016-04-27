@@ -9,8 +9,7 @@ PHRASES = ['cah', 'clickbait', 'cyber', 'dnd', 'fate', 'how', 'loot', 'movie', '
 def get_phrase_commands():
     commands = []
 
-    for name in PHRASES
-        phrase_maker.load_module(phrase_maker.modules[name])
+    for name in PHRASES:
         commands.append(PhraseCommand(name))
     return commands
 
