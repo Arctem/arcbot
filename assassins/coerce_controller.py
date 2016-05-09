@@ -164,6 +164,7 @@ def reset_game(game, s=None):
   game.state = 'pregame'
   game.start_time = None
   for cpg in game.coerce_player_games:
+    s.query(CoercePartialPoint).filter_by(coerce_player_game=cpg).delete()
     cpg.target = None
     cpg.word = None
     cpg.wins = False
