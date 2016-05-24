@@ -1,5 +1,5 @@
 data = {
-  'loot' : {
+    'loot' : {
         'template' : ['{opening}, {encounter}'],
 
         'opening' : ['While {adventuring} {place}'],
