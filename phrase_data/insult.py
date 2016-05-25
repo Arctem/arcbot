@@ -27,6 +27,11 @@ data = {
         'bad_object' : ['dung beetle', 'dick', '{bad_object}-face', 'butt', 'degenerate', 'toad', 'coward', 'rapscallion', 'ruffian', 'mud'],
         'bad_objects' : ['locusts', 'dust', 'dicks', 'guts'],
 
+        'adjective' : ['{good_adjective}', '{bad_adjective}', '{neutral_adjective}'],
+        'bad_adjective' : ['slimey'],
+        'good_adjective' : [],
+        'neutral_adjective' : [],
+
         'delicacy' : ['porn', 'wine'],
 
         'equate_to' : ['be', 'turn into', 'become not but'],
