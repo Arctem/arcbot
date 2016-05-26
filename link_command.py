@@ -50,7 +50,17 @@ class Link(IRCCommand):
         print(args)
         if args:
             args = args.split()
-            if args[0] in self.links:
+            if args[0] in ['delete', 'remove']:
+                if user.lower() == 'arctem':
+                    if args[1] in self.links:
+                        self.links.remove(args[1])
+                        self.save()
+                        self.owner.send_privmsg(chan, '{}: Link {}d.'.format(user, args[0]))
+                    else:
+                        self.owner.send_privmsg(chan, '{}: Could not find {} in links.'.format(user, args[1]))
+                else:
+                    self.owner.send_privmsg(chan, '{}: You do not have permission to {} links.'.format(user, args[0]))
+            elif args[0] in self.links:
                 self.owner.send_privmsg(chan, '{}: Link already in database.'
                     .format(user))
             else:
