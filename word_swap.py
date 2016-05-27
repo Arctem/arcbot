@@ -2,36 +2,29 @@ import nltk
 import random
 
 from ircbot.plugin import IRCPlugin
+from ircbot.events import sendmessage, debugout
 
 class WordSwap(IRCPlugin):
     def __init__(self):
-        IRCPlugin.__init__(self)
+        super(WordSwap, self).__init__()
 
-        self.triggers['PRIVMSG'] = (0, self.privmsg)
         self.clean_data()
 
-    def privmsg(self, prefix, args):
-        channel = args.pop(0)
-        user = prefix.split('!')[0]
-
-        phrase = nltk.word_tokenize(args[0])
+    def generalmessage(self, user, channel, args):
+        phrase = nltk.word_tokenize(args)
         tagged = nltk.pos_tag(phrase)
 
         if random.randint(0, self.count) > 50 and len(phrase) > 10:
             try:
                 orig_word, new_word = self.get_replacement(tagged)
                 new_phrase = args[0].replace(orig_word, new_word)
-                self.owner.send_privmsg(channel, new_phrase)
+                self.fire(sendmessage(channel, new_phrase))
                 self.clean_data()
-                return True
             except NoSwapError:
-                print("Could not swap {}.".format(tagged))
-                return False
+                self.fire(debugout("Could not swap {}.".format(tagged)))
         else:
             self.add_data(tagged)
             self.count += 1
-
-        return False
 
     def add_data(self, tagged):
         for word, tag in tagged:

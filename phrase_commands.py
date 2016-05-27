@@ -1,4 +1,5 @@
 from ircbot.command import IRCCommand
+from ircbot.events import sendmessage
 
 import phrase_maker.phrase_maker as phrase_maker
 
@@ -16,9 +17,9 @@ def get_phrase_commands():
 
 class PhraseCommand(IRCCommand):
     def __init__(self, phrase):
-        def fun(user, chan, args):
-            response = phrase_maker.make(self.phrase, user)
-            self.owner.send_privmsg(chan, response)
-
-        IRCCommand.__init__(self, phrase, fun)
+        super(PhraseCommand, self).__init__(phrase, fun)
         self.phrase = phrase
+
+    def fun(user, chan, args):
+        response = phrase_maker.make(self.phrase, user.nick)
+        self.fire(sendmessage(chan, response))

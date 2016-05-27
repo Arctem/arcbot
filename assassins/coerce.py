@@ -1,6 +1,7 @@
 import re
 
 from ircbot.command import IRCCommand
+from ircbot.events import sendmessage
 
 import assassins.coerce_controller as coerce_controller
 
@@ -18,63 +19,54 @@ class Coercion(IRCCommand):
   }
 
   def __init__(self):
-    IRCCommand.__init__(self, 'coerce', self.game_trigger)
+    super(Coercion, self).__init__('coerce', self.game_trigger)
 
-    #hash of channel to CoercionGame object.
-    self.triggers['PRIVMSG'] = (9, self.privmsg)
+  def directmessage(self, user, channel, args):
+      self.generalmessage(user, channel, args)
 
-  def privmsg(self, prefix, args):
-    channel = args[0]
-    args = args[1]
-    user = prefix.split('!')[0]
-
-    reg = re.compile(r'^{}[:,] {}'.format(self.owner.nick, self.command))
-    trig = bool(reg.match(args))
-
-    if trig:
-      self.game_trigger(user, channel, args)
-    else:
-      coerce_controller.handle_message(channel, user, args)
-      if coerce_controller.check_game_over(channel):
-        coerce_controller.finish_game(channel, self.owner.send_privmsg)
-    return trig
+  def generalmessage(self, user, channel, args):
+    coerce_controller.handle_message(channel, user.nick, args)
+    if coerce_controller.check_game_over(channel):
+      coerce_controller.finish_game(channel, self.send_func)
 
   def game_trigger(self, user, chan, args):
     cmd = args.split()[2] if len(args.split()) > 2 else 'help'
     args = args.split(None, 3)[3] if len(args.split()) > 3 else []
-    print(cmd)
-    print(args)
+    user = user.nick
 
     private = not chan.startswith('#')
 
     if cmd == 'help':
       self.help(user, chan, args)
     elif cmd == 'join' and not private:
-      coerce_controller.handle_join(chan, user, self.owner.send_privmsg)
+      coerce_controller.handle_join(chan, user, self.send_func)
     elif cmd == 'quit' and not private:
-      coerce_controller.handle_quit(chan, user, self.owner.send_privmsg)
+      coerce_controller.handle_quit(chan, user, self.send_func)
     elif cmd == 'start' and not private:
-      coerce_controller.start_game(chan, self.owner.send_privmsg)
+      coerce_controller.start_game(chan, self.send_func)
     elif cmd == 'score' and not private:
-      coerce_controller.print_score(chan, user, args, self.owner.send_privmsg)
+      coerce_controller.print_score(chan, user, args, self.send_func)
     elif cmd == 'status':
       #self.games[chan].player_status(user)
-      coerce_controller.print_status(chan, user, self.owner.send_privmsg)
+      coerce_controller.print_status(chan, user, self.send_func)
     elif cmd == 'reset' and user == 'arctem':
       coerce_controller.reset_game(chan)
     elif cmd == 'end' and user == 'arctem':
-      coerce_controller.finish_game(chan, self.owner.send_privmsg)
+      coerce_controller.finish_game(chan, self.send_func)
     else:
-      self.owner.send_privmsg(chan,
-        '{}: Please include a command. Did you mean "help"?'.format(user))
+      self.fire(sendmessage(chan,
+        '{}: Please include a command. Did you mean "help"?'.format(user)))
+
+  def send_func(self, chan, msg):
+    self.fire(sendmessage(chan, msg))
 
   def help(self, user, chan, args):
     if args:
       topic = args.split()[0]
-      self.owner.send_privmsg(chan, '{}: {}'.format(user, self.help_msg[topic]))
+      self.fire(sendmessage(chan, '{}: {}'.format(user, self.help_msg[topic])))
     else:
-      self.owner.send_privmsg(chan, user + ': ' +
-        self.create_generic_help().format(user))
+      self.fire(sendmessage(chan, user + ': ' +
+        self.create_generic_help().format(user)))
 
   def create_generic_help(self):
     base = 'Welcome to Coercion! For more information, specify what you ' +\
@@ -84,10 +76,10 @@ class Coercion(IRCCommand):
 
   def show_score(self, user, chan):
     if user in self.score:
-      self.owner.send_privmsg(chan, '{}: You have {} points.'.format(user,
-        self.score[user]))
+      self.fire(sendmessage(chan, '{}: You have {} points.'.format(user,
+        self.score[user])))
     else:
-      self.owner.send_privmsg(chan, '{}: You have no points.'.format(user))
+      self.fire(sendmessage(chan, '{}: You have no points.'.format(user)))
 
   def award_points(self, player, points):
     if player.name not in self.score:

@@ -1,19 +1,15 @@
 import re
 
 from ircbot.plugin import IRCPlugin
+from ircbot.events import sendmessage
 
 class TheFucking(IRCPlugin):
     reg = re.compile(r'[tT][hH][eE] [fF][uU][cC][kK][iI][nN][gG]')
 
     def __init__(self):
-        IRCPlugin.__init__(self)
-        self.triggers['PRIVMSG'] = (0, self.privmsg)
+        super(TheFucking, self).__init__()
 
-    def privmsg(self, prefix, args):
-        channel = args.pop(0)
-        user = prefix.split('!')[0]
-
-        orig = args[0]
+    def generalmessage(self, user, channel, orig):
         matches = self.reg.findall(orig)
         if not matches:
             return False
@@ -34,6 +30,4 @@ class TheFucking(IRCPlugin):
                 else:
                     out[1] = ('t' if fucking[0] is 'f' else 'T') + the[1:]
                 orig = orig.replace(m, ' '.join(out))
-            self.owner.send_privmsg(channel, orig)
-            return True
-
+            self.fire(sendmessage(channel, orig))

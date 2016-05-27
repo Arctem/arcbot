@@ -3,6 +3,7 @@ import re
 import urllib.request as request
 
 from ircbot.command import IRCCommand
+from ircbot.events import sendmessage
 
 class Link(IRCCommand):
     link_regex = re.compile(  r"^"
@@ -41,13 +42,13 @@ class Link(IRCCommand):
         r"$", re.IGNORECASE)
 
     def __init__(self, link_file):
-        IRCCommand.__init__(self, 'link', self.link_trigger)
+        super(Link, self).__init__('link', self.link_trigger)
 
         self.link_file = link_file
         self.load()
 
     def link_trigger(self, user, chan, args):
-        print(args)
+        user = user.nick
         if args:
             args = args.split()
             if args[0] in ['delete', 'remove']:
@@ -55,30 +56,30 @@ class Link(IRCCommand):
                     if args[1] in self.links:
                         self.links.remove(args[1])
                         self.save()
-                        self.owner.send_privmsg(chan, '{}: Link {}d.'.format(user, args[0]))
+                        self.fire(sendmessage(chan, '{}: Link {}d.'.format(user, args[0])))
                     else:
-                        self.owner.send_privmsg(chan, '{}: Could not find {} in links.'.format(user, args[1]))
+                        self.fire(sendmessage(chan, '{}: Could not find {} in links.'.format(user, args[1])))
                 else:
-                    self.owner.send_privmsg(chan, '{}: You do not have permission to {} links.'.format(user, args[0]))
+                    self.fire(sendmessage(chan, '{}: You do not have permission to {} links.'.format(user, args[0])))
             elif args[0] in self.links:
-                self.owner.send_privmsg(chan, '{}: Link already in database.'
-                    .format(user))
+                self.fire(sendmessage(chan, '{}: Link already in database.'
+                    .format(user)))
             else:
                 valid = Link.valid_link(args[0])
                 if valid == True:
                     self.links.append(args[0])
                     self.save()
-                    self.owner.send_privmsg(chan, '{}: Link added.'.format(user))
+                    self.fire(sendmessage(chan, '{}: Link added.'.format(user)))
                 else:
-                    self.owner.send_privmsg(chan, '{}: Could not add link: {}'
-                        .format(user, valid))
+                    self.fire(sendmessage(chan, '{}: Could not add link: {}'
+                        .format(user, valid)))
         else:
             if self.links:
-                self.owner.send_privmsg(chan, '{}: {}'.format(user,
-                    random.choice(self.links)))
+                self.fire(sendmessage(chan, '{}: {}'.format(user,
+                    random.choice(self.links))))
             else:
-                self.owner.send_privmsg(chan, '{}: No links available.'
-                    .format(user))
+                self.fire(sendmessage(chan, '{}: No links available.'
+                    .format(user)))
 
     def load(self):
         try:
@@ -103,4 +104,3 @@ class Link(IRCCommand):
                 return "Return code {}.".format(req.getcode())
         except Exception as e:
             return e
-

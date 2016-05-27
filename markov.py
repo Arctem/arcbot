@@ -4,10 +4,11 @@ import pickle
 import re
 
 from ircbot.command import IRCCommand
+from ircbot.events import sendmessage, debugalert, debugout
 
 class Markov(IRCCommand):
     def __init__(self, filename = None):
-        IRCCommand.__init__(self, 'markov', None)
+        super(Markov, self).__init__('markov', self.make_output)
         self.filename = filename
         self.forward = {}
         self.backward = {}
@@ -15,30 +16,18 @@ class Markov(IRCCommand):
         self.end = []
         self.min_length = 5
 
-        self.triggers['PRIVMSG'] = (9, self.privmsg)
-
         if self.filename:
             self.load()
 
-    def privmsg(self, prefix, args):
-        channel = args[0]
-        args = args[1]
-        user = prefix.split('!')[0]
-
-        reg = re.compile('^{}[:,] markov'.format(self.owner.nick))
-        trig = bool(reg.match(args))
-
-        if trig:
-            msg = self.get_string(user, args.split()[2:] or None)
-            self.owner.send_privmsg(channel, msg)
-
-        elif len(args.split()) > self.min_length and\
-                self.owner.nick not in args.split()[0]:
+    def generalmessage(self, user, chan, args):
+        if len(args.split()) > self.min_length:
             self.add_string(args)
             if self.filename:
                 self.save()
 
-        return trig
+    def make_output(self, user, chan, args):
+        msg = self.get_string(user.nick, args.split() or None)
+        self.fire(sendmessage(chan, msg))
 
     def save(self):
         data = [self.forward, self.backward, self.start, self.end]
@@ -51,19 +40,19 @@ class Markov(IRCCommand):
                 data = pickle.load(load_file)
             self.forward, self.backward, self.start, self.end = data
         except FileNotFoundError:
-            print(' Could not load markov file {}.'.format(self.filename))
+            self.fire(debugalert(('Could not load markov file {}.'.format(self.filename))))
 
     def add_string(self, string):
         if type(string) is str:
             string = string.split()
         if len(string) < self.min_length:
-            print(' Avoided adding {}-word string to markov data.'.format(len(string)))
+            self.fire(debugout('Avoided adding {}-word string to markov data.'.format(len(string))))
             return
 
         for i in range(len(string) - 2):
             #Avoid infinite loops.
             if string[i] == string[i + 1] == string[i + 2]:
-                print(' Skipped adding repeated word {} to markov.'.format(string[i]))
+                self.fire(debugout('Skipped adding repeated word {} to markov.'.format(string[i])))
                 continue
 
             #Add to forward list.
