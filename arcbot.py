@@ -10,6 +10,8 @@ from circuits import Debugger
 #     psutil = None
 
 from ircbot.ircbot import IRCBot
+from ircbot.command import IRCCommand
+from ircbot.events import sendmessage
 from ircbot.help import Help
 from ircbot import storage
 
@@ -19,6 +21,7 @@ import phrase_commands
 from thefucking import TheFucking
 from word_swap import WordSwap
 from assassins.coerce import Coercion
+from questions import Questions
 
 storage.initialize('sqlite:///coerce.db')
 
@@ -35,14 +38,16 @@ class ArcBot(IRCBot):
 
     def init(self):
         Help(outro='If the help message is out of date, please ' +
-            'yell at my creator until he fixes it. I don\'t like being out of' +
-            ' date. :(').register(self)
+            'yell at my creator until he fixes it. I don\'t like being out of ' +
+            'date. :(').register(self)
 
         Link(ArcBot.links_file).register(self)
         Markov(ArcBot.markov_dat_file).register(self)
         TheFucking().register(self)
         WordSwap().register(self)
         Coercion().register(self)
+        Questions().register(self)
+        IRCCommand('portfolio', lambda user, chan, args: self.fire(sendmessage(chan, user.nick + ': https://www.youtube.com/watch?v=e3QRTToTLzI'))).register(self)
         for cmd in phrase_commands.get_phrase_commands():
             cmd.register(self)
 
