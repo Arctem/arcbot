@@ -17,9 +17,9 @@ def get_phrase_commands():
 
 class PhraseCommand(IRCCommand):
     def __init__(self, phrase):
-        super(PhraseCommand, self).__init__(phrase, fun)
+        super(PhraseCommand, self).__init__(phrase, self.fun)
         self.phrase = phrase
 
-    def fun(user, chan, args):
+    def fun(self, user, chan, args):
         response = phrase_maker.make(self.phrase, user.nick)
         self.fire(sendmessage(chan, response))

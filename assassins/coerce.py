@@ -30,8 +30,8 @@ class Coercion(IRCCommand):
       coerce_controller.finish_game(channel, self.send_func)
 
   def game_trigger(self, user, chan, args):
-    cmd = args.split()[2] if len(args.split()) > 2 else 'help'
-    args = args.split(None, 3)[3] if len(args.split()) > 3 else []
+    cmd = args.split()[0] if len(args.split()) > 0 else 'help'
+    args = args.split(None, 1)[1] if len(args.split()) > 1 else []
     user = user.nick
 
     private = not chan.startswith('#')
