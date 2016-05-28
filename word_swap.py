@@ -17,7 +17,7 @@ class WordSwap(IRCPlugin):
         if random.randint(0, self.count) > 50 and len(phrase) > 10:
             try:
                 orig_word, new_word = self.get_replacement(tagged)
-                new_phrase = args[0].replace(orig_word, new_word)
+                new_phrase = args.replace(orig_word, new_word)
                 self.fire(sendmessage(channel, new_phrase))
                 self.clean_data()
             except NoSwapError:
