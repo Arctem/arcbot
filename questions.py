@@ -24,7 +24,15 @@ class Questions(IRCPlugin):
         else:
             options = options[1:]
 
-        self.fire(sendmessage(channel, '{}: {}'.format(user.nick, random.choice(options))))
+        if random.randint(1, 500) == 500:
+            if len(options) == 2:
+                choice = 'Both.'
+            else:
+                choice = ' and '.join(random.sample(map(str,options), 2)) + '.'
+        else:
+            choice = random.choice(options)
+
+        self.fire(sendmessage(channel, '{}: {}'.format(user.nick, choice)))
         return True
 
     def eightball(self, user, channel, message):
