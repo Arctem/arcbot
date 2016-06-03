@@ -42,6 +42,6 @@ data = {
 
         'event' : ['orgy', 'parade', 'sacrifice', 'birthday party', 'ceremony', 'wrestling match'],
 
-        'place' : ['Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Time', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh"],
+        'place' : ['Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Tyme', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh"],
     }
 }

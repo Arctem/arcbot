@@ -1,40 +1,51 @@
 data = {
     'insult': {
-        'template' : ['{opening}, {insult}.'],
+        'template' : ['{introduction}, {insult}.', '{insult}.', '{dismissal}, for {direct}.', '{special}'],
 
-        'opening' : ['Oh {title} of {Place}'],
+        'introduction' : ['Oh {title} of {holding}'],
+        'special' : ['{curse} and {curse}.', 'Not even a {bad_profession} could miss that {direct}.'],
 
         'title' : ['{Title_qualifier} {rank}', '{Bad_adjective} {rank}', '{rank}'],
         'title_qualifier' : ['grand', 'misled', 'deranged', 'mad', 'fell'],
-        'rank' : ['Poopsmith', 'Duke', 'King', 'Lord', 'Sycophant', 'Beast'],
+        'rank' : ['Duke', 'King', 'Lord'],
 
-        'place' : ['the {dnd/location}', 'of {bad_objects}'],
+        'dismissal' : ['You are barely worth my notice', 'How dare you enter my presence'],
+
+        'holding' : ['{bad_place}', '{Bad_objects}', "{Bad_person}'s {bad_object,bad_objects}"],
+        'bad_place' : ['the {Bad_adjective} {Terrain}', ],
 
         'insult' : ['{direct}', '{curse}'],
 
         'direct' : ['your {good_object} is naught but a {bad_object}!',
-                    'you are nothing but a {bad_object}!'],
+                    'you are nothing but a {bad_object,bad_profession}!', 'you are no better than {bad_person}'],
 
-        'curse' : ['{emploration} your {good_object} {equate_to} a {bad_object}',
-                   '{emploration} your {good_objects} {equate_to} a {bad_objects}',
+        'curse' : ['{emploration} your {good_object} {become} a {bad_object}',
+                   '{emploration} your {good_objects} {become} {bad_objects}',
                    '{emploration} your {good_object} {bad_transformation}'],
 
         'emploration' : ['may'],
 
         'object' : ['{good_object}', '{bad_object}'],
-        'good_object' : ['firstborn {child}', '{relative}'],
-        'good_objects' : ['children', 'accomplishments', ],
-        'bad_object' : ['dung beetle', 'dick', '{bad_object}-face', 'butt', 'degenerate', 'toad', 'coward', 'rapscallion', 'ruffian', 'mud'],
-        'bad_objects' : ['locusts', 'dust', 'dicks', 'guts'],
+        'good_object' : ['firstborn {child}', '{relative}', 'castle', 'horse'],
+        'good_objects' : ['children', 'accomplishments', 'pants', 'lands'],
+        'bad_object' : ['dung beetle', 'dick', '{bad_object}-face', 'butt', 'degenerate', 'toad', 'coward', 'rapscallion', 'ruffian', 'taint'],
+        'bad_objects' : ['locusts', 'dust', 'dicks', 'refuse', 'gonads', 'mud'],
+
+        'bad_person' : ['Satan', 'Lucifer', 'Hitler', '{Gen/username}'],
+        'bad_profession' : ['hobo', 'leper', 'heathen', 'vagabond', '{bad_adjective} {person}', 'sycophant', 'beast'],
+
+        'person' : ['man', 'woman', 'child', 'boy', 'girl'],
 
         'adjective' : ['{good_adjective}', '{bad_adjective}', '{neutral_adjective}'],
-        'bad_adjective' : ['slimey'],
+        'bad_adjective' : ['slimey', 'rotten', 'barren', 'defiled', 'blind'],
         'good_adjective' : [],
         'neutral_adjective' : [],
 
-        'delicacy' : ['porn', 'wine'],
+        'terrain' : ['Mountain', 'Highlands', 'Peak', 'Pass', 'Plains', 'Valley'],
 
-        'equate_to' : ['be', 'turn into', 'become not but'],
+        'delicacy' : ['porn', 'wine', 'cheese'],
+
+        'become' : ['be', 'turn into', 'become naught but', 'be revealed to be'],
 
         'bad_transformation' : ['crumble to dust {condition}'],
 
