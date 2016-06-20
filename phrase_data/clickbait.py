@@ -12,7 +12,7 @@ data = {
         'list_of_things' : ['{gen/number} {things} that look like {celebrity}.',
             '{gen/number} {topic} tips that any {person} should know!'],
 
-        'amazing_find' : ['This {evidence} will show that you\'ve been' +
+        'amazing_find' : ['This {evidence} will show that you\'ve been ' +
             '{actioning} wrong your entire life!'],
 
         #'stinger' : [],

@@ -3,7 +3,7 @@ data = {
         'template' : ['{premise} {execution}'],
 
         'premise' : ['If we want to {goal} then', "When we reach the {event}, we won't have much time to {goal}:"],
-        'goal' : ['{generic_verb,person_verb} {target_person,target_people}', '{generic_verb,object_verb} {target_object}', 'prove that {target_person} is {secret_identity}', '{enter_verb,generic_verb} {place}'],
+        'goal' : ['{generic_verb,person_verb} {target_person,target_people}', '{generic_verb,object_verb} {target_object}', 'prove that {target_person} is {secret_identity}', '{enter_verb,generic_verb} {place}', 'get {target_person} a job as a {profession}'],
 
         'generic_verb' : ['pee on', 'defenestrate', 'photograph', 'draw {drawings} on'],
         'person_verb' : ['kidnap', 'kill', 'mug', 'mildly annoy'],
@@ -22,6 +22,8 @@ data = {
         'famous_person' : ['Obama', 'Trump', 'John Cena', 'Steve Buscemi', 'Jan-Michael Vincent', 'Frodo', 'Gandalf', 'Godzilla', 'Hitler', 'your mom', 'Guy Fieri'],
         'irc_member' : ['arcbot', 'Andrew', 'Baer', 'Chris', 'Duncan', 'Elliot', 'Flan', 'Ian', 'Jesse', 'Jett', 'Quartermaster', 'Rob', 'Russell', 'Spencer'],
         'kidnap_targets' : ['Jan-Michael Vincents', 'children', 'strippers'],
+        'profession_adjective' : ['professional', 'amateur', 'highly-paid', 'child', 'luxury', 'cut-rate', 'internationally-recognized'],
+        'profession' : ['{profession_adjective} {profession}']*3 + ['porn star', 'wrestler', 'astronaut', 'actor', 'model', 'spy', 'author', 'stripper', 'human cannonball'],
 
         'secret_identity' : ['the {the_secret_id}', 'a {a_secret_id}', '{famous_person}'],
         'the_secret_id' : ['Zodiac Killer', 'Batman'],
