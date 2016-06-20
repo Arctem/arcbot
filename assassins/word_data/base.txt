@@ -16,7 +16,7 @@ china
 chris
 class
 coerc
-compile
+compil
 computer
 cookie
 crash
@@ -69,7 +69,6 @@ president
 pupp(y|ies)
 python
 reddit
-res.?life
 russell
 russia
 sandwich
