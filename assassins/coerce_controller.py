@@ -240,6 +240,23 @@ def print_score(channel, user, target, print_func=print, s=None):
   else:
     print_func(channel, "{}: {} has never registered for Coerce.".format(user, target or user))
 
+@needs_session
+def print_top(channel, user, number, print_func=print, s=None):
+  try:
+    number = int(number or 5)
+  except ValueError as e:
+    print_func(channel, "{}: Please give a valid integer.".format(user))
+    return
+
+  query = s.query(CoercePlayer)
+  if number < 0:
+    query = query.order_by(CoercePlayer.score.asc()).limit(-number)
+  else:
+    query = query.order_by(CoercePlayer.score.desc()).limit(number)
+
+  for player in query.all():
+    print_func(channel, "{} has {} points.".format(player.name, player.score))
+
 @load_game
 def check_game_over(game, s=None):
   return bool(s.query(CoercePlayerGame).filter_by(wins = True, game = game).first())

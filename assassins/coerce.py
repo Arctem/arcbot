@@ -46,6 +46,8 @@ class Coercion(IRCCommand):
       coerce_controller.start_game(chan, self.send_func)
     elif cmd == 'score' and not private:
       coerce_controller.print_score(chan, user, args, self.send_func)
+    elif cmd == 'top' and not private:
+      coerce_controller.print_top(chan, user, args, self.send_func)
     elif cmd == 'status':
       #self.games[chan].player_status(user)
       coerce_controller.print_status(chan, user, self.send_func)

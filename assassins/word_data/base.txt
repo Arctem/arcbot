@@ -64,7 +64,7 @@ nerd
 new mexico tech|nmt
 node
 obama
-perl
+pea?rl
 president
 pupp(y|ies)
 python
