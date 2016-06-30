@@ -1,3 +1,6 @@
+a.*z
+a.*b.*c
+\w{16,}
 albuquerque|abq
 america
 andrew
@@ -11,7 +14,7 @@ bug
 burrito
 butt
 cat
-chicken
+chick
 china
 chris
 class
@@ -30,8 +33,9 @@ dork
 dota
 du(a|e)l
 dwar(f|v)
-el.?cam
+el(f|v)
 email
+fall|autumn
 fan.?fic
 flan
 freedom
@@ -39,6 +43,7 @@ fuck
 furr(y|ies)
 future
 game
+german
 googl
 graduat
 graph
@@ -58,6 +63,7 @@ lunch
 \b(?=\w)mad\b(?<=\w)
 mexico
 microsoft
+moon
 morning
 movie
 nerd
@@ -82,18 +88,22 @@ simulat
 socorro
 space
 spoo+k
+spring
 steam
-sunlight
+summer
+sun
 sword
 target
 tentacle
 tiny
 tits
 truck
+trump
 tube
 vagina
 vid(eo|ya)
 waffle
 walmart
 window
+winter
 work
