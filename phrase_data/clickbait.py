@@ -19,7 +19,7 @@ data = {
         'evidence_stinger' : ['this {evidence,person} {shows} {the_truth}.',
             'this {evidence} will {change_state} you!',
             'the answer will {change_state} you!'],
-        'emote_stinger' : ['first you\'ll {emote,be_state}, then you\'ll' +
+        'emote_stinger' : ['first you\'ll {emote,be_state}, then you\'ll ' +
             '{emote,be_state}!', 'You won\'t believe what happens next.'],
 
         'singular_person' : ['this {person}'],

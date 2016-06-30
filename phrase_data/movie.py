@@ -1,5 +1,5 @@
 data = {
-  'movie' : {
+    'movie' : {
         'template' : ['{movie}', '{Homage} {Award} "{movie}": {movie}'],
         'movie' : ['{start}: {subtitle}'],
 

@@ -2,15 +2,17 @@ data = {
     'plan' : {
         'template' : ['{premise} {execution}'],
 
-        'premise' : ['If we want to {goal} then', "When we reach the {event}, we won't have much time to {goal}:"],
-        'goal' : ['{generic_verb,person_verb} {target_person,target_people}', '{generic_verb,object_verb} {target_object}', 'prove that {target_person} is {secret_identity}', '{enter_verb,generic_verb} {place}', 'get {target_person} a job as a {profession}'],
+        'premise' : ['If we want to {goal} then', "When we reach {location}, we won't have much time to {goal}:"],
+        'goal' : ['{generic_verb,person_verb} {target_person,target_people}', '{generic_verb,object_verb} {target_object}', 'prove that {target_person} is {secret_identity}', '{enter_verb,generic_verb} {place}', 'get {target_person} a job as a {profession}', '{defeat} {target_person} at {competition}'],
 
         'generic_verb' : ['pee on', 'defenestrate', 'photograph', 'draw {drawings} on'],
         'person_verb' : ['kidnap', 'kill', 'mug', 'mildly annoy'],
         'object_verb' : ['destroy', 'steal', 'deface'],
         'enter_verb' : ['sneak into', 'get to', 'invade'],
+        'defeat' : ['beat', 'defeat', 'best'],
 
         #TODO: custom things like 'kidnap {target} from the {event}
+        # 'custom' : ['kidnap {target_person} from {location}'],
 
         'drawings' : ['dicks', 'boobs', 'a complex mathematical proof'],
 
@@ -42,8 +44,12 @@ data = {
         'premade_condition' : ['the stars are right', "you're adopted", 'our Kickstarter gets funded', 'the terrorists win', 'jet fuel can melt steel beams', 'the proof is both necessary and sufficient', 'grandma accepts your apology', 'the phasers are set to stun'],
         'actions' : ['fixes the bugs', 'hides the evidence', 'sends the nudes', "can believe it's not butter"],
 
-        'event' : ['orgy', 'parade', 'sacrifice', 'birthday party', 'ceremony', 'wrestling match'],
 
-        'place' : ['Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Tyme', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh"],
+        'competition' : ['the World Series of {Game}', '{game}'],
+        'game' : ['ping pong', 'cricket', 'crochet', 'chess', 'hop-scotch', 'tag'],
+
+        'location' : ['{place}', 'the {event}', "{target_person}'s {event}"],
+        'event' : ['orgy', 'parade', 'sacrifice', 'birthday party', 'ceremony', 'wrestling match'],
+        'place' : ['Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Tyme', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh", 'International Space Station'],
     }
 }
