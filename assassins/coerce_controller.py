@@ -50,40 +50,8 @@ class NotEnoughPlayersException(CoerceException):
 # Decorators
 ##################
 
-#loads a session if needed
-def needs_session(func):
-  def needs_session_wrapper(*args, s=None, **kwargs):
-    if not s:
-      s = db.session()
-    return func(*args, s=s, **kwargs)
-  return needs_session_wrapper
-
-#make sure we commit at the end of this function
-def atomic(func):
-  @needs_session
-  def atomic_wrapper(*args, s=None, **kwargs):
-    if hasattr(func, 'atomic') and func.atomic:
-      return func(*args, s=s, **kwargs)
-
-    try:
-      func.atomic = True
-      retval = func(*args, s=s, **kwargs)
-      s.commit()
-      return retval
-    except CoerceException as e:
-      print(e)
-      s.rollback()
-    except Exception as e:
-      print(e)
-      s.rollback()
-      raise e
-    finally:
-      func.atomic = False
-      s.close()
-  return atomic_wrapper
-
 def load_game(func, argnum=0):
-  @needs_session
+  @db.needs_session
   def load_game_wrapper(*args, s=None, **kwargs):
     if not isinstance(args[argnum], CoerceGame):
       args = list(args)
@@ -96,7 +64,7 @@ def load_game(func, argnum=0):
 # Start of main functions
 ##################
 
-@needs_session
+@db.needs_session
 def get_game(channel, s=None):
   game = s.query(CoerceGame).filter_by(chan = channel).one_or_none()
   if not game:
@@ -104,12 +72,12 @@ def get_game(channel, s=None):
     s.add(game)
   return game
 
-@needs_session
+@db.needs_session
 def get_player(name, s=None):
   player = s.query(CoercePlayer).filter(CoercePlayer.name == name).one_or_none()
   return player
 
-@atomic
+@db.atomic
 @load_game
 def handle_join(game, name, print_func=print, s=None):
   player = get_player(name, s=s)
@@ -124,7 +92,7 @@ def handle_join(game, name, print_func=print, s=None):
   s.add(CoercePlayerGame(player=player, game=game))
   print_func(game.chan, "{} has joined the game.".format(name))
 
-@atomic
+@db.atomic
 @load_game
 def handle_quit(game, name, print_func=print, s=None):
   player = get_player(name, s=s)
@@ -144,7 +112,7 @@ def handle_quit(game, name, print_func=print, s=None):
     print_func(game.chan, "{}: Cannot quit: {}".format(name, error))
     raise PlayerNotInGameException()
 
-@atomic
+@db.atomic
 @load_game
 def handle_message(game, speaker, msg, s=None):
   speaker = get_player(speaker, s=s)
@@ -158,7 +126,7 @@ def handle_message(game, speaker, msg, s=None):
           else:
             s.add(CoercePartialPoint(coerce_player_game=cpg, player=speaker))
 
-@atomic
+@db.atomic
 @load_game
 def reset_game(game, s=None):
   game.state = 'pregame'
@@ -169,7 +137,7 @@ def reset_game(game, s=None):
     cpg.word = None
     cpg.wins = False
 
-@atomic
+@db.atomic
 @load_game
 def start_game(game, print_func=print, s=None):
   if game.state == 'running':
@@ -232,7 +200,7 @@ def print_status(game, user=None, print_func=print, s=None):
   else:
     print_func(game.chan, "I have no clue what is going on. Why is the game state {}?".format(game.state))
 
-@needs_session
+@db.needs_session
 def print_score(channel, user, target, print_func=print, s=None):
   player = get_player(target or user, s=s)
   if player:
@@ -240,7 +208,7 @@ def print_score(channel, user, target, print_func=print, s=None):
   else:
     print_func(channel, "{}: {} has never registered for Coerce.".format(user, target or user))
 
-@needs_session
+@db.needs_session
 def print_top(channel, user, number, print_func=print, s=None):
   try:
     number = int(number or 5)
@@ -261,7 +229,7 @@ def print_top(channel, user, number, print_func=print, s=None):
 def check_game_over(game, s=None):
   return bool(s.query(CoercePlayerGame).filter_by(wins = True, game = game).first())
 
-@atomic
+@db.atomic
 @load_game
 def finish_game(game, print_func=print, s=None):
   scores = calculate_scores(game, s=s)

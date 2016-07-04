@@ -12,6 +12,7 @@ from circuits import Debugger
 from ircbot.ircbot import IRCBot
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
+from ircbot.usertracker import UserTracker, LastMessage
 from ircbot.help import Help
 from ircbot import storage
 
@@ -47,6 +48,8 @@ class ArcBot(IRCBot):
         WordSwap().register(self)
         Coercion().register(self)
         Questions().register(self)
+        UserTracker().register(self)
+        LastMessage().register(self)
         IRCCommand('portfolio', lambda user, chan, args: self.fire(sendmessage(chan, user.nick + ': https://www.youtube.com/watch?v=e3QRTToTLzI'))).register(self)
         IRCCommand('hellodarkness', lambda user, chan, args: self.fire(sendmessage(chan, user.nick + ': https://www.youtube.com/watch?v=4zLfCnGVeL4'))).register(self)
         for cmd in phrase_commands.get_phrase_commands():
