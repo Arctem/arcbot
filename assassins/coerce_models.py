@@ -1,6 +1,5 @@
 from sqlalchemy import Boolean, Column, Integer, Float, String, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
-from sqlalchemy.ext.declarative import declarative_base
 
 from ircbot.storage import Base
 

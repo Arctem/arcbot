@@ -20,6 +20,8 @@ class Markov(IRCCommand):
             self.load()
 
     def generalmessage(self, user, chan, args):
+        if user.bot:
+            return False
         if len(args.split()) > self.min_length:
             self.add_string(args)
             if self.filename:

@@ -11,6 +11,8 @@ class WordSwap(IRCPlugin):
         self.clean_data()
 
     def generalmessage(self, user, channel, args):
+        if user.bot:
+            return False
         phrase = nltk.word_tokenize(args)
         tagged = nltk.pos_tag(phrase)
 

@@ -10,6 +10,8 @@ class TheFucking(IRCPlugin):
         super(TheFucking, self).__init__()
 
     def generalmessage(self, user, channel, orig):
+        if user.bot:
+            return False
         matches = self.reg.findall(orig)
         if not matches:
             return False

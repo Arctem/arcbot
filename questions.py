@@ -12,11 +12,11 @@ class Questions(IRCPlugin):
             self.eightball(user, channel, message)
 
     def choose_one(self, user, channel, message):
-        options = choose_regex.match(message).groups()
+        options = choose_regex.match(message)
         if not options:
             return False
 
-        options = list(options)
+        options = list(options.groups())
 
         if options[0]:
             #exclude the last element of options[0] because it's always blank
