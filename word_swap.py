@@ -16,7 +16,7 @@ class WordSwap(IRCPlugin):
         phrase = nltk.word_tokenize(args)
         tagged = nltk.pos_tag(phrase)
 
-        if random.randint(0, self.count) > 50 and len(phrase) > 10:
+        if random.randint(0, self.count) > 100 and len(phrase) > 10:
             try:
                 orig_word, new_word = self.get_replacement(tagged)
                 new_phrase = args.replace(orig_word, new_word)

@@ -41,9 +41,10 @@ class ArcBot(IRCBot):
                 " https://www.youtube.com/watch?v=L9biyJcBhRs")
 
     def init(self):
-        Help(outro='If the help message is out of date, please ' +
-            'yell at my creator until he fixes it. I don\'t like being out of ' +
-            'date. :(').register(self)
+        Help(intro='The following modules are loaded. To find out more, do ' +
+             '".help <module>."',
+             outro='If you have any questions about me or a module, ' +
+             'please direct them to arctem.').register(self)
 
         Link(ArcBot.links_file).register(self)
         Markov(ArcBot.markov_dat_file).register(self)
@@ -56,8 +57,6 @@ class ArcBot(IRCBot):
         LastMessage().register(self)
         FactoidPlugin().register(self)
         LearnerPlugin().register(self)
-        IRCCommand('portfolio', lambda user, chan, args: self.fire(sendmessage(chan, user.nick + ': https://www.youtube.com/watch?v=e3QRTToTLzI'))).register(self)
-        IRCCommand('hellodarkness', lambda user, chan, args: self.fire(sendmessage(chan, user.nick + ': https://www.youtube.com/watch?v=4zLfCnGVeL4'))).register(self)
         for cmd in phrase_commands.get_phrase_commands():
             cmd.register(self)
 

@@ -57,12 +57,16 @@ data = {
         'weapon' : ['axe', 'hammer', 'dwarf', 'spear'],
 
         'dwarf_epithet' : ['the {Dwarf_noun,Dwarf_actioner}', '{Relative,Apprentice} of {Dwarf_first} {Dwarf_last}'],
-        'dwarf_noun' : ['{dwarf_adjective} {dwarf_noun}', '{weapon}', '{dwarf_valuable}', '{metal}'],
-        'dwarf_adjective' : ['{metal}', 'granite', 'rock', 'stone', 'elder'],
+        'dwarf_noun' : ['{dwarf_adjective} {dwarf_noun}', '{weapon}', '{dwarf_valuable}', '{metal}', 'deep', 'grim'],
+        'dwarf_adjective' : ['{metal}', 'granite', 'rock', 'stone', 'elder', 'dark', 'grim'],
         'dwarf_valuable' : ['oath', 'grudge', 'horde'],
         'dwarf_title' : ['Fist', 'Grom', 'Hammerer', 'Longbeard', '{Metal}breaker', 'Thunderer', 'Quarreller', 'Warden'],
 
         'relative' : ['son', 'daughter', 'dottir', 'heir', 'cousin', 'kin', 'pact-brother', 'pact-sister'],
         'apprentice' : ['first {weapon,dwarf_title}', 'regent', 'protege', 'blessed', 'ward'],
+
+        # DWARVEN PLACES
+        'dwarf_place' : ['the {Dwarf_adjective}{fortress}'],
+        'fortress' : ['fort', 'keep', 'burrow'],
     }
 }
