@@ -36,7 +36,7 @@ class CoercePlayerGame(Base):
   partials = relationship('CoercePartialPoint', back_populates='coerce_player_game')
 
   #UniqueConstraint('player_id', 'game_id')
-    
+
 class CoercePartialPoint(Base):
   __tablename__ = 'coerce_partial_points'
 
@@ -45,4 +45,3 @@ class CoercePartialPoint(Base):
   coerce_player_game = relationship('CoercePlayerGame', foreign_keys=[coerce_player_game_id], back_populates='partials')
   player_id = Column(Integer, ForeignKey('coerce_players.id'))
   player = relationship('CoercePlayer', foreign_keys=[player_id])
-

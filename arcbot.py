@@ -25,6 +25,7 @@ from thefucking import TheFucking
 from word_swap import WordSwap
 from assassins.coerce import Coercion
 from questions import Questions
+from factoid.factoid import FactoidPlugin, LearnerPlugin
 
 storage.initialize('sqlite:///coerce.db')
 
@@ -53,6 +54,8 @@ class ArcBot(IRCBot):
         UserTracker().register(self)
         Admin().register(self)
         LastMessage().register(self)
+        FactoidPlugin().register(self)
+        LearnerPlugin().register(self)
         IRCCommand('portfolio', lambda user, chan, args: self.fire(sendmessage(chan, user.nick + ': https://www.youtube.com/watch?v=e3QRTToTLzI'))).register(self)
         IRCCommand('hellodarkness', lambda user, chan, args: self.fire(sendmessage(chan, user.nick + ': https://www.youtube.com/watch?v=4zLfCnGVeL4'))).register(self)
         for cmd in phrase_commands.get_phrase_commands():
