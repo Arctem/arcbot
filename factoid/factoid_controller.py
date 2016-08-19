@@ -19,3 +19,7 @@ def find_factoid(trigger, channel, s=None):
 @db.needs_session
 def get_factoid(id, s=None):
     return s.query(Factoid).get(id)
+
+@db.atomic
+def delete_factoid(id, s=None):
+    return s.query(Factoid).filter(Factoid.id == id).delete() > 0

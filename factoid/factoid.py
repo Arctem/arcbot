@@ -26,12 +26,38 @@ class FactoidPlugin(IRCCommand):
             else:
                 self.fire(sendmessage(channel, '{} {} {}'.format(factoid.trigger, factoid.verb, factoid.reply)))
 
+    # oh god this method is awful I need to refactor it
     def last_factoid(self, user, channel, args):
-        if self.last:
-            factoid = factoid_controller.get_factoid(self.last)
-            self.fire(sendmessage(channel, '{}: Factoid #{} was set by {} with trigger {}.'.format(user.nick, factoid.id, factoid.creator.base.nick, factoid.trigger)))
+        args = args.split()
+        if len(args) > 0:
+            if len(args) > 1:
+                if user.admin:
+                    cmd = args[0]
+                    id = int(args[1])
+                    if cmd == 'delete':
+                        if factoid_controller.delete_factoid(id):
+                            self.fire(sendmessage(channel, '{}: Deleted factoid #{}.'.format(user.nick, id)))
+                        else:
+                            self.fire(sendmessage(channel, '{}: Could not delete factoid #{}.'.format(user.nick, id)))
+                    else:
+                        self.fire(sendmessage(channel, '{}: Command {} not available.'.format(user.nick, cmd)))
+                else:
+                    self.fire(sendmessage(channel, '{}: You are not an admin.'.format(user.nick)))
+            else:
+                factoid = factoid_controller.get_factoid(int(args[0]))
+                if factoid:
+                    self.print_factoid_info(user, channel, factoid)
+                else:
+                    self.fire(sendmessage(channel, '{}: Could not find factoid #{}.'.format(user.nick, args[0])))
         else:
-            self.fire(sendmessage(channel, '{}: No recent factoid found.'.format(user.nick)))
+            if self.last:
+                factoid = factoid_controller.get_factoid(self.last)
+                self.print_factoid_info(user, channel, factoid)
+            else:
+                self.fire(sendmessage(channel, '{}: No recent factoid found.'.format(user.nick)))
+
+    def print_factoid_info(self, user, channel, factoid):
+        self.fire(sendmessage(channel, '{}: Factoid #{} was set by {} with trigger {}.'.format(user.nick, factoid.id, factoid.creator.base.nick, factoid.trigger)))
 
 #for directed messages
 regex_learn = list(map(re.compile, [
