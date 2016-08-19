@@ -9,6 +9,7 @@ import factoid.factoid_controller as factoid_controller
 class FactoidPlugin(IRCCommand):
     def __init__(self):
         super(FactoidPlugin, self).__init__('fact', self.last_factoid,
+            args='[[<command> ]<factoid_number>]',
             description='Get information on the last factoid triggered.')
         self.last = None
 
