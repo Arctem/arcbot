@@ -18,7 +18,7 @@ class FactoidPlugin(IRCCommand):
         factoid = factoid_controller.find_factoid(msg, channel)
         if factoid:
             self.last = factoid.id
-            if factoid.verb == "'s'":
+            if factoid.verb == "'s":
                 self.fire(sendmessage(channel, "{}'s {}".format(factoid.trigger, factoid.reply)))
             elif factoid.verb == 'reply':
                 self.fire(sendmessage(channel, factoid.reply))
