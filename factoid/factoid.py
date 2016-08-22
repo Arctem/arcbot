@@ -6,6 +6,8 @@ from ircbot.command import IRCCommand
 import arcuser.arcuser_controller as arcuser_controller
 import factoid.factoid_controller as factoid_controller
 
+regex_to = re.compile('^(?P<to>\S+)[:,]\s+(?P<message>.+)$')
+
 class FactoidPlugin(IRCCommand):
     def __init__(self):
         super(FactoidPlugin, self).__init__('fact', self.last_factoid,
@@ -16,6 +18,14 @@ class FactoidPlugin(IRCCommand):
     def generalmessage(self, source, channel, msg):
         source = arcuser_controller.get_or_create_arcuser(source)
         factoid = factoid_controller.find_factoid(msg, channel)
+        if not factoid:
+            match = regex_to.search(msg)
+            if match:
+                to = match.group('to')
+                msg = match.group('message')
+                factoid = factoid_controller.find_factoid(msg, channel)
+        if not factoid:
+            factoid = factoid_controller.find_factoid(msg.rstrip('?'), channel)
         if factoid:
             self.last = factoid.id
             if factoid.verb == "'s":
