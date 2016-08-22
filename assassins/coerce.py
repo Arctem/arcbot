@@ -15,7 +15,10 @@ class Coercion(IRCCommand):
     'start' : 'Trigger the start of the next round if enough players have ' +
       'joined.',
     'score' : 'View the scoreboard.',
-    'status' : 'Display information about the game currently in progress.'
+    'status' : 'Display information about the game currently in progress.',
+    'end' : 'Admin command to end a game with scoring.',
+    'kick' : 'Admin command to kick a player.',
+    'reset' : 'Admin command to end a game without scoring.'
   }
 
   def __init__(self):
@@ -32,32 +35,33 @@ class Coercion(IRCCommand):
   def game_trigger(self, user, chan, args):
     cmd = args.split()[0] if len(args.split()) > 0 else 'help'
     args = args.split(None, 1)[1] if len(args.split()) > 1 else []
-    user = user.nick
 
     private = not chan.startswith('#')
 
     if cmd == 'help':
-      self.help(user, chan, args)
+      self.help(user.nick, chan, args)
     elif cmd == 'join' and not private:
-      coerce_controller.handle_join(chan, user, self.send_func)
+      coerce_controller.handle_join(chan, user.nick, self.send_func)
     elif cmd == 'quit' and not private:
-      coerce_controller.handle_quit(chan, user, self.send_func)
+      coerce_controller.handle_quit(chan, user.nick, self.send_func)
     elif cmd == 'start' and not private:
       coerce_controller.start_game(chan, self.send_func)
     elif cmd == 'score' and not private:
-      coerce_controller.print_score(chan, user, args, self.send_func)
+      coerce_controller.print_score(chan, user.nick, args, self.send_func)
     elif cmd == 'top' and not private:
-      coerce_controller.print_top(chan, user, args, self.send_func)
+      coerce_controller.print_top(chan, user.nick, args, self.send_func)
     elif cmd == 'status':
-      #self.games[chan].player_status(user)
-      coerce_controller.print_status(chan, user, self.send_func)
-    elif cmd == 'reset' and user == 'arctem':
+      #self.games[chan].player_status(user.nick)
+      coerce_controller.print_status(chan, user.nick, self.send_func)
+    elif cmd == 'reset' and user.admin:
       coerce_controller.reset_game(chan)
-    elif cmd == 'end' and user == 'arctem':
+    elif cmd == 'end' and user.admin:
       coerce_controller.finish_game(chan, self.send_func)
+    elif cmd == 'kick' and user.admin:
+      coerce_controller.handle_quit(chan, args, self.send_func)
     else:
       self.fire(sendmessage(chan,
-        '{}: Please include a command. Did you mean "help"?'.format(user)))
+        '{}: Please include a command. Did you mean "help"?'.format(user.nick)))
 
   def send_func(self, chan, msg):
     self.fire(sendmessage(chan, msg))
@@ -75,15 +79,3 @@ class Coercion(IRCCommand):
       'want help about from the following topics: {}'
     topics = sorted(self.help_msg.keys())
     return base.format(', '.join(topics[:-1]) + ', and ' + topics[-1])
-
-  def show_score(self, user, chan):
-    if user in self.score:
-      self.fire(sendmessage(chan, '{}: You have {} points.'.format(user,
-        self.score[user])))
-    else:
-      self.fire(sendmessage(chan, '{}: You have no points.'.format(user)))
-
-  def award_points(self, player, points):
-    if player.name not in self.score:
-      self.score[player.name] = 0
-    self.score[player.name] += points
