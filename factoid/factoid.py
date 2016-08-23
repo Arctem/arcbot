@@ -18,14 +18,17 @@ class FactoidPlugin(IRCCommand):
     def generalmessage(self, source, channel, msg):
         source = arcuser_controller.get_or_create_arcuser(source)
         factoid = factoid_controller.find_factoid(msg, channel)
-        if not factoid:
-            match = regex_to.search(msg)
-            if match:
-                to = match.group('to')
-                msg = match.group('message')
-                factoid = factoid_controller.find_factoid(msg, channel)
-        if not factoid:
-            factoid = factoid_controller.find_factoid(msg.rstrip('?'), channel)
+        for msg in [msg, msg.lower()]:
+            if not factoid:
+                match = regex_to.search(msg)
+                if match:
+                    to = match.group('to')
+                    msg = match.group('message')
+                    factoid = factoid_controller.find_factoid(msg, channel)
+            if not factoid:
+                factoid = factoid_controller.find_factoid(msg.rstrip('?'), channel)
+            if factoid:
+                break
         if factoid:
             self.last = factoid.id
             if factoid.verb == "'s":
