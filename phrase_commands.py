@@ -21,5 +21,5 @@ class PhraseCommand(IRCCommand):
         self.phrase = phrase
 
     def fun(self, user, chan, args):
-        response = phrase_maker.make(self.phrase, user.nick)
+        response = phrase_maker.make(self.phrase, args or user.nick)
         self.fire(sendmessage(chan, response))
