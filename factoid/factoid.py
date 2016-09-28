@@ -75,16 +75,16 @@ class FactoidPlugin(IRCCommand):
 
 #for directed messages
 regex_learn = list(map(re.compile, [
-    r"^(?P<trigger>\S+?(?:\s+\S+?)?)(?P<verb>'s)\s+(?P<reply>.+)$",
-    r"^(?P<trigger>\S+?(?:\s+\S+?)?)\s+\<(?P<verb>.+?)\>\s+(?P<reply>.+)$",
+    r"^(?P<trigger>\S+?(?:\s+\S+?)?)\s*\<(?P<verb>.+?)\>\s+(?P<reply>.+)$",
     r"^(?P<trigger>\S+?(?:\s+\S+?)?)\s+(?P<verb>is|are)\s+(?P<reply>\S+(?:\s+\S+)?)$",
+    r"^(?P<trigger>\S+?(?:\s+\S+?)?)(?P<verb>'s)\s+(?P<reply>.+)$",
 ]))
 
 #for the command (more general)
 regex_teach = list(map(re.compile, [
-    r"^(?P<trigger>.+?)\s+\<(?P<verb>.+?)\>\s+(?P<reply>.+)$",
-    r"^(?P<trigger>.+?)(?P<verb>'s)\s+(?P<reply>.+)$",
+    r"^(?P<trigger>.+?)\s*\<(?P<verb>.+?)\>\s+(?P<reply>.+)$",
     r"^(?P<trigger>.+?)\s+(?P<verb>is|are)\s+(?P<reply>.+)$",
+    r"^(?P<trigger>.+?)(?P<verb>'s)\s+(?P<reply>.+)$",
 ]))
 
 class LearnerPlugin(IRCCommand):
