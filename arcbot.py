@@ -25,7 +25,9 @@ from thefucking import TheFucking
 from word_swap import WordSwap
 from assassins.coerce import Coercion
 from questions import Questions
+from arcuser.arcuser import ArcUserVariables
 from factoid.factoid import FactoidPlugin, LearnerPlugin
+from factoid.smart_variables import SmartVariables
 
 storage.initialize('sqlite:///coerce.db')
 
@@ -57,6 +59,8 @@ class ArcBot(IRCBot):
         LastMessage().register(self)
         FactoidPlugin().register(self)
         LearnerPlugin().register(self)
+        SmartVariables().register(self)
+        ArcUserVariables().register(self)
         for cmd in phrase_commands.get_phrase_commands():
             cmd.register(self)
 

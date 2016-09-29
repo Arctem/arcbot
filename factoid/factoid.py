@@ -5,6 +5,7 @@ from ircbot.command import IRCCommand
 
 import arcuser.arcuser_controller as arcuser_controller
 import factoid.factoid_controller as factoid_controller
+from factoid.events import sendsmartmessage, sendsmartaction
 
 regex_to = re.compile('^(?P<to>\S+)[:,]\s+(?P<message>.+)$')
 
@@ -15,10 +16,10 @@ class FactoidPlugin(IRCCommand):
             description='Get information on the last factoid triggered.')
         self.last = None
 
-    def generalmessage(self, source, channel, msg):
+    def generalmessage(self, source, channel, message):
         source = arcuser_controller.get_or_create_arcuser(source)
-        factoid = factoid_controller.find_factoid(msg, channel)
-        for msg in [msg, msg.lower()]:
+        factoid = factoid_controller.find_factoid(message, channel)
+        for msg in [message, message.lower()]:
             if not factoid:
                 match = regex_to.search(msg)
                 if match:
@@ -32,13 +33,13 @@ class FactoidPlugin(IRCCommand):
         if factoid:
             self.last = factoid.id
             if factoid.verb == "'s":
-                self.fire(sendmessage(channel, "{}'s {}".format(factoid.trigger, factoid.reply)))
+                self.fire(sendsmartmessage(channel, "{}'s {}".format(factoid.trigger, factoid.reply), original=message, trigger=source))
             elif factoid.verb == 'reply':
-                self.fire(sendmessage(channel, factoid.reply))
+                self.fire(sendsmartmessage(channel, factoid.reply, original=message, trigger=source))
             elif factoid.verb == 'action':
-                self.fire(sendaction(channel, factoid.reply))
+                self.fire(sendsmartaction(channel, factoid.reply, original=message, trigger=source))
             else:
-                self.fire(sendmessage(channel, '{} {} {}'.format(factoid.trigger, factoid.verb, factoid.reply)))
+                self.fire(sendsmartmessage(channel, '{} {} {}'.format(factoid.trigger, factoid.verb, factoid.reply), original=message, trigger=source))
 
     # oh god this method is awful I need to refactor it
     def last_factoid(self, user, channel, args):

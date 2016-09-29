@@ -1,5 +1,3 @@
-import re
-
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
 
