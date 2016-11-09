@@ -1,6 +1,0 @@
-Add help.
-Add random phrases.
-Add something like Bucket's word associations.
-Add way to view todo list.
-Add way to view changes.
-Figure out why I'm not just using Github's issues for this.
