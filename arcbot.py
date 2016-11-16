@@ -28,6 +28,7 @@ from questions import Questions
 from arcuser.arcuser import ArcUserVariables
 from factoid.factoid import FactoidPlugin, LearnerPlugin
 from factoid.smart_variables import SmartVariables
+from band.band import BandPlugin
 
 storage.initialize('sqlite:///coerce.db')
 
@@ -59,6 +60,7 @@ class ArcBot(IRCBot):
         LastMessage().register(self)
         FactoidPlugin().register(self)
         LearnerPlugin().register(self)
+        BandPlugin().register(self)
         SmartVariables().register(self)
         ArcUserVariables().register(self)
         for cmd in phrase_commands.get_phrase_commands():
