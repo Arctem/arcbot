@@ -27,7 +27,7 @@ data = {
         'target_person' : ['the {important_title}', '{famous_person}', '{irc_member}', 'a {person_adjective} version of {famous_person,irc_member}'],
         'target_people' : ['{amount} {kidnap_targets}'],
         'important_title' : ['President', 'Queen', 'King', 'pope', 'ambassador', 'Harbinger of Destruction', 'senator'],
-        'famous_person' : ['Obama', 'Trump', 'John Cena', 'Steve Buscemi', 'Jan-Michael Vincent', 'Frodo', 'Gandalf', 'Godzilla', 'Hitler', 'your mom', 'Guy Fieri', 'Ash', 'Brock', 'Misty', 'Nurse Joy', 'Nixon', 'Jesus'],
+        'famous_person' : ['Obama', 'Trump', 'John Cena', 'Steve Buscemi', 'Jan-Michael Vincent', 'Frodo', 'Gandalf', 'Godzilla', 'Hitler', 'your mom', 'Guy Fieri', 'Ash', 'Brock', 'Misty', 'Nurse Joy', 'Nixon', 'Jesus', 'Godzilla'],
         'irc_member' : ['arcbot', 'Andrew', 'Baer', 'Chris', 'Duncan', 'Elliot', 'Flan', 'Ian', 'Jesse', 'Jett', 'Quartermaster', 'Rob', 'Russell', 'Spencer'],
         'kidnap_targets' : ['Jan-Michael Vincents', 'children', 'strippers', 'seamen'],
         'person_adjective' : ['naked', 'clothed', 'tall', 'short', 'overdressed', 'gay', 'straight', 'flamboyant', 'sexy', 'aroused', 'well-endowed', 'self-conscious'],
@@ -53,17 +53,17 @@ data = {
 
         'execution' : ['{someone_will} need to {instructions}.', "you'd better hope {condition}."],
         'someone_will' : ["we'll", '{irc_member} will'],
-        'instructions' : ['get some help from {target_person,target_people}', "make sure {target_person} doesn't find out", 'get {target_object} first', 'find out when the {event} starts', 'get a map of {place}', 'sacrifice {target_person,target_people} to {evil_being}'],
+        'instructions' : ['{premade_instruction}', 'get some help from {target_person,target_people}', "make sure {target_person} doesn't find out", 'get {target_object} first', 'find out when the {event} starts', 'get a map of {place}', 'sacrifice {target_person,target_people} to {evil_being}'],
+        'premade_instruction' : ['keep it secret, keep it safe', 'stop blinking', 'put on some pants', 'get naked'],
         'condition' : ['{premade_condition}', '{famous_person,irc_member} remembers to bring {target_object}', '{famous_person,irc_member} comes through for us', 'our {item} lasts through the {event}', 'our {item} is {attribute} enough', "we don't run out of {items}", "{famous_person,irc_member} is {secret_identity,person_adjective,target_person}", "{target_person} {actions} in time"],
         'premade_condition' : ['the stars are right', "you're adopted", 'our Kickstarter gets funded', 'the terrorists win', 'jet fuel can melt steel beams', 'the proof is both necessary and sufficient', 'grandma accepts your apology', 'the phasers are set to stun'],
         'actions' : ['fixes the bugs', 'hides the evidence', 'sends the nudes', "can believe it's not butter"],
-
 
         'competition' : ['the World Series of {Game}', '{game}'],
         'game' : ['ping pong', 'cricket', 'crochet', 'chess', 'hop-scotch', 'tag'],
 
         'location' : ['{place}', 'the {event}', "{target_person}'s {event}"],
         'event' : ['orgy', 'parade', 'sacrifice', 'birthday party', 'ceremony', 'wrestling match'],
-        'place' : ['Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Tyme', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh", 'the International Space Station', 'Prague', 'the world', 'Earth'],
+        'place' : ['Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Tyme', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh", 'the International Space Station', 'Prague', 'the world', 'Earth', 'The Place Where We All Are'],
     }
 }

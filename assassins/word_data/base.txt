@@ -1,13 +1,13 @@
 a.*z
 a.*b.*c
 \w{16,}
-albuquerque|abq
 america
 andrew
 anime
 apple
 arcbot
 bitch
+board|bored
 boner
 boob
 bug
@@ -32,6 +32,7 @@ dog
 dork
 dota
 du(a|e)l
+duncan
 dwar(f|v)
 el(f|v)
 email
@@ -48,8 +49,6 @@ googl
 graduat
 graph
 hack
-hamdy
-hentai
 hitler
 https
 java
@@ -67,7 +66,6 @@ moon
 morning
 movie
 nerd
-new mexico tech|nmt
 node
 obama
 pea?rl
@@ -75,6 +73,7 @@ president
 pupp(y|ies)
 python
 reddit
+rock
 russell
 russia
 sandwich
@@ -85,7 +84,6 @@ semester
 sex
 shit
 simulat
-socorro
 space
 spoo+k
 spring
@@ -93,6 +91,7 @@ steam
 summer
 sun
 sword
+taco
 target
 tentacle
 tiny
