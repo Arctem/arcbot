@@ -10,7 +10,18 @@ from ircbot.events import sendmessage
 
 # API details here: http://www.datamuse.com/api/
 API_ENDPOINT = 'https://api.datamuse.com/words'
-MAX_RESULTS = 10
+BASE_RESULTS = 5
+METHODS = {
+            'ml': BASE_RESULTS*3,
+            'sl': BASE_RESULTS*2,
+            'sp': BASE_RESULTS*2,
+            'rel_syn': BASE_RESULTS,
+            'rel_ant': BASE_RESULTS,
+            'rel_spc': BASE_RESULTS,
+            'rel_gen': BASE_RESULTS,
+            'rel_rhy': BASE_RESULTS,
+            'rel_hom': BASE_RESULTS,
+}
 
 def mangle(original):
     title = original.istitle()
@@ -29,19 +40,21 @@ def mangle_word(word, lc=None, rc=None):
     capital = word.capitalize() == word
     upper = word.isupper()
 
-    param = random.choice(['ml', 'sl', 'sp'])
-    params = {param: word, 'max': MAX_RESULTS}
-    if lc:
-        params['lc'] = lc
-    if rc:
-        params['rc'] = rc
+    results = []
+    threads = []
+    for method, count in METHODS.items():
+        params = {method: word, 'max': count}
+        if lc:
+            params['lc'] = lc
+        if rc:
+            params['rc'] = rc
+        t = threading.Thread(target=mangle_in_thread, args=(params, results))
+        t.start()
+        threads.append(t)
 
-    params = parse.urlencode(params)
-    req = request.Request(API_ENDPOINT + '?' + params,
-        headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
-    req = request.urlopen(req)
+    for t in threads:
+        t.join()
 
-    results = json.loads(req.read().decode("utf-8"))
     if not results:
         return word
     result = random.choice(results)
@@ -51,6 +64,17 @@ def mangle_word(word, lc=None, rc=None):
     if capital:
         return result['word'].capitalize()
     return result['word']
+
+def mangle_in_thread(params, parent_list):
+    params = parse.urlencode(params)
+    req = request.Request(API_ENDPOINT + '?' + params,
+        headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
+    req = request.urlopen(req)
+
+    results = json.loads(req.read().decode("utf-8"))
+    for r in results:
+        parent_list.append(r)
+
 
 class Mangle(IRCCommand):
     def __init__(self):
