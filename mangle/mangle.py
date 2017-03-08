@@ -41,7 +41,7 @@ def mangle_word(word, lc=None, rc=None):
         headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
     req = request.urlopen(req)
 
-    results = json.loads(req.read())
+    results = json.loads(req.read().decode("utf-8"))
     if not results:
         return word
     result = random.choice(results)
