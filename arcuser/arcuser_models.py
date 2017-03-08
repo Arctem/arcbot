@@ -11,3 +11,6 @@ class ArcUser(Base):
     base = relationship('User', lazy='joined')
     gender = Column(String, default='name')
     factoids = relationship('Factoid', back_populates='creator')
+    created_lists = relationship('List', back_populates='creator')
+    owned_lists = relationship('List', back_populates='owner')
+    list_entries = relationship('List', back_populates='creator')
