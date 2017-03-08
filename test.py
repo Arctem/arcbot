@@ -1,11 +1,13 @@
 import sys
 
 import tests.test_sql
+import tests.test_mangle
 import tests.test_phrases
 
 TEST_OPTIONS = {
     'sql' : tests.test_sql,
-    'phrases' : tests.test_phrases
+    'mangle' : tests.test_mangle,
+    'phrases' : tests.test_phrases,
 }
 
 def main(args = []):

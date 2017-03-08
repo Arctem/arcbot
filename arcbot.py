@@ -18,17 +18,18 @@ from ircbot.usertracker import UserTracker, LastMessage
 from ircbot.help import Help
 from ircbot import storage
 
-from link_command import Link
-from markov import Markov
-import phrase_commands
-from thefucking import TheFucking
-from word_swap import WordSwap
-from assassins.coerce import Coercion
-from questions import Questions
 from arcuser.arcuser import ArcUserVariables
+from assassins.coerce import Coercion
+from band.band import BandPlugin
 from factoid.factoid import FactoidPlugin, LearnerPlugin
 from factoid.smart_variables import SmartVariables
-from band.band import BandPlugin
+from link_command import Link
+from mangle.mangle import Mangle
+from markov import Markov
+from questions import Questions
+from thefucking import TheFucking
+from word_swap import WordSwap
+import phrase_commands
 
 storage.initialize('sqlite:///coerce.db')
 
@@ -49,20 +50,21 @@ class ArcBot(IRCBot):
              outro='If you have any questions about me or a module, ' +
              'please direct them to arctem.').register(self)
 
-        Link(ArcBot.links_file).register(self)
-        Markov(ArcBot.markov_dat_file).register(self)
-        TheFucking().register(self)
-        WordSwap().register(self)
-        Coercion().register(self)
-        Questions().register(self)
-        UserTracker().register(self)
         Admin().register(self)
-        LastMessage().register(self)
-        FactoidPlugin().register(self)
-        LearnerPlugin().register(self)
-        BandPlugin().register(self)
-        SmartVariables().register(self)
         ArcUserVariables().register(self)
+        BandPlugin().register(self)
+        Coercion().register(self)
+        FactoidPlugin().register(self)
+        LastMessage().register(self)
+        LearnerPlugin().register(self)
+        Link(ArcBot.links_file).register(self)
+        Mangle().register(self)
+        Markov(ArcBot.markov_dat_file).register(self)
+        Questions().register(self)
+        SmartVariables().register(self)
+        TheFucking().register(self)
+        UserTracker().register(self)
+        WordSwap().register(self)
         for cmd in phrase_commands.get_phrase_commands():
             cmd.register(self)
 
