@@ -11,12 +11,13 @@ from circuits import Debugger
 
 from ircbot.ircbot import IRCBot
 
+from ircbot import storage
 from ircbot.admin import Admin
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
-from ircbot.usertracker import UserTracker, LastMessage
 from ircbot.help import Help
-from ircbot import storage
+from ircbot.stats import Stats
+from ircbot.usertracker import UserTracker, LastMessage
 
 from arcuser.arcuser import ArcUserVariables
 from assassins.coerce import Coercion
@@ -62,6 +63,7 @@ class ArcBot(IRCBot):
         Markov(ArcBot.markov_dat_file).register(self)
         Questions().register(self)
         SmartVariables().register(self)
+        Stats().register(self)
         TheFucking().register(self)
         UserTracker().register(self)
         WordSwap().register(self)
