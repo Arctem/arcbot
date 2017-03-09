@@ -82,11 +82,13 @@ class FactoidPlugin(IRCCommand):
         }
         for arcuser in factoid_controller.get_all_arcusers_with_factoids():
             stats.add((
-                lambda: "{} has created {} factoids.".format(arcuser.base.nick, factoid_controller.count_factoids(arcuser)),
+                self._make_stat_for_arcuser(arcuser),
                 ('factoids', 'counts', arcuser.base.nick)
             ))
-
         return stats
+
+    def _make_stat_for_arcuser(self, arcuser):
+        return lambda: "{} has created {} factoids.".format(arcuser.base.nick, factoid_controller.count_factoids(arcuser))
 
     def _top_factoider(self):
         arcusers = factoid_controller.get_all_arcusers_with_factoids()
