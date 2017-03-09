@@ -74,6 +74,40 @@ class FactoidPlugin(IRCCommand):
     def print_factoid_info(self, user, channel, factoid):
         self.fire(sendmessage(channel, '{}: Factoid #{} was set by {} with trigger {}.'.format(user.nick, factoid.id, factoid.creator.base.nick, factoid.trigger)))
 
+    def stats(self):
+        stats = {
+            (lambda: "There are {} factoids.".format(factoid_controller.count_factoids()),
+                ('factoids', 'counts', 'all')),
+            (self._top_factoider, ('factoids', 'counts', 'top'))
+        }
+        for arcuser in factoid_controller.get_all_arcusers_with_factoids():
+            stats.add((
+                lambda: "{} has created {} factoids.".format(arcuser.base.nick, factoid_controller.count_factoids(arcuser)),
+                ('factoids', 'counts', arcuser.base.nick)
+            ))
+
+        return stats
+
+    def _top_factoider(self):
+        arcusers = factoid_controller.get_all_arcusers_with_factoids()
+        top_arcusers, top_count = arcusers[:1], factoid_controller.count_factoids(arcusers[0])
+        for arcuser in arcusers[1:]:
+            count = factoid_controller.count_factoids(arcuser)
+            if count > top_count:
+                top_arcusers = [arcuser]
+                top_count = count
+            elif count == top_count:
+                top_arcusers.append(arcuser)
+
+        if not top_arcusers:
+            return 'No one has submitted any factoids!'
+        elif len(top_arcusers) == 1:
+            return '{} has submitted the most factoids, with {}.'.format(top_arcusers[0].base.nick, top_count)
+        else:
+            start = ', '.join(map(lambda u: u.base.nick, top_arcusers[:-1]))
+            users_string = start + ' and ' + top_arcusers[-1].base.nick
+            return '{} have submitted the most factoids, with {} each.'.format(users_string, top_count)
+
 #for directed messages
 regex_learn = list(map(re.compile, [
     r"^(?P<trigger>\S+?(?:\s+\S+?)?)\s*\<(?P<verb>.+?)\>\s+(?P<reply>.+)$",
