@@ -26,6 +26,7 @@ from factoid.factoid import FactoidPlugin, LearnerPlugin
 from factoid.smart_variables import SmartVariables
 from link_command import Link
 from mangle.mangle import Mangle
+from define.define import Define
 from markov import Markov
 from questions import Questions
 from thefucking import TheFucking
@@ -60,6 +61,7 @@ class ArcBot(IRCBot):
         LearnerPlugin().register(self)
         Link(ArcBot.links_file).register(self)
         Mangle().register(self)
+        Define().register(self)
         Markov(ArcBot.markov_dat_file).register(self)
         Questions().register(self)
         SmartVariables().register(self)
