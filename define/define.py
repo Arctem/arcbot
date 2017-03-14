@@ -1,11 +1,10 @@
 import urllib2
 import json
 import random
-from datamuse.datamuse import Datamuse
+import datamuse.datamuse
 
 def get_rhyme(word):
-    request = Datamuse.get_perfect_rhymes(word)
-    results = json.loads(request.read().decode("utf-8"))
+    results = datamuse.get_words({datamuse.perfect_rhymes, word})
     return str(random.choice(results)['word'])
 
 def define_word(word):
@@ -18,16 +17,21 @@ def define_word(word):
 def define_command(args):
     word = args.split()[0]
 
-    rhyme_word = get_rhyme(word)
-    while rhyme_word == word:
+    for i in range(5):
         rhyme_word = get_rhyme(word)
+        if rhyme_word != word:
+            break
 
-    definitions = [define_word(word), define_word(rhyme_word)]
-    while definitions[0] == definitions[1]:
+    for i in range(5):
         definitions = [define_word(word), define_word(rhyme_word)]
+        if definitions[0] != definitions[1]:
+            break
 
-    random.shuffle(definitions)
-    response = "It either means: '" + definitions[0] + "'\nOr: '" + definitions[1] + "'"
+    if definitions[0] == definitions[1]:
+        response = "It means: \"" + definitions[0] + "\""
+    else:
+        random.shuffle(definitions)
+        response = "It either means: \"" + definitions[0] + "\"\nOr: \"" + definitions[1] + "\""
     return response
 
 class Define(IRCCommand):
@@ -35,7 +39,6 @@ class Define(IRCCommand):
         super(Define, self).__init__('define', self.define,
             args='<word_to_define>',
             description='Define a word. Probably.')
-        Datamuse()
 
     def define(self, user, channel, args):
         try:
