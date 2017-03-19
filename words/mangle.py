@@ -1,26 +1,27 @@
 import json
 import random
 import threading
-from urllib import request, parse
 
 import inflection
 
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
 
+from words import datamuse
+
 # API details here: http://www.datamuse.com/api/
 API_ENDPOINT = 'https://api.datamuse.com/words'
 BASE_RESULTS = 5
 METHODS = {
-            'ml': BASE_RESULTS*3,
-            'sl': BASE_RESULTS*2,
-            'sp': BASE_RESULTS*2,
-            'rel_syn': BASE_RESULTS,
-            'rel_ant': BASE_RESULTS,
-            'rel_spc': BASE_RESULTS,
-            'rel_gen': BASE_RESULTS,
-            'rel_rhy': BASE_RESULTS,
-            'rel_hom': BASE_RESULTS,
+            datamuse.MEANS_LIKE: BASE_RESULTS*3,
+            datamuse.SOUNDS_LIKE: BASE_RESULTS*2,
+            datamuse.SPELLED_LIKE: BASE_RESULTS*2,
+            datamuse.SYNONYM: BASE_RESULTS,
+            datamuse.ANTONYM: BASE_RESULTS,
+            datamuse.HYPERNYM: BASE_RESULTS,
+            datamuse.HYPONYM: BASE_RESULTS,
+            datamuse.PERFECT_RHYME: BASE_RESULTS,
+            datamuse.HOMOPHONE: BASE_RESULTS,
 }
 
 def mangle(original):
@@ -66,12 +67,7 @@ def mangle_word(word, lc=None, rc=None):
     return result['word']
 
 def mangle_in_thread(params, parent_list):
-    params = parse.urlencode(params)
-    req = request.Request(API_ENDPOINT + '?' + params,
-        headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
-    req = request.urlopen(req)
-
-    results = json.loads(req.read().decode("utf-8"))
+    results = datamuse.get_words(params)
     for r in results:
         parent_list.append(r)
 
