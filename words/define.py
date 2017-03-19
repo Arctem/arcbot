@@ -1,18 +1,28 @@
-import urllib2
 import json
 import random
-import datamuse.datamuse
+from urllib import request, parse
+
+from words import datamuse
+
+from ircbot.command import IRCCommand
+from ircbot.events import sendmessage
+
+PEARSON_API = 'http://api.pearson.com/v2/dictionaries/ldoce5/entries'
 
 def get_rhyme(word):
-    results = datamuse.get_words({datamuse.perfect_rhymes, word})
-    return str(random.choice(results)['word'])
+    results = datamuse.get_words({datamuse.PERFECT_RHYME: word})
+    return random.choice(results)['word']
 
 def define_word(word):
-    request = urllib2.urlopen('http://api.pearson.com/v2/dictionaries/ldoce5/entries?headword=' + word)
-    results = json.loads(request.read().decode("utf-8"))
+    params = parse.urlencode({'headword' : word})
+    req = request.Request(PEARSON_API + '?' + params,
+        headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
+    req = request.urlopen(req)
+
+    results = json.loads(req.read().decode("utf-8"))
     entry = random.choice(results['results'])
     definition = random.choice(entry['senses'][0]['definition'])
-    return str(definition)
+    return definition
 
 def define_command(args):
     word = args.split()[0]
@@ -28,10 +38,10 @@ def define_command(args):
             break
 
     if definitions[0] == definitions[1]:
-        response = "It means: \"" + definitions[0] + "\""
+        response = 'It means: "{}"'.format(definitions[0])
     else:
         random.shuffle(definitions)
-        response = "It either means: \"" + definitions[0] + "\"\nOr: \"" + definitions[1] + "\""
+        response = 'It either means "{}" or "{}"'.format(definitions[0], definitions[1])
     return response
 
 class Define(IRCCommand):

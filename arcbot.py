@@ -25,12 +25,12 @@ from band.band import BandPlugin
 from factoid.factoid import FactoidPlugin, LearnerPlugin
 from factoid.smart_variables import SmartVariables
 from link_command import Link
-from mangle.mangle import Mangle
-from define.define import Define
 from markov import Markov
 from questions import Questions
 from thefucking import TheFucking
 from word_swap import WordSwap
+from words.define import Define
+from words.mangle import Mangle
 import phrase_commands
 
 storage.initialize('sqlite:///coerce.db')
@@ -56,12 +56,12 @@ class ArcBot(IRCBot):
         ArcUserVariables().register(self)
         BandPlugin().register(self)
         Coercion().register(self)
+        Define().register(self)
         FactoidPlugin().register(self)
         LastMessage().register(self)
         LearnerPlugin().register(self)
         Link(ArcBot.links_file).register(self)
         Mangle().register(self)
-        Define().register(self)
         Markov(ArcBot.markov_dat_file).register(self)
         Questions().register(self)
         SmartVariables().register(self)
