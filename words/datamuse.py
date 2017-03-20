@@ -11,6 +11,7 @@ ANTONYM = 'rel_ant'
 HYPERNYM = 'rel_spc'
 HYPONYM = 'rel_gen'
 PERFECT_RHYME = 'rel_rhy'
+NEAR_RHYME = 'rel_nry'
 HOMOPHONE = 'rel_hom'
 
 ENDPOINTS = [
@@ -22,7 +23,8 @@ ENDPOINTS = [
     HYPERNYM,
     HYPONYM,
     PERFECT_RHYME,
-    HOMOPHONE
+    NEAR_RHYME,
+    HOMOPHONE,
 ]
 
 def get_words(params):

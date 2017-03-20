@@ -11,6 +11,10 @@ PEARSON_API = 'http://api.pearson.com/v2/dictionaries/ldoce5/entries'
 
 def get_rhyme(word):
     results = datamuse.get_words({datamuse.PERFECT_RHYME: word})
+    if len(results) == 0:
+        results = datamuse.get_words({datamuse.NEAR_RHYME: word})
+    if len(results) == 0:
+        return None
     return random.choice(results)['word']
 
 def define_word(word):
@@ -31,6 +35,9 @@ def define_command(args):
         rhyme_word = get_rhyme(word)
         if rhyme_word != word:
             break
+
+    if not rhyme_word:
+        rhyme_word = word
 
     for i in range(5):
         definitions = [define_word(word), define_word(rhyme_word)]
