@@ -129,16 +129,32 @@ class LearnerPlugin(IRCCommand):
         super(LearnerPlugin, self).__init__('learn', self.learn_factoid,
             description='arcbot is quite impressionable! Be careful what you teach him.')
 
+    def get_reply(self, regex):
+        reply = regex.group('reply')
+        if reply.find('[') == 0 and reply.find(']') > 0:
+            return reply.replace('[', '').replace(']', '').split(',')
+        else:
+            return [reply]
+
+    def factoid_id_string(self, factoids):
+        factoid_id = factoids[0].id
+        if len(factoids) > 1:
+            factoid_id += ('-' + factoids[-1].id)
+        return factoid_id
+
+    def separate_and_save(self, match):
+        trigger = match.group('trigger')
+        reply = getReply(match)
+        verb = match.group('verb')
+        factoids = factoid_controller.save_factoid(arcuser, channel, trigger, reply, verb)
+        self.fire(sendmessage(channel, '{}: Okay! Learned factoid #{} for {}'.format(source.nick, factoid_id_string(factoids), trigger)))
+
     def directmessage(self, source, channel, msg):
         arcuser = arcuser_controller.get_or_create_arcuser(source)
         for regex in regex_learn:
             match = regex.search(msg)
             if match:
-                trigger = match.group('trigger')
-                reply = match.group('reply')
-                verb = match.group('verb')
-                factoid = factoid_controller.save_factoid(arcuser, channel, trigger, reply, verb)
-                self.fire(sendmessage(channel, '{}: Okay! Learned factoid #{} for {}'.format(source.nick, factoid.id, trigger)))
+                separate_and_save(match)
                 break
 
     def learn_factoid(self, source, channel, msg):
@@ -146,9 +162,5 @@ class LearnerPlugin(IRCCommand):
         for regex in regex_teach:
             match = regex.search(msg)
             if match:
-                trigger = match.group('trigger')
-                reply = match.group('reply')
-                verb = match.group('verb')
-                factoid = factoid_controller.save_factoid(arcuser, channel, trigger, reply, verb)
-                self.fire(sendmessage(channel, '{}: Okay! Learned factoid #{} for {}'.format(source.nick, factoid.id, trigger)))
+                separate_and_save(match)
                 break

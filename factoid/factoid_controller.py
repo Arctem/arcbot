@@ -7,11 +7,14 @@ from factoid.factoid_models import Factoid
 from arcuser.arcuser_models import ArcUser
 
 @db.atomic
-def save_factoid(creator, channel, trigger, reply, verb, s=None):
+def save_factoid(creator, channel, trigger, replies, verb, s=None):
+    factoids = []
     s.add(creator)
-    factoid = Factoid(creator=creator, trigger=trigger, reply=reply, verb=verb)
-    s.add(factoid)
-    return factoid
+    for reply in replies:
+        factoid = Factoid(creator=creator, trigger=trigger, reply=reply, verb=verb)
+        s.add(factoid)
+        factoids += [factoid]
+    return factoids
 
 #returns a random factoid that matches the given trigger
 @db.needs_session
