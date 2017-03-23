@@ -22,6 +22,15 @@ def find_factoid(trigger, channel, s=None):
 def get_factoid(id, s=None):
     return s.query(Factoid).get(id)
 
+@db.needs_session
+def get_factoid_count_by_user():
+    results = {}
+    users = s.query(Factoid.creator).group_by(Factoid.creator)
+    for user in users:
+        fact_count = s.query(Factoid).filter(Factoid.creator == user).count()
+        results[creator] = fact_count
+    return results
+
 @db.atomic
 def delete_factoid(id, s=None):
     return s.query(Factoid).filter(Factoid.id == id).delete() > 0

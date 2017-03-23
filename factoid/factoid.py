@@ -54,6 +54,9 @@ class FactoidPlugin(IRCCommand):
                             self.fire(sendmessage(channel, '{}: Deleted factoid #{}.'.format(user.nick, id)))
                         else:
                             self.fire(sendmessage(channel, '{}: Could not delete factoid #{}.'.format(user.nick, id)))
+                    elif cmd == 'totals':
+                        for (creator, count) in factoid_controller.get_factoid_count_by_user().items():
+                            self.fire(sendmessage(channel, '{} has created {} facts'.format(creator.base.nick, count)))
                     else:
                         self.fire(sendmessage(channel, '{}: Command {} not available.'.format(user.nick, cmd)))
                 else:
