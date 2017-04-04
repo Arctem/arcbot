@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 
 from circuits import Debugger
 
@@ -20,6 +21,7 @@ from ircbot.stats import Stats
 from ircbot.usertracker import UserTracker, LastMessage
 
 from arcuser.arcuser import ArcUserVariables
+from arena.arena import Arena
 from assassins.coerce import Coercion
 from band.band import BandPlugin
 from factoid.factoid import FactoidPlugin, LearnerPlugin
@@ -54,6 +56,7 @@ class ArcBot(IRCBot):
 
         Admin().register(self)
         ArcUserVariables().register(self)
+        Arena().register(self)
         BandPlugin().register(self)
         Coercion().register(self)
         Define().register(self)

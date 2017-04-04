@@ -1,7 +1,8 @@
-from sqlalchemy import Column, Boolean, Integer, Date, String, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.orm import relationship, backref
 
 from ircbot.storage import Base
+
 
 class ArcUser(Base):
     __tablename__ = 'arcusers'
