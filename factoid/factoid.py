@@ -44,32 +44,35 @@ class FactoidPlugin(IRCCommand):
     # oh god this method is awful I need to refactor it
     def last_factoid(self, user, channel, args):
         args = args.split()
-        if len(args) > 0:
-            if len(args) > 1:
-                if user.admin:
-                    cmd = args[0]
-                    id = int(args[1])
-                    if cmd == 'delete':
-                        if factoid_controller.delete_factoid(id):
-                            self.fire(sendmessage(channel, '{}: Deleted factoid #{}.'.format(user.nick, id)))
-                        else:
-                            self.fire(sendmessage(channel, '{}: Could not delete factoid #{}.'.format(user.nick, id)))
-                    else:
-                        self.fire(sendmessage(channel, '{}: Command {} not available.'.format(user.nick, cmd)))
-                else:
-                    self.fire(sendmessage(channel, '{}: You are not an admin.'.format(user.nick)))
-            else:
-                factoid = factoid_controller.get_factoid(int(args[0]))
-                if factoid:
-                    self.print_factoid_info(user, channel, factoid)
-                else:
-                    self.fire(sendmessage(channel, '{}: Could not find factoid #{}.'.format(user.nick, args[0])))
-        else:
+        if len(args) == 0:
             if self.last:
                 factoid = factoid_controller.get_factoid(self.last)
                 self.print_factoid_info(user, channel, factoid)
             else:
                 self.fire(sendmessage(channel, '{}: No recent factoid found.'.format(user.nick)))
+        elif len(args) == 1:
+            factoid = factoid_controller.get_factoid(int(args[0]))
+            if factoid:
+                self.print_factoid_info(user, channel, factoid)
+            else:
+                self.fire(sendmessage(channel, '{}: Could not find factoid #{}.'.format(user.nick, args[0])))
+        elif len(args) > 1:
+            cmd = args[0]
+            id = int(args[1])
+            if cmd == 'delete':
+                factoid = factoid_controller.get_factoid(id)
+                if not factoid:
+                    self.fire(sendmessage(channel, '{}: Factoid {} does not exist.'.format(user.nick, id)))
+                elif user.admin or factoid.creator.base.id == user.id:
+                    if factoid_controller.delete_factoid(id):
+                        self.fire(sendmessage(channel, '{}: Deleted factoid #{}.'.format(user.nick, id)))
+                    else:
+                        self.fire(sendmessage(channel, '{}: Could not delete factoid #{}.'.format(user.nick, id)))
+                else:
+                    self.fire(sendmessage(channel, "{}: Only admins can delete other users' factoids."
+                                          .format(user.nick)))
+            else:
+                self.fire(sendmessage(channel, '{}: Command {} not available.'.format(user.nick, cmd)))
 
     def print_factoid_info(self, user, channel, factoid):
         self.fire(sendmessage(channel, '{}: Factoid #{} was set by {} with trigger {}.'.format(user.nick, factoid.id, factoid.creator.base.nick, factoid.trigger)))
@@ -139,7 +142,7 @@ class LearnerPlugin(IRCCommand):
                 verb = match.group('verb')
                 factoid = factoid_controller.save_factoid(arcuser, channel, trigger, reply, verb)
                 self.fire(sendmessage(channel, '{}: Okay! Learned factoid #{} for {}'.format(source.nick, factoid.id, trigger)))
-                break
+                return
 
     def learn_factoid(self, source, channel, msg):
         arcuser = arcuser_controller.get_or_create_arcuser(source)
@@ -151,4 +154,6 @@ class LearnerPlugin(IRCCommand):
                 verb = match.group('verb')
                 factoid = factoid_controller.save_factoid(arcuser, channel, trigger, reply, verb)
                 self.fire(sendmessage(channel, '{}: Okay! Learned factoid #{} for {}'.format(source.nick, factoid.id, trigger)))
-                break
+                return
+        self.fire(sendmessage(channel, "{}: Sorry, I couldn't understand that factoid. Remember to include a verb!"
+                         .format(source.nick)))
