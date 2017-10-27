@@ -65,14 +65,14 @@ class Link(IRCCommand):
                 self.fire(sendmessage(chan, '{}: Link already in database.'
                     .format(user)))
             else:
-                valid = Link.valid_link(args[0])
+                valid, info = Link.valid_link(args[0])
                 if valid == True:
                     self.links.append(args[0])
                     self.save()
-                    self.fire(sendmessage(chan, '{}: Link added.'.format(user)))
+                    self.fire(sendmessage(chan, '{}: Link added: {}'.format(user, info)))
                 else:
                     self.fire(sendmessage(chan, '{}: Could not add link: {}'
-                        .format(user, valid)))
+                        .format(user, info)))
         else:
             if self.links:
                 self.fire(sendmessage(chan, '{}: {}'.format(user,
@@ -97,10 +97,10 @@ class Link(IRCCommand):
             return "Did not match regex."
         try:
             req = request.Request(link, headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
-            req = request.urlopen(req)
-            if req.getcode() // 100 == 2:
-                return True
+            resp = request.urlopen(req)
+            if resp.getcode() // 100 == 2:
+                return True, re.search("<title>(?P<title>.*?)</title>", str(resp.read())).group('title')
             else:
-                return "Return code {}.".format(req.getcode())
+                return False, "Return code {}.".format(resp.getcode())
         except Exception as e:
-            return e
+            return False, e
