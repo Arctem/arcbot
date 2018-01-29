@@ -5,7 +5,7 @@ import phrase_maker.phrase_maker as phrase_maker
 
 import phrase_data
 
-PHRASES = ['clickbait', 'cyber', 'dnd', 'fate', 'how', 'insult', 'loot', 'movie', 'name', 'plan']
+PHRASES = ['clickbait', 'cyber', 'dnd', 'fate', 'how', 'insult', 'loot', 'movie', 'name', 'plan', 'ration']
 
 def get_phrase_commands():
     commands = []
