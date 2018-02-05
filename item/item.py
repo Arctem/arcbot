@@ -41,26 +41,26 @@ class ItemPlugin(IRCCommand):
                 ('items', 'counts', 'current')),
             (lambda: "I've seen {} items total!".format(item_controller.count_items()),
                 ('items', 'counts', 'all')),
-            (self._top_itemer(false), ('items', 'counts', 'current', 'top')),
-            (self._top_itemer(true), ('items', 'counts', 'all', 'top'))
+            (self._top_itemer(False), ('items', 'counts', 'current', 'top')),
+            (self._top_itemer(True), ('items', 'counts', 'all', 'top'))
         }
 
         for arcuser in item_controller.get_all_arcusers_with_items():
             stats.add(
-                (lambda: "{} of my current items are from {}.".format(item_controller.count_items(arcuser, true), arcuser.base.nick),
+                (lambda: "{} of my current items are from {}.".format(item_controller.count_items(arcuser, True), arcuser.base.nick),
                  ('items', 'counts', 'current', arcuser.base.nick)),
-                (lambda: "{} has created {} items.".format(arcuser.base.nick, item_controller.count_items(arcuser, true)),
+                (lambda: "{} has created {} items.".format(arcuser.base.nick, item_controller.count_items(arcuser, True)),
                  ('items', 'counts', 'all', arcuser.base.nick))
             )
 
     def _top_itemer(self, include_deleted):
         strings = {
-            true: {
+            True: {
                 'none': 'No one has given me any items!',
                 'one': '{} has given me the most items, {}.',
                 'multiple': '{} have given me the most items: {} each.'
             },
-            false: {
+            False: {
                 'none': "I don't have any items!",
                 'one': 'Most of my items are from {}: {}.',
                 'multiple': '{} have given me the most of my current items: {} each.'
