@@ -7,12 +7,14 @@ import ircbot.user_controller as user_controller
 
 import arcuser.arcuser_controller as arcuser_controller
 
-variables_regex = re.compile(r'(?<=\$)[a-zA-Z]+')
+variables_regex = re.compile(r'(\$[a-zA-Z]+)')
 directed_regex = re.compile(r'^\S+(?=[:,])')
+
 
 class SmartVariables(IRCPlugin):
     '''We call each callback with the metadata and a list of the variables found.
     They return a dict containing the variables they reply with.'''
+
     def __init__(self):
         super(SmartVariables, self).__init__()
         self.callbacks = set()
@@ -27,21 +29,25 @@ class SmartVariables(IRCPlugin):
 
     def perform_replacements(self, message, **kwargs):
         replaced = {}
-        found_vars = variables_regex.findall(message)
+        parts = variables_regex.split(message)
         kwargs = self.process_kwargs(**kwargs)
-        replacements = self.gather_replacements(found_vars, **kwargs)
-        #this is so if a variable name is a prefix of another we won't break when replacing them
-        replacements = sorted(replacements.items(), key=lambda r: len(r[0]), reverse=True)
+        replacements = self.gather_replacements(**kwargs)
 
-        for to_replace, options in replacements:
-            replacement = random.choice(options)
-            message = re.sub(r'\${}(?![a-zA-Z])'.format(to_replace), replacement, message)
-        return message
+        for i in range(len(parts)):
+            part = parts[i]
+            if part[0] != '$':
+                continue
+            part = part[1:]
+            if part in replacements.keys():
+                replacement_func = random.choice(replacements[part])
+                parts[i] = replacement_func()
+        print(parts)
+        return ''.join(parts)
 
-    def gather_replacements(self, variables, **metadata):
+    def gather_replacements(self, **metadata):
         replacements = {}
         for callback in self.callbacks:
-            retval = callback(variables, **metadata)
+            retval = callback(**metadata)
             for key, value in retval.items():
                 if key not in replacements:
                     replacements[key] = []

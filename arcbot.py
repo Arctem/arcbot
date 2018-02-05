@@ -1,4 +1,5 @@
-import sys, os
+import sys
+import os
 
 from circuits import Debugger
 
@@ -24,6 +25,7 @@ from assassins.coerce import Coercion
 from band.band import BandPlugin
 from factoid.factoid import FactoidPlugin, LearnerPlugin
 from factoid.smart_variables import SmartVariables
+from item.item import ItemPlugin
 from link_command import Link
 from markov import Markov
 from questions import Questions
@@ -58,6 +60,7 @@ class ArcBot(IRCBot):
         Coercion().register(self)
         Define().register(self)
         FactoidPlugin().register(self)
+        ItemPlugin().register(self)
         LastMessage().register(self)
         LearnerPlugin().register(self)
         Link(ArcBot.links_file).register(self)
@@ -75,7 +78,8 @@ class ArcBot(IRCBot):
     def ready(self, component):
         pass
 
-def main(args = None):
+
+def main(args=None):
     arcbot = ArcBot()
     d = Debugger().register(arcbot)
     arcbot.run()

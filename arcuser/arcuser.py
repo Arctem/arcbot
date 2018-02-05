@@ -5,7 +5,9 @@ from ircbot.plugin import IRCPlugin
 import arcuser.arcuser_controller as arcuser_controller
 from factoid.events import registersmartvariable
 
+
 class Me(IRCCommand):
+
     def __init__(self):
         super(Me, self).__init__('me', self.me_cmd)
 
@@ -14,15 +16,16 @@ class Me(IRCCommand):
 
 
 class ArcUserVariables(IRCPlugin):
+
     def ready(self, component):
         self.fire(registersmartvariable(self.user_variables))
 
-    def user_variables(self, vars, trigger=None, target=None, **metadata):
-        #supports $who, $someone, $to
-        #maybe eventually supports $op
+    def user_variables(self, trigger=None, target=None, **metadata):
+        # supports $who, $to
+        # maybe eventually supports $someone, $op
         replacements = {}
         if trigger:
-            replacements['who'] = trigger.base.nick
+            replacements['who'] = lambda: trigger.base.nick
         if target:
-            replacements['to'] = target.base.nick
+            replacements['to'] = lambda: target.base.nick
         return replacements

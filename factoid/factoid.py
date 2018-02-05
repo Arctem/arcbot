@@ -9,11 +9,13 @@ from factoid.events import sendsmartmessage, sendsmartaction
 
 regex_to = re.compile('^(?P<to>\S+)[:,]\s+(?P<message>.+)$')
 
+
 class FactoidPlugin(IRCCommand):
+
     def __init__(self):
         super(FactoidPlugin, self).__init__('fact', self.last_factoid,
-            args='[[<command> ]<factoid_number>]',
-            description='Get information on the last factoid triggered.')
+                                            args='[[<command> ]<factoid_number>]',
+                                            description='Get information on the last factoid triggered.')
         self.last = None
 
     def generalmessage(self, source, channel, message):
@@ -33,13 +35,15 @@ class FactoidPlugin(IRCCommand):
         if factoid:
             self.last = factoid.id
             if factoid.verb == "'s":
-                self.fire(sendsmartmessage(channel, "{}'s {}".format(factoid.trigger, factoid.reply), original=message, trigger=source))
+                self.fire(sendsmartmessage(channel, "{}'s {}".format(factoid.trigger, factoid.reply),
+                                           channel=channel, original=message, trigger=source))
             elif factoid.verb == 'reply':
-                self.fire(sendsmartmessage(channel, factoid.reply, original=message, trigger=source))
+                self.fire(sendsmartmessage(channel, factoid.reply, channel=channel, original=message, trigger=source))
             elif factoid.verb == 'action':
-                self.fire(sendsmartaction(channel, factoid.reply, original=message, trigger=source))
+                self.fire(sendsmartaction(channel, factoid.reply, channel=channel, original=message, trigger=source))
             else:
-                self.fire(sendsmartmessage(channel, '{} {} {}'.format(factoid.trigger, factoid.verb, factoid.reply), original=message, trigger=source))
+                self.fire(sendsmartmessage(channel, '{} {} {}'.format(factoid.trigger,
+                                                                      factoid.verb, factoid.reply), channel=channel, original=message, trigger=source))
 
     # oh god this method is awful I need to refactor it
     def last_factoid(self, user, channel, args):
@@ -75,7 +79,8 @@ class FactoidPlugin(IRCCommand):
                 self.fire(sendmessage(channel, '{}: Command {} not available.'.format(user.nick, cmd)))
 
     def print_factoid_info(self, user, channel, factoid):
-        self.fire(sendmessage(channel, '{}: Factoid #{} was set by {} with trigger {}.'.format(user.nick, factoid.id, factoid.creator.base.nick, factoid.trigger)))
+        self.fire(sendmessage(channel, '{}: Factoid #{} was set by {} with trigger {}.'.format(
+            user.nick, factoid.id, factoid.creator.base.nick, factoid.trigger)))
 
     def stats(self):
         stats = {
@@ -113,24 +118,26 @@ class FactoidPlugin(IRCCommand):
             users_string = start + ' and ' + top_arcusers[-1].base.nick
             return '{} have submitted the most factoids, with {} each.'.format(users_string, top_count)
 
-#for directed messages
+# for directed messages
 regex_learn = list(map(re.compile, [
     r"^(?P<trigger>\S+?(?:\s+\S+?)?)\s*\<(?P<verb>.+?)\>\s+(?P<reply>.+)$",
     r"^(?P<trigger>\S+?(?:\s+\S+?)?)\s+(?P<verb>is|are)\s+(?P<reply>\S+(?:\s+\S+)?)$",
     r"^(?P<trigger>\S+?(?:\s+\S+?)?)(?P<verb>'s)\s+(?P<reply>.+)$",
 ]))
 
-#for the command (more general)
+# for the command (more general)
 regex_teach = list(map(re.compile, [
     r"^(?P<trigger>.+?)\s*\<(?P<verb>.+?)\>\s+(?P<reply>.+)$",
     r"^(?P<trigger>.+?)\s+(?P<verb>is|are)\s+(?P<reply>.+)$",
     r"^(?P<trigger>.+?)(?P<verb>'s)\s+(?P<reply>.+)$",
 ]))
 
+
 class LearnerPlugin(IRCCommand):
+
     def __init__(self):
         super(LearnerPlugin, self).__init__('learn', self.learn_factoid,
-            description='arcbot is quite impressionable! Be careful what you teach him.')
+                                            description='arcbot is quite impressionable! Be careful what you teach him.')
 
     def directmessage(self, source, channel, msg):
         arcuser = arcuser_controller.get_or_create_arcuser(source)
@@ -156,4 +163,4 @@ class LearnerPlugin(IRCCommand):
                 self.fire(sendmessage(channel, '{}: Okay! Learned factoid #{} for {}'.format(source.nick, factoid.id, trigger)))
                 return
         self.fire(sendmessage(channel, "{}: Sorry, I couldn't understand that factoid. Remember to include a verb!"
-                         .format(source.nick)))
+                              .format(source.nick)))
