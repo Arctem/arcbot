@@ -23,8 +23,9 @@ def get_item(channel, s=None):
 
 @db.atomic
 def pop_item(channel, s=None):
-    item = get_item(channel, s)
-    item.deleted = True
+    item = get_item(channel, s=s)
+    if item:
+        item.deleted = True
     return item
 
 

@@ -15,3 +15,6 @@ class Item(Base):
 
     name = Column(String)
     deleted = Column(Boolean, default=False)
+
+    def __str__(self):
+        return self.name

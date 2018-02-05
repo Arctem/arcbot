@@ -29,18 +29,19 @@ class SmartVariables(IRCPlugin):
 
     def perform_replacements(self, message, **kwargs):
         replaced = {}
-        parts = variables_regex.split(message)
         kwargs = self.process_kwargs(**kwargs)
         replacements = self.gather_replacements(**kwargs)
 
+        parts = variables_regex.split(message)
+        print(parts)
         for i in range(len(parts)):
             part = parts[i]
-            if part[0] != '$':
+            if not part or part[0] != '$':
                 continue
             part = part[1:]
             if part in replacements.keys():
                 replacement_func = random.choice(replacements[part])
-                parts[i] = replacement_func()
+                parts[i] = str(replacement_func())
         print(parts)
         return ''.join(parts)
 
