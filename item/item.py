@@ -48,7 +48,9 @@ class ItemPlugin(IRCCommand):
         for arcuser in item_controller.get_all_arcusers_with_items():
             stats.add(
                 (lambda: "{} of my current items are from {}.".format(item_controller.count_items(arcuser, True), arcuser.base.nick),
-                 ('items', 'counts', 'current', arcuser.base.nick)),
+                 ('items', 'counts', 'current', arcuser.base.nick))
+            )
+            stats.add(
                 (lambda: "{} has created {} items.".format(arcuser.base.nick, item_controller.count_items(arcuser, True)),
                  ('items', 'counts', 'all', arcuser.base.nick))
             )
