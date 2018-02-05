@@ -46,32 +46,36 @@ class ItemPlugin(IRCCommand):
         }
 
         for arcuser in item_controller.get_all_arcusers_with_items():
-            stats.add(
-                (lambda: "{} of my current items are from {}.".format(item_controller.count_items(arcuser, True), arcuser.base.nick),
-                 ('items', 'counts', 'current', arcuser.base.nick))
-            )
-            stats.add(
-                (lambda: "{} has created {} items.".format(arcuser.base.nick, item_controller.count_items(arcuser, True)),
-                 ('items', 'counts', 'all', arcuser.base.nick))
-            )
+            self._make_stats_for_arcuser(stats, arcuser)
+        return stats
+
+    def _make_stats_for_arcuser(self, stats, arcuser):
+        stats.add(
+            (lambda: "{} of my current items are from {}.".format(item_controller.count_items(arcuser), arcuser.base.nick),
+             ('items', 'counts', 'current', arcuser.base.nick))
+        )
+        stats.add(
+            (lambda: "{} has created {} items.".format(arcuser.base.nick, item_controller.count_items(arcuser, True)),
+             ('items', 'counts', 'all', arcuser.base.nick))
+        )
 
     def _top_itemer(self, include_deleted):
         strings = {
             True: {
                 'none': 'No one has given me any items!',
-                'one': '{} has given me the most items, {}.',
-                'multiple': '{} have given me the most items: {} each.'
+                'one': '{user} has given me the most items, {count}.',
+                'multiple': '{users} have given me the most items: {count} each.'
             },
             False: {
                 'none': "I don't have any items!",
-                'one': 'Most of my items are from {}: {}.',
-                'multiple': '{} have given me the most of my current items: {} each.'
+                'one': 'Most of my items are from {user}: {count}.',
+                'multiple': '{users} have given me the most of my current items: {count} each.'
             }
         }[include_deleted]
 
         def calc_top():
             arcusers = item_controller.get_all_arcusers_with_items()
-            top_arcusers, top_count = arcusers[:1], item_controller.count_items(arcusers[0])
+            top_arcusers, top_count = [arcusers[0]], item_controller.count_items(arcusers[0], include_deleted=include_deleted)
             for arcuser in arcusers[1:]:
                 count = item_controller.count_items(arcuser, include_deleted=include_deleted)
                 if count > top_count:
@@ -87,5 +91,5 @@ class ItemPlugin(IRCCommand):
             else:
                 start = ', '.join(map(lambda u: u.base.nick, top_arcusers[:-1]))
                 users_string = start + ' and ' + top_arcusers[-1].base.nick
-                return strings['multiple'].format(users_string, top_count)
+                return strings['multiple'].format(users=users_string, count=top_count)
         return calc_top

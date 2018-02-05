@@ -37,6 +37,8 @@ def purge_item(name, s=None):
 @db.needs_session
 def count_items(arcuser=None, include_deleted=False, s=None):
     q = s.query(Item)
+    if not include_deleted:
+        q = q.filter(Item.deleted == False)
     if arcuser:
         q = q.filter(Item.creator == arcuser)
     return q.count()
