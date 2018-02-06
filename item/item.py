@@ -38,9 +38,9 @@ class ItemPlugin(IRCCommand):
     def stats(self):
         stats = {
             (lambda: "I currently have {} items.".format(item_controller.count_items()),
-                ('items', 'counts', 'current')),
-            (lambda: "I've seen {} items total!".format(item_controller.count_items()),
-                ('items', 'counts', 'all')),
+                ('items', 'counts', 'current', 'aggregate')),
+            (lambda: "I've seen {} items total!".format(item_controller.count_items(include_deleted=True)),
+                ('items', 'counts', 'all', 'aggregate')),
             (self._top_itemer(False), ('items', 'counts', 'current', 'top')),
             (self._top_itemer(True), ('items', 'counts', 'all', 'top'))
         }
