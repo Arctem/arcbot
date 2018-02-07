@@ -14,3 +14,5 @@ class ArcUser(Base):
 
     factoids = relationship('Factoid', back_populates='creator')
     items = relationship('Item', back_populates='creator')
+    tavern = relationship('Tavern', back_populates='owner')
+    tavern_logs = relationship('TavernLog', back_populates='user')

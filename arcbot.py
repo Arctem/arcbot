@@ -29,6 +29,7 @@ from item.item import ItemPlugin
 from link_command import Link
 from markov import Markov
 from questions import Questions
+from tavern.tavern import TavernPlugin
 from thefucking import TheFucking
 from word_swap import WordSwap
 from words.define import Define
@@ -69,6 +70,7 @@ class ArcBot(IRCBot):
         Questions().register(self)
         SmartVariables().register(self)
         Stats().register(self)
+        TavernPlugin().register(self)
         TheFucking().register(self)
         UserTracker().register(self)
         WordSwap().register(self)
