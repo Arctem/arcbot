@@ -81,10 +81,14 @@ class TavernLog(Base):
     user = relationship('ArcUser', back_populates='tavern_logs', lazy='joined')
     text = Column(String, nullable=False)
     time = Column(DateTime, nullable=False)
+    sent = Column(Boolean, default=False, nullable=False)
+
+    def __str__(self):
+        return self.text
 
 
 class TavernAdventure(Base):
-    __tablename__ = 'tavern_adventure'
+    __tablename__ = 'tavern_adventures'
 
     id = Column(Integer, primary_key=True)
     hero_id = Column(Integer, ForeignKey('tavern_heroes.id'), nullable=False)
@@ -93,7 +97,41 @@ class TavernAdventure(Base):
     active = Column(Boolean, default=True, nullable=False)
 
 
-class TavernBoss(Base):
-    __tablename__ = 'tavern_boss'
+class TavernDungeon(Base):
+    __tablename__ = 'tavern_dungeons'
 
     id = Column(Integer, primary_key=True)
+    name = Column(String, unique=True, nullable=False)
+    floors = relationship('TavernFloor', back_populates='dungeon', lazy='joined')
+    active = Column(Boolean, default=True, nullable=False)
+    secret = Column(Boolean, default=True, nullable=False)
+
+    def __str__(self):
+        return self.name
+
+
+class TavernDungeonTrait(Base):
+    __tablename__ = 'tavern_dungeon_traits'
+
+    id = Column(Integer, primary_key=True)
+
+
+class TavernFloor(Base):
+    __tablename__ = 'tavern_floors'
+
+    id = Column(Integer, primary_key=True)
+    number = Column(Integer, nullable=False)
+    dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
+    dungeon = relationship('TavernDungeon', back_populates='floors', lazy='joined')
+    monsters = relationship('TavernMonster', back_populates='floor', lazy='joined')
+
+    def __str__(self):
+        return "{} F{}".format(self.dungeon.name, self.number)
+
+
+class TavernMonster(Base):
+    __tablename__ = 'tavern_monsters'
+
+    id = Column(Integer, primary_key=True)
+    floor_id = Column(Integer, ForeignKey('tavern_floors.id'), nullable=False)
+    floor = relationship('TavernFloor', back_populates='monsters', lazy='joined')

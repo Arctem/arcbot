@@ -6,9 +6,11 @@ from ircbot.events import debugalert, sendmessage, sendaction, sendnotice
 from ircbot.command import IRCCommand
 
 import arcuser.arcuser_controller as arcuser_controller
-#from factoid.events import registersmartvariable
-import tavern.controller as controller
+# from factoid.events import registersmartvariable
+from tavern import town_tasks, tick, logs
 from tavern.events import taverntick
+
+DEFAULT_CHANNEL = "#bot"
 
 
 class TavernPlugin(IRCCommand):
@@ -21,6 +23,7 @@ class TavernPlugin(IRCCommand):
             'hire': self.cmd_hire,
             'name': self.cmd_name,
             'status': self.cmd_status,
+            'tick': lambda *args, **kwargs: self.fire(taverntick()),
         }
 
     def ready(self, component):
@@ -30,7 +33,18 @@ class TavernPlugin(IRCCommand):
 
     def taverntick(self):
         self.fire(debugalert("Tavern tick"))
-        self.fire(sendnotice("#bot", "Tick"))
+        self.fire(sendnotice(DEFAULT_CHANNEL, "Tick"))
+        if not tick.tick():
+            self.fire(sendnotice(DEFAULT_CHANNEL, "Tick failed"))
+            return
+
+        for log in logs.get_unsent():
+            print(log)
+            if log.user:
+                self.fire(sendmessage(log.user.base.nick, str(log)))
+            else:
+                self.fire(sendnotice(DEFAULT_CHANNEL, str(log)))
+        logs.mark_all_sent()
 
     def tavern(self, user, channel, args):
         arcuser = arcuser_controller.get_or_create_arcuser(user)
@@ -48,7 +62,7 @@ class TavernPlugin(IRCCommand):
 
     def _tutorial_lock(function):
         def locked_function(self, arcuser, channel, args):
-            tavern = controller.find_tavern(arcuser)
+            tavern = town_tasks.find_tavern(arcuser)
             if not tavern:
                 self.fire(sendmessage(channel, '{}: Please name your tavern with ".tavern name <tavern name>" first.'.format(arcuser.base.nick)))
                 return
@@ -59,16 +73,16 @@ class TavernPlugin(IRCCommand):
         return locked_function
 
     def cmd_name(self, arcuser, channel, args):
-        tavern = controller.name_tavern(arcuser, args)
+        tavern = town_tasks.name_tavern(arcuser, args)
         if tavern:
             self.fire(sendmessage(channel, '{}: Your tavern is now named {}.'.format(arcuser.base.nick, tavern.name)))
         else:
             self.fire(sendmessage(channel, '{}: Unable to name tavern.'.format(arcuser.base.nick)))
 
     def cmd_hire(self, arcuser, channel, args):
-        tavern = controller.find_tavern(arcuser)
+        tavern = town_tasks.find_tavern(arcuser)
         if not tavern:
-            self.fire(sendmessage(channel, '{}: Please name your tavern with ".tavern name <tavern name>" first.'))
+            self.fire(sendmessage(channel, '{}: Please name your tavern with ".tavern name <tavern name>" first.'.format(arcuser.base.nick)))
             return
 
         args = args.split()
@@ -76,7 +90,7 @@ class TavernPlugin(IRCCommand):
             self.fire(sendmessage(channel, '{}: Who do you want to hire?'.format(arcuser.base.nick)))
             return
         if not tavern.resident_hero:
-            hero = controller.create_resident_hero(tavern, ' '.join(args))
+            hero = town_tasks.create_resident_hero(tavern, ' '.join(args))
             self.fire(sendmessage(channel, '{}: You have hired {}.'.format(arcuser.base.nick, hero)))
             return
 
