@@ -58,8 +58,4 @@ class Define(IRCCommand):
             description='Define a word. Probably.')
 
     def define(self, user, channel, args):
-        try:
-            self.fire(sendmessage(channel, '{}: {}'.format(user.nick, define_command(args))))
-        except Exception as err:
-            self.fire(sendmessage(channel, '{}: Error defining: {}'.format(user.nick, err)))
-            raise
+        self.fire(sendmessage(channel, '{}: {}'.format(user.nick, define_command(args))))

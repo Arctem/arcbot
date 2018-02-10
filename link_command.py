@@ -69,7 +69,10 @@ class Link(IRCCommand):
                 if valid == True:
                     self.links.append(args[0])
                     self.save()
-                    self.fire(sendmessage(chan, '{}: Link added: {}'.format(user, info)))
+                    if info:
+                        self.fire(sendmessage(chan, '{}: Link added: {}'.format(user, info)))
+                    else:
+                        self.fire(sendmessage(chan, '{}: Link added.'.format(user)))
                 else:
                     self.fire(sendmessage(chan, '{}: Could not add link: {}'
                         .format(user, info)))
@@ -99,7 +102,10 @@ class Link(IRCCommand):
             req = request.Request(link, headers={ 'User-Agent': "Python's arcbot: The Ultimate Botting Machine!" })
             resp = request.urlopen(req)
             if resp.getcode() // 100 == 2:
-                return True, re.search("<title>(?P<title>.*?)</title>", str(resp.read())).group('title')
+                title = re.search("<title>(?P<title>.*?)</title>", str(resp.read()))
+                if title:
+                    title = title.group('title')
+                return True, title
             else:
                 return False, "Return code {}.".format(resp.getcode())
         except Exception as e:
