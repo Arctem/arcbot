@@ -48,22 +48,24 @@ data = {
         'liquid': ['milk', 'goo', 'slime', 'vodka', 'alcoholic beverages', 'Red Bull™'],
         'body_part': ['face', 'chest', 'forehead', 'arms'],
         'container': ['sack', 'bucket', 'bag', 'chest'],
+        'item_adjective' : ['strong', 'blue', 'explosive', 'potent', 'colorful'],
 
-        'attribute': ['strong', 'blue', 'explosive', 'potent', 'colorful'],
+        'execution' : ['{someone_will} need to {instructions}.', "you'd better hope {condition}."],
+        'someone_will' : ["we'll", '{irc_member} will'],
+        'instructions' : ['{premade_instruction}', 'get some help from {target_person,target_people}', "make sure {target_person} doesn't find out", 'get {target_object} first', 'find out when the {event} starts', 'get a map of {place}', 'sacrifice {target_person,target_people} to {evil_being}'],
+        'premade_instruction' : ['keep it secret, keep it safe', 'stop blinking', 'put on some pants', 'get naked'],
+        'condition' : ['{premade_condition}', '{famous_person,irc_member} remembers to bring {target_object}', '{famous_person,irc_member} comes through for us', 'our {item} lasts through the {event}', 'our {item} is {item_adjective} enough', "we don't run out of {items}", "{famous_person,irc_member} is {secret_identity,person_adjective,target_person}", "{target_person} {actions} in time"],
+        'premade_condition' : ['the stars are right', "you're adopted", 'our Kickstarter gets funded', 'the terrorists win', 'jet fuel can melt steel beams', 'the proof is both necessary and sufficient', 'grandma accepts your apology', 'the phasers are set to stun'],
+        'actions' : ['fixes the bugs', 'hides the evidence', 'sends the nudes', "can believe it's not butter"],
 
-        'execution': ['{someone_will} need to {instructions}.', "you'd better hope {condition}."],
-        'someone_will': ["we'll", '{irc_member} will'],
-        'instructions': ['{premade_instruction}', 'get some help from {target_person,target_people}', "make sure {target_person} doesn't find out", 'get {target_object} first', 'find out when the {event} starts', 'get a map of {place}', 'sacrifice {target_person,target_people} to {evil_being}'],
-        'premade_instruction': ['keep it secret, keep it safe', 'stop blinking', 'put on some pants', 'get naked'],
-        'condition': ['{premade_condition}', '{famous_person,irc_member} remembers to bring {target_object}', '{famous_person,irc_member} comes through for us', 'our {item} lasts through the {event}', 'our {item} is {attribute} enough', "we don't run out of {items}", "{famous_person,irc_member} is {secret_identity,person_adjective,target_person}", "{target_person} {actions} in time"],
-        'premade_condition': ['the stars are right', "you're adopted", 'our Kickstarter gets funded', 'the terrorists win', 'jet fuel can melt steel beams', 'the proof is both necessary and sufficient', 'grandma accepts your apology', 'the phasers are set to stun'],
-        'actions': ['fixes the bugs', 'hides the evidence', 'sends the nudes', "can believe it's not butter"],
+        'competition' : ['the World Series of {Game}', '{game}', 'the {competition}'],
+        'game' : ['ping pong', 'cricket', 'crochet', 'chess', 'hop-scotch', 'tag', 'Go'],
+        'competition' : ['{event}', '{attribute} pageant', '{skill} competition', 'spelling bee'],
+        'attribute' : ['beauty', 'dexterity', 'girth', 'strength', 'wisdom'],
+        'skill' : ['calligraphy', 'climbing', 'dance', 'ditch-digging', 'magic', 'murder', 'snark', 'sorcery'],
 
-        'competition': ['the World Series of {Game}', '{game}'],
-        'game': ['ping pong', 'cricket', 'crochet', 'chess', 'hop-scotch', 'tag'],
-
-        'location': ['{place}', 'the {event}', "{target_person}'s {event}"],
-        'event': ['orgy', 'parade', 'sacrifice', 'birthday party', 'ceremony', 'wrestling match'],
-        'place': ['Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Tyme', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh", 'the International Space Station', 'Prague', 'the world', 'Earth', 'The Place Where We All Are'],
+        'location' : ['{place}', 'the {event}', "{target_person}'s {event}"],
+        'event' : ['orgy', 'parade', 'sacrifice', 'birthday party', 'ceremony', 'wrestling match'],
+        'place' : ['The {Dnd/location}', 'Poland', 'Austria', 'Germany', 'Kansas', 'Burrito Tyme', 'Vatican City', 'The Anti-Vatican', 'Russia', 'Australia', 'Europe', 'Mars', "R'lyeh", 'the International Space Station', 'Prague', 'the world', 'Earth', 'The Place Where We All Are', 'The Fiery Pits of Hell'],
     }
 }
