@@ -7,8 +7,9 @@ from ircbot.command import IRCCommand
 
 import arcuser.arcuser_controller as arcuser_controller
 #from factoid.events import registersmartvariable
-import tavern.controller as controller
 from tavern.events import taverntick
+from tavern.hq.commands import HQ
+from tavern.pool.commands import Pool
 
 
 class TavernPlugin(IRCCommand):
@@ -17,10 +18,15 @@ class TavernPlugin(IRCCommand):
         super(TavernPlugin, self).__init__('tavern', self.tavern,
                                            args='<things?>',
                                            description='Sorry Elliot, I got no idea yet.')
+
+        self.hq = HQ(self)
+        self.pool = Pool(self)
+
         self.functions = {
-            'hire': self.cmd_hire,
-            'name': self.cmd_name,
-            'status': self.cmd_status,
+            'hire': self.pool.hire,
+            'name': self.hq.generate,
+            'generate': self.hq.generate,
+            'status': self.hq.status,
         }
 
     def ready(self, component):
@@ -30,13 +36,13 @@ class TavernPlugin(IRCCommand):
 
     def taverntick(self):
         self.fire(debugalert("Tavern tick"))
-        self.fire(sendnotice("#bot", "Tick"))
 
     def tavern(self, user, channel, args):
         arcuser = arcuser_controller.get_or_create_arcuser(user)
         args = args.split()
         if len(args) is 0:
-            self.fire(sendmessage(channel, '{}: What do you want to do?'.format(user.nick)))
+            # self.fire(sendmessage(channel, '{}: What do you want to do?'.format(user.nick)))
+            self.fire(sendmessage(channel, '{}: {}'.format(user.nick, self.playerTavern)))
             return
 
         cmd = args[0]
@@ -46,9 +52,13 @@ class TavernPlugin(IRCCommand):
         else:
             self.functions[cmd](arcuser, channel, args)
 
+    def say(self, channel, message):
+        self.fire(sendmessage(channel, message))
+
     def _tutorial_lock(function):
         def locked_function(self, arcuser, channel, args):
-            tavern = controller.find_tavern(arcuser)
+            self.fire(sendmessage(channel, 'here'))
+            tavern = hq_controller.find_tavern(arcuser)
             if not tavern:
                 self.fire(sendmessage(channel, '{}: Please name your tavern with ".tavern name <tavern name>" first.'.format(arcuser.base.nick)))
                 return
@@ -57,31 +67,3 @@ class TavernPlugin(IRCCommand):
                 return
             return function(self, arcuser, channel, args)
         return locked_function
-
-    def cmd_name(self, arcuser, channel, args):
-        tavern = controller.name_tavern(arcuser, args)
-        if tavern:
-            self.fire(sendmessage(channel, '{}: Your tavern is now named {}.'.format(arcuser.base.nick, tavern.name)))
-        else:
-            self.fire(sendmessage(channel, '{}: Unable to name tavern.'.format(arcuser.base.nick)))
-
-    def cmd_hire(self, arcuser, channel, args):
-        tavern = controller.find_tavern(arcuser)
-        if not tavern:
-            self.fire(sendmessage(channel, '{}: Please name your tavern with ".tavern name <tavern name>" first.'))
-            return
-
-        args = args.split()
-        if len(args) is 0:
-            self.fire(sendmessage(channel, '{}: Who do you want to hire?'.format(arcuser.base.nick)))
-            return
-        if not tavern.resident_hero:
-            hero = controller.create_resident_hero(tavern, ' '.join(args))
-            self.fire(sendmessage(channel, '{}: You have hired {}.'.format(arcuser.base.nick, hero)))
-            return
-
-        self.fire(sendmessage(channel, '{}: Unimplemented.'.format(arcuser.base.nick)))
-
-    @_tutorial_lock
-    def cmd_status(self, arcuser, channel, args):
-        pass

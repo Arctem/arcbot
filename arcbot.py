@@ -29,7 +29,7 @@ from item.item import ItemPlugin
 from link_command import Link
 from markov import Markov
 from questions import Questions
-from tavern.tavern import TavernPlugin
+from tavern.plugin import TavernPlugin
 from thefucking import TheFucking
 from word_swap import WordSwap
 from words.define import Define
@@ -43,8 +43,8 @@ class ArcBot(IRCBot):
     links_file = 'links.botdat'
 
     def __init__(self):
-        super(ArcBot, self).__init__(host='irc.sudo-rmrf.net', port=6667,
-            channel='#csb', nick='arcbot',
+        super(ArcBot, self).__init__(host='byrn.sudo-rmrf.net', port=6667,
+            channel='#ihavenoideahowircworks', nick='duncbot',
             realname="Ultimate Botting Machine:" +
                 " http://i.imgur.com/mrrKP.png" +
                 " https://www.youtube.com/watch?v=L9biyJcBhRs")
