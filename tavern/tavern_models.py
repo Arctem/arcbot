@@ -7,12 +7,12 @@ from ircbot.storage import Base
 
 
 class Jobs(enum.Enum):
-    barbarian = 'Barbarian'
-    rogue = 'Rogue'
-    monk = 'Monk'
-    wizard = 'Wizard'
-    bard = 'Bard'
-    druid = 'Druid'
+    Barbarian = 'Barbarian'  # Good against fragile things, bad against evasion
+    Rogue = 'Rogue'  # Good against big things
+    Monk = 'Monk'  # Good against fast things, bad against things it can't touch
+    Wizard = 'Wizard'  # Good against magic things
+    Bard = 'Bard'  # Good against old things
+    Druid = 'Druid'  # Good against natural things, bad against technology
 
 
 class Tavern(Base):
@@ -102,9 +102,12 @@ class TavernDungeon(Base):
 
     id = Column(Integer, primary_key=True)
     name = Column(String, unique=True, nullable=False)
-    floors = relationship('TavernFloor', back_populates='dungeon', lazy='joined')
     active = Column(Boolean, default=True, nullable=False)
     secret = Column(Boolean, default=True, nullable=False)
+
+    floors = relationship('TavernFloor', back_populates='dungeon',
+                          order_by='TavernFloor.number', lazy='joined')
+    traits = relationship('TavernDungeonTrait', back_populates='dungeon', lazy='joined')
 
     def __str__(self):
         return self.name
@@ -114,6 +117,9 @@ class TavernDungeonTrait(Base):
     __tablename__ = 'tavern_dungeon_traits'
 
     id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False)
+    dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
+    dungeon = relationship('TavernDungeon', back_populates='traits', lazy='joined')
 
 
 class TavernFloor(Base):
@@ -133,5 +139,9 @@ class TavernMonster(Base):
     __tablename__ = 'tavern_monsters'
 
     id = Column(Integer, primary_key=True)
+    level = Column(Integer, nullable=False)
+    stock = Column(String, nullable=False)
+    modifier = Column(String, nullable=True)
+
     floor_id = Column(Integer, ForeignKey('tavern_floors.id'), nullable=False)
     floor = relationship('TavernFloor', back_populates='monsters', lazy='joined')
