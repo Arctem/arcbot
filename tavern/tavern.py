@@ -7,7 +7,7 @@ from ircbot.command import IRCCommand
 
 import arcuser.arcuser_controller as arcuser_controller
 # from factoid.events import registersmartvariable
-from tavern import town_tasks, tick, logs
+from tavern import dungeon_tasks, town_tasks, tick, logs
 from tavern.events import taverntick
 
 DEFAULT_CHANNEL = "#bot"
@@ -45,6 +45,7 @@ class TavernPlugin(IRCCommand):
             else:
                 self.fire(sendnotice(DEFAULT_CHANNEL, str(log)))
         logs.mark_all_sent()
+        dungeon_tasks.print_debug()
 
     def tavern(self, user, channel, args):
         arcuser = arcuser_controller.get_or_create_arcuser(user)

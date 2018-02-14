@@ -15,15 +15,23 @@ import tavern.raws.dungeon as dungeon_raws
 import tavern.raws.monster as monster_raws
 
 # Soft max, beaten by DUNGEONS_MIN_KNOWN
-DUNGEONS_MAX_ACTIVE = 5
-DUNGEONS_MIN_KNOWN = 2
+DUNGEONS_MAX_ACTIVE = 10
+DUNGEONS_MIN_KNOWN = 5
 DUNGEONS_MIN_FLOORS = 5
 DUNGEONS_MAX_FLOORS = 10
 
 MONSTERS_PER_FLOOR = 10
 MONSTER_NO_MOD_CHANCE = 0.3
-MONSTER_SORT_VARIATION = 0.2
+MONSTER_SORT_VARIATION = 0.5
 MONSTER_HP_LEVEL_WEIGHT = 0.2  # how many levels each hit point counts for
+
+
+@db.needs_session
+def print_debug(s=None):
+    for dungeon in s.query(TavernDungeon).all():
+        print("There is a dungeon called {} that is {}".format(dungeon.name, ", ".join(map(lambda t: t.name, dungeon.traits))))
+        for floor in dungeon.floors:
+            print("{}: {}".format(floor, ", ".join(map(str, floor.monsters))))
 
 
 @db.atomic
@@ -116,17 +124,14 @@ def populate_dungeon(dungeon, s=None):
 
     print(dungeon.floors)
     for floor in range(len(dungeon.floors)):
-        for monster in monsters[floor:floor + MONSTERS_PER_FLOOR]:
-            monster.floor = dungeon.floors[floor]
-            s.add(monster)
+        dungeon.floors[floor].monsters = monsters[floor * MONSTERS_PER_FLOOR:(floor + 1) * MONSTERS_PER_FLOOR]
 
 
 ####################
 # Monster Management
 ####################
 
-
-def generate_monsters(num_monsters, options):
+def generate_monsters(num_monsters, options, s=None):
     monsters = []
     for i in range(num_monsters):
         stock, modifier = None, None

@@ -145,3 +145,9 @@ class TavernMonster(Base):
 
     floor_id = Column(Integer, ForeignKey('tavern_floors.id'), nullable=False)
     floor = relationship('TavernFloor', back_populates='monsters', lazy='joined')
+
+    def __str__(self):
+        species = self.stock
+        if self.modifier:
+            species = self.modifier + " " + species
+        return "L{} {}".format(self.level, species)
