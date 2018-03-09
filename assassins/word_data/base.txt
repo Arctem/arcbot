@@ -1,6 +1,5 @@
 \w{16,}
 a.*b.*c
-a.*z
 america
 andrew
 anime
