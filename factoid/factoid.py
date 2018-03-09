@@ -42,7 +42,7 @@ class FactoidPlugin(IRCCommand):
             elif factoid.verb == 'action':
                 self.fire(sendsmartaction(channel, factoid.reply, channel=channel, original=message, trigger=source))
             else:
-                self.fire(sendsmartmessage(channel, '{} {} {}'.format(factoid.trigger,
+                self.fire(sendsmartmessage(channel, '{} {} {}'.format(message,
                                                                       factoid.verb, factoid.reply), channel=channel, original=message, trigger=source))
 
     # oh god this method is awful I need to refactor it
@@ -137,7 +137,15 @@ class LearnerPlugin(IRCCommand):
 
     def __init__(self):
         super(LearnerPlugin, self).__init__('learn', self.learn_factoid,
+                                            args='trigger <verb> response',
                                             description='arcbot is quite impressionable! Be careful what you teach him.')
+
+    def help_topics(self):
+        return {
+            'action': "If you use `action` as your verb, I will treat your response as an action, like if you used /me.",
+            'reply': "If you use `reply` as your verb, I will not include the trigger and the verb in the response.",
+            'verbs': "If your verb is `is`, `are`, or `'s` then you do not need angle brackets. `'s` also does not need a space before it.",
+        }
 
     def directmessage(self, source, channel, msg):
         arcuser = arcuser_controller.get_or_create_arcuser(source)
