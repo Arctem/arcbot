@@ -1,7 +1,7 @@
 import ircbot.storage as db
 
 import tavern.dungeon_tasks as dungeon
-import tavern.town_tasks as town
+# import tavern.town_tasks as town
 
 
 @db.atomic

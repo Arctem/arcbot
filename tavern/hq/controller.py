@@ -5,14 +5,16 @@ from sqlalchemy.sql.expression import func
 
 import ircbot.storage as db
 
-from tavern.tavern_models import Tavern, TavernHero
+import tavern.pool.controller as pool_controller
+
+from tavern.tavern_models import Tavern
 from arcuser.arcuser_models import ArcUser
 
+
 STARTING_MONEY = 100
-NAMES = ['Bruce', 'Wendy', 'Samson']
 
 
-@db.atomic
+@db.needs_session
 def find_tavern(owner, s=None):
     return s.query(Tavern).filter(Tavern.owner == owner).first()
 
@@ -30,19 +32,15 @@ def name_tavern(owner, name, s=None):
 
 
 @db.atomic
-def create_resident_hero(tavern, name, s=None):
+def create_resident_hero(tavern, s=None):
     s.add(tavern)
-    tavern.resident_hero = generate_hero(name=name, s=s)
+    tavern.resident_hero = pool_controller.generate_hero(s=s)
     return tavern.resident_hero
 
 
-@db.atomic
-def generate_hero(name=None, stat_points=None, s=None):
-    if not name:
-        name = random.choice(NAMES)
-    if not stat_points:
-        stat_points = random.randint(4, 9)
-    stats = [0, 0, 0]
-    for i in range(stat_points):
-        stats[random.randint(0, 2)] += random.choice([-1, 1])
-    return TavernHero(name=name, anger=stats[0], reason=stats[1], charm=stats[2])
+@db.needs_session
+def find_heroes(tavern, s=None):
+    s.add(tavern)
+    resident_hero = tavern.resident_hero
+    return [resident_hero]
+    # TODO: return hired heroes too
