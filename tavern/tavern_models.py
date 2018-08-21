@@ -15,6 +15,15 @@ class Jobs(enum.Enum):
     Druid = 'Druid'  # Good against natural things, bad against technology
 
 
+class HeroActivity(enum.Enum):
+    Elsewhere = 1
+    CommonPool = 2
+    VisitingTavern = 3
+    Hired = 4
+    Adventuring = 5
+    Dead = 6
+
+
 class Tavern(Base):
     __tablename__ = 'taverns'
 
@@ -27,7 +36,10 @@ class Tavern(Base):
     money = Column(Integer, nullable=False)
 
     resident_hero_id = Column(Integer, ForeignKey('tavern_heroes.id'))
-    resident_hero = relationship('TavernHero', back_populates='patron', lazy='joined')
+    resident_hero = relationship('TavernHero', back_populates='patron', lazy='joined', foreign_keys=[resident_hero_id])
+
+    visiting_heroes = relationship('TavernHero', back_populates='visiting',
+                                   lazy='joined', foreign_keys='[TavernHero.visiting_id]')
 
     def __str__(self):
         return self.name
@@ -46,7 +58,12 @@ class TavernHero(Base):
     charm = Column(Integer, nullable=False)
 
     adventures = relationship('TavernAdventure', back_populates='hero')
-    patron = relationship('Tavern', back_populates='resident_hero', lazy='joined')
+    patron = relationship('Tavern', back_populates='resident_hero', lazy='joined',
+                          uselist=False, foreign_keys=[Tavern.resident_hero_id])
+
+    activity = Column(Enum(HeroActivity), nullable=False)
+    visiting_id = Column(Integer, ForeignKey('taverns.id'))
+    visiting = relationship('Tavern', back_populates='visiting_heroes', lazy='joined', foreign_keys=[visiting_id])
 
     def __str__(self):
         return '{name} | {stats} | {jobs}'.format(name=self.name, stats=self.stats_string(), jobs=self.jobs_string())

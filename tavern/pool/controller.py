@@ -2,7 +2,7 @@ import random
 
 import ircbot.storage as db
 
-from tavern.tavern_models import Tavern, TavernHero
+from tavern.tavern_models import Tavern, TavernHero, HeroActivity
 from tavern.util.names import SHAKESPEARE_NAMES
 
 
@@ -15,7 +15,7 @@ def generate_hero(name=None, stat_points=None, s=None):
     stats = [0, 0, 0]
     for i in range(stat_points):
         stats[random.randint(0, 2)] += random.choice([-1, 1])
-    return TavernHero(name=name, anger=stats[0], reason=stats[1], charm=stats[2])
+    return TavernHero(name=name, anger=stats[0], reason=stats[1], charm=stats[2], activity=HeroActivity.Elsewhere)
 
 
 @db.atomic

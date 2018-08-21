@@ -11,6 +11,8 @@ from tavern import dungeon_tasks, tick, logs
 from tavern.events import taverntick
 from tavern.hq.commands import HQ
 from tavern.pool.commands import Pool
+import tavern.util.tutorial
+import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
 import tavern.pool.controller as pool_controller
 
@@ -25,6 +27,7 @@ class TavernPlugin(IRCCommand):
                                            description='Sorry Elliot, I got no idea yet.')
         self.hq = HQ(self)
         self.pool = Pool(self)
+        tavern.util.tutorial.plugin = self
 
         self.functions = {
             'hire': self.pool.hire,
@@ -41,7 +44,7 @@ class TavernPlugin(IRCCommand):
 
     def taverntick(self):
         self.fire(debugalert("Tavern tick"))
-        self.fire(sendnotice(DEFAULT_CHANNEL, "Tick"))
+        # self.fire(sendnotice(DEFAULT_CHANNEL, "Tick"))
         if not tick.tick():
             self.fire(sendnotice(DEFAULT_CHANNEL, "Tick failed"))
             return
@@ -53,14 +56,12 @@ class TavernPlugin(IRCCommand):
             else:
                 self.fire(sendnotice(DEFAULT_CHANNEL, str(log)))
         logs.mark_all_sent()
-        dungeon_tasks.print_debug()
 
     def tavern(self, user, channel, args):
         arcuser = arcuser_controller.get_or_create_arcuser(user)
         args = args.split()
         if len(args) is 0:
             self.say(channel, '{}: What do you want to do?'.format(user.nick))
-            self.say(channel, '{}: {}'.format(user.nick, self.playerTavern))
             return
 
         cmd = args[0]
