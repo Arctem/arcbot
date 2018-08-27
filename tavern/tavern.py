@@ -7,7 +7,7 @@ from ircbot.command import IRCCommand
 
 import arcuser.arcuser_controller as arcuser_controller
 # from factoid.events import registersmartvariable
-from tavern import dungeon_tasks, tick, logs
+from tavern import tick, logs
 from tavern.events import taverntick
 from tavern.hq.commands import HQ
 from tavern.pool.commands import Pool

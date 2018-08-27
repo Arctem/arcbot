@@ -36,7 +36,7 @@ class HQ():
         heroes = hq_controller.find_heroes(tavern)
         if heroes:
             for hero in heroes:
-                self.plugin.say(channel, '{}: {}'.format(arcuser.base.nick, hero))
+                self.plugin.say(channel, '{}: {}'.format(arcuser.base.nick, hero.info_string()))
         else:
             self.plugin.say(
                 channel, '{}: Please hire your first hero with ".tavern hire <hero name>"'.format(arcuser.base.nick))

@@ -66,6 +66,9 @@ class TavernHero(Base):
     visiting = relationship('Tavern', back_populates='visiting_heroes', lazy='joined', foreign_keys=[visiting_id])
 
     def __str__(self):
+        return self.name
+
+    def info_string(self):
         return '{name} | {stats} | {jobs}'.format(name=self.name, stats=self.stats_string(), jobs=self.jobs_string())
 
     def stats_string(self):

@@ -30,9 +30,11 @@ def dungeon_tick(s=None):
 
 @db.atomic
 def ensure_dungeon_count(s=None):
+    created = 0
     known = s.query(TavernDungeon).filter(TavernDungeon.secret == True).count()
     for i in range(DUNGEONS_MIN_KNOWN - known):
         dungeon = dungeon_controller.create_new_dungeon(random.randint(DUNGEONS_MIN_FLOORS, DUNGEONS_MAX_FLOORS), s=s)
+        created += 1
         dungeon_controller.discover_dungeon(dungeon, s=s)
         dungeon_controller.populate_dungeon(dungeon, s=s)
-    return DUNGEONS_MIN_KNOWN - known
+    return created

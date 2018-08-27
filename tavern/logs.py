@@ -10,6 +10,10 @@ def make_discovery_log(dungeon):
     return TavernLog(text="The entrance to {} has been found!".format(dungeon), time=datetime.now())
 
 
+def make_arrival_log(hero):
+    return TavernLog(text="The brave hero {} has arrived in town!".format(hero), time=datetime.now())
+
+
 @db.needs_session
 def get_unsent(s=None):
     return s.query(TavernLog).filter(TavernLog.sent == False).order_by(TavernLog.time).all()

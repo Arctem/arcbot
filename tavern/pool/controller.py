@@ -6,16 +6,26 @@ from tavern.tavern_models import Tavern, TavernHero, HeroActivity
 from tavern.util.names import SHAKESPEARE_NAMES
 
 
+@db.needs_session
+def print_debug(s=None):
+    for hero in s.query(TavernHero).all():
+        print("There is a hero {} that is {}".format(hero.info_string(), hero.activity))
+
+
 @db.atomic
 def generate_hero(name=None, stat_points=None, s=None):
     if not name:
-        name = random.choice(SHAKESPEARE_NAMES)
+        print(set(s.query(TavernHero).values(TavernHero.name)))
+        name = random.choice(list(set(SHAKESPEARE_NAMES) -
+                                  {name[0] for name in s.query(TavernHero).values(TavernHero.name)}))
     if not stat_points:
         stat_points = random.randint(4, 9)
     stats = [0, 0, 0]
     for i in range(stat_points):
         stats[random.randint(0, 2)] += random.choice([-1, 1])
-    return TavernHero(name=name, anger=stats[0], reason=stats[1], charm=stats[2], activity=HeroActivity.Elsewhere)
+    hero = TavernHero(name=name, anger=stats[0], reason=stats[1], charm=stats[2], activity=HeroActivity.Elsewhere)
+    s.add(hero)
+    return hero
 
 
 @db.atomic

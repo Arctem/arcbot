@@ -1,10 +1,11 @@
 import ircbot.storage as db
 
-import tavern.dungeon_tasks as dungeon
-# import tavern.town_tasks as town
+import tavern.dungeon.tasks as dungeon
+import tavern.pool.tasks as pool
 
 
 @db.atomic
 def tick(s=None):
     dungeon.dungeon_tick(s=s)
+    pool.pool_tick(s=s)
     return True
