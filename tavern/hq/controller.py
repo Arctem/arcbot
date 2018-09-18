@@ -9,6 +9,7 @@ import tavern.pool.controller as pool_controller
 
 from tavern.tavern_models import Tavern
 from arcuser.arcuser_models import ArcUser
+import tavern.pool.controller as pool_controller
 
 
 STARTING_MONEY = 100
@@ -17,6 +18,16 @@ STARTING_MONEY = 100
 @db.needs_session
 def find_tavern(owner, s=None):
     return s.query(Tavern).filter(Tavern.owner == owner).first()
+
+
+@db.needs_session
+def get_taverns(s=None):
+    return s.query(Tavern).all()
+
+
+@db.needs_session
+def count_taverns(s=None):
+    return s.query(Tavern).count()
 
 
 @db.atomic

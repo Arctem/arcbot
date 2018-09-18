@@ -24,6 +24,14 @@ class HeroActivity(enum.Enum):
     Dead = 6
 
 
+class TavernValue(Base):
+    __tablename__ = 'tavern_values'
+
+    id = Column(Integer, primary_key=True)
+    key = Column(String, nullable=True, unique=True)
+    value = Column(String)
+
+
 class Tavern(Base):
     __tablename__ = 'taverns'
 
@@ -43,6 +51,14 @@ class Tavern(Base):
 
     def __str__(self):
         return self.name
+
+
+class TavernKeyStore(Base):
+    __tablename__ = 'tavern_keystore'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, nullable=False, unique=True)
+    value = Column(String, nullable=False)
 
 
 class TavernHero(Base):

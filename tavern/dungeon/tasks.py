@@ -23,7 +23,7 @@ DUNGEONS_MAX_FLOORS = 10
 
 
 @db.atomic
-def dungeon_tick(s=None):
+def dungeon_tick(tick, s=None):
     if ensure_dungeon_count(s=s) > 0:
         dungeon_controller.print_debug(s=s)
 

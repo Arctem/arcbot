@@ -2,6 +2,8 @@ import random
 
 import ircbot.storage as db
 
+from tavern import logs
+from tavern.shared import TavernException
 from tavern.tavern_models import Tavern, TavernHero, HeroActivity
 from tavern.util.names import SHAKESPEARE_NAMES
 
@@ -37,3 +39,24 @@ def find_hero(heroId=None, name=None, patron=None, s=None):
     elif patron:
         s.add(patron)
         return s.query(TavernHero).filter(TavernHero.patron.id == patron.id).first()
+
+
+@db.atomic
+def change_hero_activity(hero, activity, tavern=None, s=None):
+    if (activity == HeroActivity.VisitingTavern) != bool(tavern):
+        raise TavernException(
+            "Invalid activity change: Activity {} and Tavern {} both provided.".format(activity, tavern))
+
+    if activity == hero.activity and (activity != HeroActivity.VisitingTavern or hero.visiting == tavern):
+        return
+
+    stop_log = logs.make_stop_activity_log(hero)
+    if stop_log:
+        s.add(stop_log)
+
+    hero.activity = activity
+    hero.visiting = tavern
+
+    start_log = logs.make_start_activity_log(hero)
+    if start_log:
+        s.add(start_log)
