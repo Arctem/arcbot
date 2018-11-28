@@ -2,10 +2,13 @@ data = {
     'plan': {
         'template': ['{premise} {execution}'],
 
-        'premise': ['If we want to {goal} then', "When we reach {location}, we won't have much time to {goal}:"],
-        'goal': ['{generic_verb,person_verb} {target_person,target_people}', '{generic_verb,object_verb} {target_object}', 'prove that {target_person} is {secret_identity}', '{enter_verb,generic_verb} {place}', 'get {target_person} a job as a {profession}', '{defeat} {target_person} at {competition}', '{generic_verb,poke_verb} that {pokemon}', '{generic_verb,evil_verb} {evil_being}', '{get} {target_person} {person_action}'],
+        'premise': ['If we want to {goal} then',
+                    "When we reach {location}, we won't have much time to {goal}:",
+                    'Oh no! {target_person} is trying to {goal}. To stop them, we need to',
+        ],
+        'goal': ['{custom_goal}', '{generic_verb,person_verb} {target_person,target_people}', '{generic_verb,object_verb} {target_object}', 'prove that {target_person} is {secret_identity}', '{enter_verb,generic_verb} {place}', 'get {target_person} a job as a {profession}', '{defeat} {target_person} at {competition}', '{generic_verb,poke_verb} that {pokemon}', '{generic_verb,evil_verb} {evil_being}', '{get} {target_person} {person_action}'],
 
-        'generic_verb': ['pee on', 'defenestrate', 'photograph', 'draw {drawings} on'],
+        'generic_verb': ['pee on', 'defenestrate', 'photograph', 'draw {drawings} on', 'eat', 'paint'],
         'person_verb': ['kidnap', 'kill', 'mug', 'mildly annoy', 'seduce'],
         'object_verb': ['destroy', 'steal', 'deface'],
         'enter_verb': ['sneak into', 'get to', 'invade'],
@@ -15,11 +18,11 @@ data = {
         'get': ['get', 'convince'],
         'person_action': ['to {goal}'],
 
-        'custom': ['kidnap {target_person} from {location}', 'get {irc_member} to be active in IRC again', 'catch them all', 'remember the Alamo', 'find Carmen Sandiego', 'hack the planet', 'self-defenestrate'],
+        'custom_goal': ['kidnap {target_person} from {location}', 'get {irc_member} to be active in IRC again', 'catch them all', 'remember the Alamo', 'find Carmen Sandiego', 'hack the planet', 'self-defenestrate'],
 
         'drawings': ['dicks', 'boobs', 'a complex mathematical proof'],
 
-        'amount': ['dozens of', 'thousands of dollars worth of', 'some', '{approximation} {number}'],
+        'amount': ['dozens of', 'thousands of dollars worth of', 'some', '{approximation} {number}', 'all of'],
         'approximation': ['exactly', 'precisely', 'approximately', 'about', 'around', 'no more than', 'no less than', 'at least', 'anything but'],
         'number': ['three', 'two', 'four and a half', '9¾', 'nine million, nine hundred ninety-nine thousand, nine hundred and ninety-eight'],
         'volumes': ['gallons', 'quarts', 'barrels', 'cups', 'thimbles', 'teaspoons'],
@@ -29,7 +32,7 @@ data = {
         'important_title': ['President', 'Queen', 'King', 'pope', 'ambassador', 'Harbinger of Destruction', 'senator'],
         'famous_person': ['Obama', 'Trump', 'John Cena', 'Steve Buscemi', 'Jan-Michael Vincent', 'Frodo', 'Gandalf', 'Godzilla', 'Hitler', 'your mom', 'Guy Fieri', 'Ash', 'Brock', 'Misty', 'Nurse Joy', 'Nixon', 'Jesus', 'Godzilla'],
         'irc_member': ['arcbot', 'Andrew', 'Baer', 'Chris', 'Duncan', 'Elliot', 'Flan', 'Ian', 'Jesse', 'Jett', 'Quartermaster', 'Rob', 'Russell', 'Spencer'],
-        'kidnap_targets': ['Jan-Michael Vincents', 'children', 'strippers', 'seamen'],
+        'kidnap_targets': ['Jan-Michael Vincents', 'children', 'strippers', 'seamen', 'hookers', 'actors'],
         'person_adjective': ['naked', 'clothed', 'tall', 'short', 'overdressed', 'gay', 'straight', 'flamboyant', 'sexy', 'aroused', 'well-endowed', 'self-conscious'],
         'profession_adjective': ['{person_adjective}', 'professional', 'amateur', 'highly-paid', 'child', 'luxury', 'cut-rate', 'internationally-recognized', 'high-ranking', 'male', 'female'],
         'profession': ['{profession_adjective} {profession}'] * 5 + ['porn star', 'wrestler', 'astronaut', 'actor', 'model', 'spy', 'author', 'stripper', 'human cannonball', 'president', 'dictator', 'Pokémon trainer', 'sailor'],
@@ -48,7 +51,7 @@ data = {
         'liquid': ['milk', 'goo', 'slime', 'vodka', 'alcoholic beverages', 'Red Bull™'],
         'body_part': ['face', 'chest', 'forehead', 'arms'],
         'container': ['sack', 'bucket', 'bag', 'chest'],
-        'item_adjective' : ['strong', 'blue', 'explosive', 'potent', 'colorful'],
+        'item_adjective' : ['strong', 'blue', 'explosive', 'potent', 'colorful', 'pungent'],
 
         'execution' : ['{someone_will} need to {instructions}.', "you'd better hope {condition}."],
         'someone_will' : ["we'll", '{irc_member} will'],
