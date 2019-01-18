@@ -72,7 +72,8 @@ class HQ():
             elif len(options) == 0:
                 messages.append('Could not find {}.'.format(args))
             else:
-                messages.append('Found {} results. Please specify: {}'.format(len(options), ', '.join(options)))
+                messages.append('Found {} results. Please specify: {}'.format(
+                    len(options), ', '.join(map(str, options))))
 
         for message in messages:
             self.plugin.say(channel, '{}: {}'.format(arcuser.base.nick, message))
