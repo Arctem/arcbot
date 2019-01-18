@@ -1,5 +1,8 @@
 import tavern.hq.controller as hq_controller
+import tavern.pool.controller as pool_controller
 import tavern.util.tutorial as tutorial
+
+from tavern.tavern_models import HeroActivity
 
 
 class HQ():
@@ -28,15 +31,48 @@ class HQ():
 
     @tutorial.tutorial_lock
     def status(self, arcuser, channel, args):
+        messages = []
+
         tavern = hq_controller.find_tavern(arcuser)
-        if not tavern:
-            self.plugin.say(
-                channel, '{}: Please name your tavern with ".tavern name <tavern name>" first.'.format(arcuser.base.nick))
-            return
-        heroes = hq_controller.find_heroes(tavern)
-        if heroes:
-            for hero in heroes:
-                self.plugin.say(channel, '{}: {}'.format(arcuser.base.nick, hero.info_string()))
+        if args == 'tavern':
+            if not tavern:
+                messages.append('Please name your tavern with ".tavern name <tavern name>" first.')
+            else:
+                messages.append('You own the tavern {}. You have {} gold.'.format(tavern.name, tavern.money))
+                messages.append('Your resident hero is {}.'.format(tavern.resident_hero.name))
+                for visitor in tavern.visiting_heroes:
+                    messages.append('{} is visiting your tavern.'.format(visitor.name))
+        elif args == 'heroes':
+            heroes = pool_controller.get_heroes()
+            heroes = {
+                activity: list(map(
+                    lambda h: h.name,
+                    filter(lambda h: h.activity is activity, heroes)
+                )) for activity in HeroActivity
+            }
+            if len(heroes[HeroActivity.Elsewhere]) > 0:
+                messages.append('{} are taking the day off.'.format(', '.join(heroes[HeroActivity.Elsewhere])))
+
+            if len(heroes[HeroActivity.CommonPool]) > 0:
+                messages.append('{} are visiting the town square.'.format(
+                    ', '.join(heroes[HeroActivity.CommonPool])))
+            else:
+                messages.append('No one is visiting the town square.')
+
+            if len(heroes[HeroActivity.VisitingTavern]) > 0:
+                messages.append('{} are visiting taverns.'.format(', '.join(heroes[HeroActivity.VisitingTavern])))
+            if len(heroes[HeroActivity.Hired]) > 0:
+                messages.append('{} have been hired.'.format(', '.join(heroes[HeroActivity.Hired])))
+            if len(heroes[HeroActivity.Adventuring]) > 0:
+                messages.append('{} are out adventuring.'.format(', '.join(heroes[HeroActivity.Adventuring])))
         else:
-            self.plugin.say(
-                channel, '{}: Please hire your first hero with ".tavern hire <hero name>"'.format(arcuser.base.nick))
+            options = hq_controller.search_taverns(args) + pool_controller.search_heroes(args)
+            if len(options) == 1:
+                messages += options[0].details_strings()
+            elif len(options) == 0:
+                messages.append('Could not find {}.'.format(args))
+            else:
+                messages.append('Found {} results. Please specify: {}'.format(len(options), ', '.join(options)))
+
+        for message in messages:
+            self.plugin.say(channel, '{}: {}'.format(arcuser.base.nick, message))

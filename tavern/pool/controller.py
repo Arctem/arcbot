@@ -14,6 +14,27 @@ def print_debug(s=None):
         print("There is a hero {} that is {}".format(hero.info_string(), hero.activity))
 
 
+@db.needs_session
+def get_heroes(s=None):
+    return s.query(TavernHero).all()
+
+
+@db.needs_session
+def find_hero(heroId=None, name=None, patron=None, s=None):
+    if heroId:
+        return s.query(TavernHero).filter(TavernHero.id == heroId).first()
+    elif name:
+        return s.query(TavernHero).filter(TavernHero.name == name).first()
+    elif patron:
+        s.add(patron)
+        return s.query(TavernHero).filter(TavernHero.patron.id == patron.id).first()
+
+
+@db.needs_session
+def search_heroes(name, s=None):
+    return s.query(TavernHero).filter(TavernHero.name.like('%{}%'.format(name))).all()
+
+
 @db.atomic
 def generate_hero(name=None, stat_points=None, s=None):
     if not name:
@@ -28,17 +49,6 @@ def generate_hero(name=None, stat_points=None, s=None):
     hero = TavernHero(name=name, anger=stats[0], reason=stats[1], charm=stats[2], activity=HeroActivity.Elsewhere)
     s.add(hero)
     return hero
-
-
-@db.atomic
-def find_hero(heroId=None, name=None, patron=None, s=None):
-    if heroId:
-        return s.query(TavernHero).filter(TavernHero.id == heroId).first()
-    elif name:
-        return s.query(TavernHero).filter(TavernHero.name == name).first()
-    elif patron:
-        s.add(patron)
-        return s.query(TavernHero).filter(TavernHero.patron.id == patron.id).first()
 
 
 @db.atomic

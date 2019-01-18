@@ -30,6 +30,11 @@ def count_taverns(s=None):
     return s.query(Tavern).count()
 
 
+@db.needs_session
+def search_taverns(name, s=None):
+    return s.query(Tavern).filter(Tavern.name.like('%{}%'.format(name))).all()
+
+
 @db.atomic
 def name_tavern(owner, name, s=None):
     s.add(owner)

@@ -52,6 +52,19 @@ class Tavern(Base):
     def __str__(self):
         return self.name
 
+    def details_strings(self):
+        info = []
+        info.append('{name} is owned by {owner} and was founded on {creation_time:%d %B, %Y}.'.format(
+            name=self.name, owner=self.owner, creation_time=self.creation_time))
+        info.append('{gold} gold'.format(gold=self.money))
+        if self.resident_hero is not None:
+            info.append('Resident hero is {hero}.'.format(hero=self.resident_hero.name))
+        if len(self.visiting_heroes) == 1:
+            info.append('{} is visiting.'.format(self.visiting_heroes[0].name))
+        elif len(self.visiting_heroes) > 1:
+            info.append('{} are visiting.'.format(', '.format(self.visiting_heroes)))
+        return info
+
 
 class TavernKeyStore(Base):
     __tablename__ = 'tavern_keystore'
@@ -73,7 +86,7 @@ class TavernHero(Base):
     reason = Column(Integer, nullable=False)
     charm = Column(Integer, nullable=False)
 
-    adventures = relationship('TavernAdventure', back_populates='hero')
+    adventures = relationship('TavernAdventure', back_populates='hero', lazy='joined')
     patron = relationship('Tavern', back_populates='resident_hero', lazy='joined',
                           uselist=False, foreign_keys=[Tavern.resident_hero_id])
 
@@ -83,6 +96,19 @@ class TavernHero(Base):
 
     def __str__(self):
         return self.name
+
+    def details_strings(self):
+        info = []
+        info.append(self.name)
+        if not self.alive:
+            info.append('Dead.')
+        info.append(self.activity_string())
+        info.append(self.stats_string())
+        if self.patron:
+            info.append('Patron of {patron}.'.format(self.patron.name))
+        info.append('Has been on {adv_count} adventures.'.format(adv_count=len(self.adventures)))
+        # info.append(self.jobs_string())
+        return info
 
     def info_string(self):
         return '{name} | {stats} | {jobs}'.format(name=self.name, stats=self.stats_string(), jobs=self.jobs_string())
@@ -97,7 +123,10 @@ class TavernHero(Base):
         return ' '.join(map(lambda s: '-' * -s[1] + s[0] if s[1] < 0 else s[0] + '+' * s[1], stats))
 
     def jobs_string(self):
-        return ''
+        return ', '.join(map())
+
+    def activity_string(self):
+        return '{activity} at {location}'.format(activity=self.activity, location=self.visiting)
 
 
 class TavernJobs(Base):

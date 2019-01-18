@@ -16,3 +16,6 @@ class ArcUser(Base):
     items = relationship('Item', back_populates='creator')
     tavern = relationship('Tavern', back_populates='owner')
     tavern_logs = relationship('TavernLog', back_populates='user')
+
+    def __str__(self):
+        return self.base.name
