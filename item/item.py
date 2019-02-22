@@ -24,7 +24,7 @@ class ItemPlugin(IRCCommand):
     def give_item(self, user, channel, args):
         arcuser = arcuser_controller.get_or_create_arcuser(user)
         if not args:
-            self.fire(sendmessage(channel, '{}: What item did you want to give me?'))
+            self.fire(sendmessage(channel, '{}: What item did you want to give me?'.format(arcuser.base.nick)))
             return
         item = item_controller.add_item(creator=arcuser, channel=channel, name=args)
         self.fire(sendaction(channel, 'puts {} in his pocket.'.format(item.name)))
