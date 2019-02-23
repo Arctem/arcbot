@@ -1,72 +1,63 @@
-from tavern.tavern_models import Jobs
-
 
 class MonsterStock:
 
-    def __init__(self, name, hp, min_level, max_level, weaknesses=set(), resistances=set()):
+    def __init__(self, name, min_level, max_level, weaknesses=set(), strengths=set()):
         self.name = name
-        self.hp = hp
         self.min_level = min_level
         self.max_level = max_level
         self.weaknesses = weaknesses
-        self.resistances = resistances
+        self.strengths = strengths
 
 
 class MonsterModifier:
 
-    def __init__(self, name, hp=0, level=0, weaknesses=set(), resistances=set()):
+    def __init__(self, name, level=0, weaknesses=set(), strengths=set()):
         self.name = name
-        self.hp = hp
         self.level = level
         self.weaknesses = weaknesses
-        self.resistances = resistances
+        self.strengths = strengths
 
 stocks = {
     MonsterStock('ghost',
-                 5,
                  2, 4,
-                 weaknesses={Jobs.Bard, Jobs.Wizard},
-                 resistances={Jobs.Barbarian},
+                 weaknesses={'scholar', 'wizard'},
+                 strengths={'barbarian'},
                  ),
     MonsterStock('lizard',
-                 3,
                  2, 4,
-                 weaknesses={Jobs.Monk, Jobs.Druid},
+                 weaknesses={'monk', 'druid'},
+                 strengths={'bard'},
                  ),
     MonsterStock('frogman',
-                 6,
                  1, 8,
-                 weaknesses={Jobs.Barbarian, Jobs.Druid},
+                 weaknesses={'barbarian', 'bard', 'druid'},
                  ),
     MonsterStock('minotaur',
-                 8,
                  7, 13,
-                 weaknesses={Jobs.Rogue, Jobs.Wizard},
+                 weaknesses={'bard', 'rogue', 'wizard'},
                  ),
     MonsterStock('rat',
-                 3,
                  1, 1,
-                 weaknesses={Jobs.Barbarian, Jobs.Druid},
+                 weaknesses={'barbarian', 'druid'},
+                 strengths={'bard'},
                  ),
     MonsterStock('skeleton',
-                 4,
                  1, 5,
-                 weaknesses={Jobs.Barbarian, Jobs.Bard, Jobs.Wizard},
+                 weaknesses={'barbarian', 'scholar', 'wizard'},
                  ),
     MonsterStock('slime',
-                 4,
                  1, 10,
-                 weaknesses={Jobs.Druid, Jobs.Wizard},
+                 weaknesses={'druid', 'wizard'},
+                 strengths={'bard'},
                  ),
     MonsterStock('spider',
-                 2,
                  1, 5,
-                 weaknesses={Jobs.Barbarian, Jobs.Druid, Jobs.Monk},
+                 weaknesses={'barbarian', 'druid', 'monk'},
+                 strengths={'bard'},
                  ),
     MonsterStock('troll',
-                 10,
                  5, 10,
-                 weaknesses={Jobs.Rogue},
+                 weaknesses={'bard', 'rogue'},
                  ),
 }
 stocks = {s.name: s for s in stocks}
@@ -74,43 +65,50 @@ stocks = {s.name: s for s in stocks}
 modifiers = {
     MonsterModifier('ancient',
                     level=2,
-                    weaknesses={Jobs.Bard},
+                    weaknesses={'scholar'},
                     ),
     MonsterModifier('dire',
-                    hp=5,
+                    level=3,
+                    ),
+    MonsterModifier('clever',
+                    level=2,
+                    weaknesses={'bard'},
+                    strengths={'barbarian'},
+                    ),
+    MonsterModifier('dumb',
+                    strengths={'bard'},
                     ),
     MonsterModifier('giant',
-                    hp=10,
-                    weaknesses={Jobs.Rogue},
+                    weaknesses={'rogue'},
                     ),
     MonsterModifier('hunting',
                     level=3,
-                    weaknesses={Jobs.Monk},
-                    resistances={Jobs.Rogue},
+                    weaknesses={'monk'},
+                    strengths={'rogue'},
                     ),
     MonsterModifier('fire',
                     level=5,
-                    weaknesses={Jobs.Wizard},
-                    resistances={Jobs.Monk},
+                    weaknesses={'wizard'},
+                    strengths={'monk'},
                     ),
     MonsterModifier('poison',
                     level=1,
-                    weaknesses={Jobs.Druid},
-                    resistances={Jobs.Barbarian},
+                    weaknesses={'druid'},
+                    strengths={'barbarian'},
                     ),
     MonsterModifier('quick',
                     level=1,
-                    weaknesses={Jobs.Monk},
-                    resistances={Jobs.Barbarian},
+                    weaknesses={'monk'},
+                    strengths={'barbarian'},
                     ),
     MonsterModifier('undead',
                     level=2,
-                    weaknesses={Jobs.Wizard},
+                    weaknesses={'wizard'},
                     ),
     MonsterModifier('shaman',
                     level=3,
-                    weaknesses={Jobs.Bard, Jobs.Wizard},
-                    resistances={Jobs.Druid},
+                    weaknesses={'scholar', 'wizard'},
+                    strengths={'druid'},
                     ),
 }
 modifiers = {m.name: m for m in modifiers}

@@ -25,7 +25,7 @@ class HQ():
                     resident_hero = hq_controller.create_resident_hero(tavern)
 
                 self.plugin.say(channel, '{}: Your tavern has a resident hero. Their name is {}.'.format(
-                    arcuser.base.nick, resident_hero.name))
+                    arcuser.base.nick, resident_hero))
             else:
                 self.plugin.say(channel, '{}: Unable to name tavern.'.format(arcuser.base.nick))
 
@@ -39,7 +39,7 @@ class HQ():
                 messages.append('Please name your tavern with ".tavern name <tavern name>" first.')
             else:
                 messages.append('You own the tavern {}. You have {} gold.'.format(tavern.name, tavern.money))
-                messages.append('Your resident hero is {}.'.format(tavern.resident_hero.name))
+                messages.append('Your resident hero is {}.'.format(tavern.resident_hero))
                 for visitor in tavern.visiting_heroes:
                     messages.append('{} is visiting your tavern.'.format(visitor.name))
         elif args == 'heroes':

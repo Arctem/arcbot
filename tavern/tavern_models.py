@@ -6,15 +6,6 @@ from sqlalchemy.orm import relationship
 from ircbot.storage import Base
 
 
-class Jobs(enum.Enum):
-    Barbarian = 'Barbarian'  # Good against fragile things, bad against evasion
-    Rogue = 'Rogue'  # Good against big things
-    Monk = 'Monk'  # Good against fast things, bad against things it can't touch
-    Wizard = 'Wizard'  # Good against magic things
-    Bard = 'Bard'  # Good against old things
-    Druid = 'Druid'  # Good against natural things, bad against technology
-
-
 class HeroActivity(enum.Enum):
     Elsewhere = 1
     CommonPool = 2
@@ -80,11 +71,12 @@ class TavernHero(Base):
     id = Column(Integer, primary_key=True)
 
     name = Column(String, unique=True, nullable=False)
+    epithet = Column(String, nullable=False)
     alive = Column(Boolean, default=True, nullable=False)
 
-    anger = Column(Integer, nullable=False)
-    reason = Column(Integer, nullable=False)
-    charm = Column(Integer, nullable=False)
+    primary_class = Column(String, nullable=False)
+    secondary_class = Column(String, nullable=False)
+    level = Column(Integer, nullable=False)
 
     adventures = relationship('TavernAdventure', back_populates='hero', lazy='joined')
     patron = relationship('Tavern', back_populates='resident_hero', lazy='joined',
@@ -95,7 +87,7 @@ class TavernHero(Base):
     visiting = relationship('Tavern', back_populates='visiting_heroes', lazy='joined', foreign_keys=[visiting_id])
 
     def __str__(self):
-        return self.name
+        return '{} the {}'.format(self.name, self.epithet)
 
     def details_strings(self):
         info = []
@@ -103,38 +95,22 @@ class TavernHero(Base):
         if not self.alive:
             info.append('Dead.')
         info.append(self.activity_string())
-        info.append(self.stats_string())
+        info.append(self.level_string())
         if self.patron:
             info.append('Patron of {patron}.'.format(self.patron.name))
         info.append('Has been on {adv_count} adventures.'.format(adv_count=len(self.adventures)))
-        # info.append(self.jobs_string())
         return info
 
     def info_string(self):
-        return '{name} | {stats} | {jobs}'.format(name=self.name, stats=self.stats_string(), jobs=self.jobs_string())
+        return '{name} | {stats}'.format(name=self.name, stats=self.level_string())
 
-    def stats_string(self):
-        stats = [
-            ('A', self.anger),
-            ('R', self.reason),
-            ('C', self.charm),
-        ]
-        stats = filter(lambda s: s[1] != 0, stats)
-        return ' '.join(map(lambda s: '-' * -s[1] + s[0] if s[1] < 0 else s[0] + '+' * s[1], stats))
-
-    def jobs_string(self):
-        return ', '.join(map())
+    def level_string(self):
+        if self.secondary_class is not None:
+            return '{lvl} level {primary} {secondary}'.format(lvl=self.level, primary=self.primary_class.capitalize(), secondary=self.secondary_class.capitalize())
+        return '{lvl} level {primary}'.format(lvl=self.level, primary=self.primary_class.capitalize())
 
     def activity_string(self):
         return '{activity} at {location}'.format(activity=self.activity, location=self.visiting)
-
-
-class TavernJobs(Base):
-    __tablename__ = 'tavern_jobs'
-
-    id = Column(Integer, primary_key=True)
-    job = Column(Enum(Jobs), nullable=False)
-    level = Column(Integer, nullable=False, default=0)
 
 
 class TavernLog(Base):

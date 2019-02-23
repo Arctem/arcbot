@@ -6,6 +6,7 @@ from tavern import logs
 from tavern.shared import TavernException
 from tavern.tavern_models import Tavern, TavernHero, HeroActivity
 from tavern.util.names import SHAKESPEARE_NAMES
+import tavern.raws.job as job_raws
 
 
 @db.needs_session
@@ -41,14 +42,17 @@ def generate_hero(name=None, stat_points=None, s=None):
         print(set(s.query(TavernHero).values(TavernHero.name)))
         name = random.choice(list(set(SHAKESPEARE_NAMES) -
                                   {name[0] for name in s.query(TavernHero).values(TavernHero.name)}))
-    if not stat_points:
-        stat_points = random.randint(4, 9)
-    stats = [0, 0, 0]
-    for i in range(stat_points):
-        stats[random.randint(0, 2)] += random.choice([-1, 1])
-    hero = TavernHero(name=name, anger=stats[0], reason=stats[1], charm=stats[2], activity=HeroActivity.Elsewhere)
+    primary, secondary = random.sample(job_raws.jobs.keys(), 2)
+    epithet = create_epithet(primary, secondary)
+    hero = TavernHero(name=name, epithet=epithet, level=1, primary_class=primary,
+                      secondary_class=secondary, activity=HeroActivity.Elsewhere)
     s.add(hero)
     return hero
+
+
+def create_epithet(primary, secondary):
+    return '{} {}'.format(random.choice(tuple(job_raws.jobs[secondary].adjectives)).capitalize(),
+                          random.choice(tuple(job_raws.jobs[primary].nouns)).capitalize())
 
 
 @db.atomic

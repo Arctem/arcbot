@@ -17,7 +17,6 @@ import tavern.raws.monster as monster_raws
 MONSTERS_PER_FLOOR = 10
 MONSTER_NO_MOD_CHANCE = 0.3
 MONSTER_SORT_VARIATION = 0.5
-MONSTER_HP_LEVEL_WEIGHT = 0.2  # how many levels each hit point counts for
 
 
 @db.needs_session
@@ -138,7 +137,6 @@ def generate_monsters(num_monsters, options, s=None):
 def monster_rank_func(variation=0):
     def ranking_func(monster):
         level = monster_level(monster)
-        level += MONSTER_HP_LEVEL_WEIGHT * monster_hp(monster)
         level *= random.uniform(1 - variation, 1 + variation)
         return level
     return ranking_func
@@ -146,16 +144,13 @@ def monster_rank_func(variation=0):
 
 def monster_level(monster):
     level = monster.level
+    level += len(monster_raws.stocks[monster.stock].strengths)
+    level -= len(monster_raws.stocks[monster.stock].weaknesses)
     if monster.modifier:
         level += monster_raws.modifiers[monster.modifier].level
+        level += len(monster_raws.modifiers[monster.modifier].strengths)
+        level -= len(monster_raws.modifiers[monster.modifier].weaknesses)
     return level
-
-
-def monster_hp(monster):
-    hp = monster_raws.stocks[monster.stock].hp
-    if monster.modifier:
-        hp += monster_raws.modifiers[monster.modifier].hp
-    return hp
 
 
 class DungeonNotSecretException(TavernException):
