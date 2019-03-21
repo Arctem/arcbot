@@ -40,6 +40,10 @@ class Tavern(Base):
     visiting_heroes = relationship('TavernHero', back_populates='visiting',
                                    lazy='joined', foreign_keys='[TavernHero.visiting_id]')
 
+    hired_hero_id = Column(Integer, ForeignKey('tavern_heroes.id'))
+    hired_hero = relationship('TavernHero', back_populates='employer', lazy='joined', foreign_keys=[hired_hero_id])
+    adventures = relationship('TavernAdventure', back_populates='tavern', lazy='joined')
+
     def __str__(self):
         return self.name
 
@@ -73,6 +77,7 @@ class TavernHero(Base):
     name = Column(String, unique=True, nullable=False)
     epithet = Column(String, nullable=False)
     alive = Column(Boolean, default=True, nullable=False)
+    cost = Column(Integer, nullable=False)
 
     primary_class = Column(String, nullable=False)
     secondary_class = Column(String, nullable=False)
@@ -85,6 +90,7 @@ class TavernHero(Base):
     activity = Column(Enum(HeroActivity), nullable=False)
     visiting_id = Column(Integer, ForeignKey('taverns.id'))
     visiting = relationship('Tavern', back_populates='visiting_heroes', lazy='joined', foreign_keys=[visiting_id])
+    employer = relationship('Tavern', back_populates='hired_hero', lazy='joined', foreign_keys=[Tavern.hired_hero_id])
 
     def __str__(self):
         return '{} the {}'.format(self.name, self.epithet)
@@ -96,8 +102,9 @@ class TavernHero(Base):
             info.append('Dead.')
         info.append(self.activity_string())
         info.append(self.level_string())
+        info.append('Demands {cost} gold.'.format(cost=self.cost))
         if self.patron:
-            info.append('Patron of {patron}.'.format(self.patron.name))
+            info.append('Patron of {patron}.'.format(patron=self.patron.name))
         info.append('Has been on {adv_count} adventures.'.format(adv_count=len(self.adventures)))
         return info
 
@@ -106,8 +113,8 @@ class TavernHero(Base):
 
     def level_string(self):
         if self.secondary_class is not None:
-            return '{lvl} level {primary} {secondary}'.format(lvl=self.level, primary=self.primary_class.capitalize(), secondary=self.secondary_class.capitalize())
-        return '{lvl} level {primary}'.format(lvl=self.level, primary=self.primary_class.capitalize())
+            return 'level {lvl} {primary} {secondary}'.format(lvl=self.level, primary=self.primary_class.capitalize(), secondary=self.secondary_class.capitalize())
+        return 'level {lvl} {primary}'.format(lvl=self.level, primary=self.primary_class.capitalize())
 
     def activity_string(self):
         return '{activity} at {location}'.format(activity=self.activity, location=self.visiting)
@@ -134,6 +141,9 @@ class TavernAdventure(Base):
     id = Column(Integer, primary_key=True)
     hero_id = Column(Integer, ForeignKey('tavern_heroes.id'), nullable=False)
     hero = relationship('TavernHero', back_populates='adventures', lazy='joined')
+
+    tavern_id = Column(Integer, ForeignKey('taverns.id'), nullable=False)
+    tavern = relationship('Tavern', back_populates='adventures', lazy='joined')
 
     active = Column(Boolean, default=True, nullable=False)
 

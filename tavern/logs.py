@@ -32,7 +32,7 @@ START_LOGS = {
     HeroActivity.Elsewhere: None,
     HeroActivity.CommonPool: "{hero} is hanging out in the town square.",
     HeroActivity.VisitingTavern: "{hero} is visiting {tavern}.",
-    HeroActivity.Hired: "{hero} was hired?",  # TODO
+    HeroActivity.Hired: "{hero} was hired by {patron}.",
     HeroActivity.Adventuring: "{hero} has started adventuring?",  # TODO
     HeroActivity.Dead: "{hero} has died? Really? I didn't think we did that yet.",  # TODO
 }
@@ -41,7 +41,7 @@ START_LOGS = {
 def make_start_activity_log(hero):
     text = START_LOGS[hero.activity]
     if text:
-        return TavernLog(text=text.format(hero=hero, tavern=hero.visiting), time=datetime.now())
+        return TavernLog(text=text.format(hero=hero, tavern=hero.visiting, patron=hero.patron), time=datetime.now())
 
 
 @db.needs_session

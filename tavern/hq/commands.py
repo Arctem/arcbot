@@ -34,12 +34,14 @@ class HQ():
         messages = []
 
         tavern = hq_controller.find_tavern(arcuser)
-        if args == 'tavern':
+        if args in ['', 'tavern']:
             if not tavern:
                 messages.append('Please name your tavern with ".tavern name <tavern name>" first.')
             else:
                 messages.append('You own the tavern {}. You have {} gold.'.format(tavern.name, tavern.money))
                 messages.append('Your resident hero is {}.'.format(tavern.resident_hero))
+                if tavern.hired_hero:
+                    messages.append('You have hired {}.'.format(tavern.hired_hero))
                 for visitor in tavern.visiting_heroes:
                     messages.append('{} is visiting your tavern.'.format(visitor.name))
         elif args == 'heroes':

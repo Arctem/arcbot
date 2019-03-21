@@ -8,6 +8,8 @@ from tavern.tavern_models import Tavern, TavernHero, HeroActivity
 from tavern.util.names import SHAKESPEARE_NAMES
 import tavern.raws.job as job_raws
 
+START_COST = 10
+
 
 @db.needs_session
 def print_debug(s=None):
@@ -44,8 +46,9 @@ def generate_hero(name=None, stat_points=None, s=None):
                                   {name[0] for name in s.query(TavernHero).values(TavernHero.name)}))
     primary, secondary = random.sample(job_raws.jobs.keys(), 2)
     epithet = create_epithet(primary, secondary)
-    hero = TavernHero(name=name, epithet=epithet, level=1, primary_class=primary,
-                      secondary_class=secondary, activity=HeroActivity.Elsewhere)
+    hero = TavernHero(name=name, epithet=epithet, level=1, cost=START_COST,
+                      activity=HeroActivity.Elsewhere,
+                      primary_class=primary, secondary_class=secondary)
     s.add(hero)
     return hero
 
@@ -56,8 +59,17 @@ def create_epithet(primary, secondary):
 
 
 @db.atomic
+def hire_hero(tavern_id, hero_id, cost, s=None):
+    # check current state and change
+    tavern = s.query(Tavern).filter(Tavern.id == tavern_id).first()
+    hero = s.query(TavernHero).filter(TavernHero.id == hero_id).first()
+    change_hero_activity(hero, HeroActivity.Hired, tavern)
+    tavern.money -= cost
+
+
+@db.atomic
 def change_hero_activity(hero, activity, tavern=None, s=None):
-    if (activity == HeroActivity.VisitingTavern) != bool(tavern):
+    if bool(tavern) != (activity in (HeroActivity.VisitingTavern, HeroActivity.Hired)):
         raise TavernException(
             "Invalid activity change: Activity {} and Tavern {} both provided.".format(activity, tavern))
 
@@ -69,7 +81,13 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
         s.add(stop_log)
 
     hero.activity = activity
-    hero.visiting = tavern
+    hero.visiting = None
+    if hero.employer is not None:
+        hero.employer.hire_hero = None
+    if activity == HeroActivity.VisitingTavern:
+        hero.visiting = tavern
+    if activity == HeroActivity.Hired:
+        tavern.hired_hero = hero
 
     start_log = logs.make_start_activity_log(hero)
     if start_log:
