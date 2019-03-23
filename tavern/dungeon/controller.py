@@ -9,7 +9,7 @@ import ircbot.storage as db
 from arcuser.arcuser_models import ArcUser
 
 from tavern.shared import TavernException
-from tavern.tavern_models import TavernDungeon, TavernDungeonTrait, TavernFloor, TavernMonster
+from tavern.tavern_models import TavernAdventure, TavernDungeon, TavernDungeonTrait, TavernFloor, TavernMonster
 from tavern import logs
 import tavern.raws.dungeon as dungeon_raws
 import tavern.raws.monster as monster_raws
@@ -26,6 +26,31 @@ def print_debug(s=None):
             dungeon.name, ", ".join(map(lambda t: t.name, dungeon.traits))))
         for floor in dungeon.floors:
             print("{}: {}".format(floor, ", ".join(map(str, floor.monsters))))
+
+##################
+# User Interaction
+##################
+
+
+@db.needs_session
+def get_dungeons(s=None):
+    return s.query(TavernDungeon).all()
+
+
+@db.needs_session
+def get_known_dungeons(s=None):
+    return s.query(TavernDungeon).filter(TavernDungeon.active == True and TavernDungeon.secret == False).all()
+
+
+@db.needs_session
+def search_dungeons(name, s=None):
+    return s.query(TavernDungeon).filter(TavernDungeon.name.like('%{}%'.format(name))).all()
+
+
+@db.needs_session
+def get_heroes_in_dungeon(dungeon_id, s=None):
+    return s.query(TavernAdventure).filter(TavernAdventure.dungeon_id == dungeon_id and TavernAdventure.active == True).count()
+
 
 ##################
 # Dungeon Creation

@@ -145,6 +145,9 @@ class TavernAdventure(Base):
     tavern_id = Column(Integer, ForeignKey('taverns.id'), nullable=False)
     tavern = relationship('Tavern', back_populates='adventures', lazy='joined')
 
+    dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
+    dungeon = relationship('TavernDungeon', back_populates='adventures', lazy='joined')
+
     active = Column(Boolean, default=True, nullable=False)
 
 
@@ -160,8 +163,17 @@ class TavernDungeon(Base):
                           order_by='TavernFloor.number', lazy='joined')
     traits = relationship('TavernDungeonTrait', back_populates='dungeon', lazy='joined')
 
+    adventures = relationship('TavernAdventure', back_populates='dungeon', lazy='joined')
+
     def __str__(self):
         return self.name
+
+    def details_strings(self):
+        info = []
+        info.append('{} has {} floors.'.format(self.name, len(self.floors)))
+        info.append('It is currently active.' if self.active else 'It is not currently active.')
+        # TODO: Mention heroes inside.
+        return info
 
 
 class TavernDungeonTrait(Base):
@@ -171,6 +183,9 @@ class TavernDungeonTrait(Base):
     name = Column(String, nullable=False)
     dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
     dungeon = relationship('TavernDungeon', back_populates='traits', lazy='joined')
+
+    def __str__(self):
+        return self.name
 
 
 class TavernFloor(Base):

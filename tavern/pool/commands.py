@@ -46,3 +46,13 @@ class Pool():
                 arcuser.base.nick, len(hero_to_hire), ', '.join(map(str, hero_to_hire))))
         else:
             self.plugin.say(channel, '{}: No hero named {}.'.format(arcuser.base.nick, args))
+
+    @tutorial.tutorial_lock
+    def quest(self, arcuser, channel, args):
+        tavern = hq_controller.find_tavern(arcuser)
+        if tavern.hired_hero is None:
+            self.plugin.say(
+                channel, "{}: You haven't hired a hero yet. Use .hire to hire an available hero!".format(arcuser.base.nick))
+            return
+
+        self.plugin.say(channel, "{}: This is unimplemented, but at least you have a hero.".format(arcuser.base.nick))

@@ -31,6 +31,7 @@ class TavernPlugin(IRCCommand):
 
         self.functions = {
             'hire': self.pool.hire,
+            'quest': self.pool.quest,
             'name': self.hq.create,
             'create': self.hq.create,
             'status': self.hq.status,

@@ -1,3 +1,4 @@
+import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
 import tavern.pool.controller as pool_controller
 import tavern.util.tutorial as tutorial
@@ -67,8 +68,19 @@ class HQ():
                 messages.append('{} have been hired.'.format(', '.join(heroes[HeroActivity.Hired])))
             if len(heroes[HeroActivity.Adventuring]) > 0:
                 messages.append('{} are out adventuring.'.format(', '.join(heroes[HeroActivity.Adventuring])))
+        elif args == 'dungeons':
+            dungeons = dungeon_controller.get_known_dungeons()
+            if len(dungeons) == 0:
+                messages.append('No dungeons are known of.')
+            for dungeon in dungeons:
+                message = '{} has {} floors.'.format(dungeon.name, len(dungeon.floors))
+                hero_count = dungeon_controller.get_heroes_in_dungeon(dungeon.id)
+                if hero_count > 0:
+                    message += ' There are {} heroes inside.'.format(hero_count)
+                messages.append(message)
         else:
-            options = hq_controller.search_taverns(args) + pool_controller.search_heroes(args)
+            options = hq_controller.search_taverns(
+                args) + pool_controller.search_heroes(args) + dungeon_controller.search_dungeons(args)
             if len(options) == 1:
                 messages += options[0].details_strings()
             elif len(options) == 0:
