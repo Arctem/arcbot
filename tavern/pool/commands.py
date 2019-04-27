@@ -1,3 +1,4 @@
+import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
 import tavern.pool.controller as pool_controller
 import tavern.util.tutorial as tutorial
@@ -27,7 +28,7 @@ class Pool():
                 self.plugin.say(channel, '{}: You hired your resident hero, {}, for free. Use .quest to send them somewhere!'.format(
                     arcuser.base.nick, hero))
                 return
-            if hero.visiting == tavern or hero.activity == HeroActivity.CommonPool:
+            if hero.visiting.id == tavern.id or hero.activity == HeroActivity.CommonPool:
                 if tavern.money < hero.cost:
                     self.plugin.say(channel, '{}: You only have {} gold but {} wants {}!'.format(
                         arcuser.base.nick, tavern.money, hero, hero.cost))
@@ -36,8 +37,6 @@ class Pool():
                 self.plugin.say(channel, '{}: You hired {} for {}. Use .quest to send them somewhere!'.format(
                     arcuser.base.nick, hero, hero.cost))
                 return
-            print("hero.visiting: ", hero.visiting)
-            print("tavern: ", tavern)
             self.plugin.say(channel, '{}: {} is currently {} and cannot be hired.'.format(
                 arcuser.base.nick, hero, hero.activity_string()))
             return
@@ -55,4 +54,14 @@ class Pool():
                 channel, "{}: You haven't hired a hero yet. Use .hire to hire an available hero!".format(arcuser.base.nick))
             return
 
-        self.plugin.say(channel, "{}: This is unimplemented, but at least you have a hero.".format(arcuser.base.nick))
+        dungeons = dungeon_controller.search_dungeons(args)
+        if len(dungeons) > 1:
+            self.plugin.say(channel, '{}: Found {} dungeons. Please specify: {}'.format(arcuser.base.nick, len(dungeons), ', '.join(map(str, dungeons))))
+            return
+        elif len(dungeons) is 0:
+            self.plugin.say(channel, '{}: No dungeons named {}.'.format(arcuser.base.nick, args))
+            return
+
+        dungeon = dungeons[0]
+        pool_controller.start_adventure(tavern.hired_hero.id, dungeon.id, tavern.id)
+        self.plugin.say(channel, '{}: You sent {} on an adventure to {}! Hopefully they survive.'.format(arcuser.base.nick, tavern.hired_hero, dungeon))

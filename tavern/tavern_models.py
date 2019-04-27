@@ -42,7 +42,7 @@ class Tavern(Base):
 
     hired_hero_id = Column(Integer, ForeignKey('tavern_heroes.id'))
     hired_hero = relationship('TavernHero', back_populates='employer', lazy='joined', foreign_keys=[hired_hero_id])
-    adventures = relationship('TavernAdventure', back_populates='tavern', lazy='joined')
+    adventures = relationship('TavernAdventure', back_populates='employer', lazy='joined')
 
     def __str__(self):
         return self.name
@@ -90,7 +90,7 @@ class TavernHero(Base):
     activity = Column(Enum(HeroActivity), nullable=False)
     visiting_id = Column(Integer, ForeignKey('taverns.id'))
     visiting = relationship('Tavern', back_populates='visiting_heroes', lazy='joined', foreign_keys=[visiting_id])
-    employer = relationship('Tavern', back_populates='hired_hero', lazy='joined', foreign_keys=[Tavern.hired_hero_id])
+    employer = relationship('Tavern', uselist=False, back_populates='hired_hero', lazy='joined', foreign_keys=[Tavern.hired_hero_id])
 
     def __str__(self):
         return '{} the {}'.format(self.name, self.epithet)
@@ -142,8 +142,8 @@ class TavernAdventure(Base):
     hero_id = Column(Integer, ForeignKey('tavern_heroes.id'), nullable=False)
     hero = relationship('TavernHero', back_populates='adventures', lazy='joined')
 
-    tavern_id = Column(Integer, ForeignKey('taverns.id'), nullable=False)
-    tavern = relationship('Tavern', back_populates='adventures', lazy='joined')
+    employer_id = Column(Integer, ForeignKey('taverns.id'), nullable=False)
+    employer = relationship('Tavern', back_populates='adventures', lazy='joined')
 
     dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
     dungeon = relationship('TavernDungeon', back_populates='adventures', lazy='joined')

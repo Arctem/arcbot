@@ -4,7 +4,7 @@ import ircbot.storage as db
 
 from tavern import logs
 from tavern.shared import TavernException
-from tavern.tavern_models import Tavern, TavernHero, HeroActivity
+from tavern.tavern_models import Tavern, TavernAdventure, TavernDungeon, TavernHero, HeroActivity
 from tavern.util.names import SHAKESPEARE_NAMES
 import tavern.raws.job as job_raws
 
@@ -62,9 +62,24 @@ def create_epithet(primary, secondary):
 def hire_hero(tavern_id, hero_id, cost, s=None):
     # check current state and change
     tavern = s.query(Tavern).filter(Tavern.id == tavern_id).first()
-    hero = s.query(TavernHero).filter(TavernHero.id == hero_id).first()
+    hero = find_hero(heroId=hero_id, s=s)
     change_hero_activity(hero, HeroActivity.Hired, tavern)
     tavern.money -= cost
+
+@db.atomic
+def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
+    hero = s.query(TavernHero).filter(TavernHero.id == hero_id).first()
+    dungeon = s.query(TavernDungeon).filter(TavernDungeon.id == dungeon_id).first()
+    tavern = None if hiring_tavern_id is None else s.query(Tavern).filter(Tavern.id == hiring_tavern_id).first()
+
+    if not (hero.activity == HeroActivity.Hired and tavern is not None and hero.employer == tavern) and not (tavern is None and hero.activity == HeroActivity.Elsewhere):
+        raise TavernException('Hero {} cannot start an adventure with tavern {} from state {}'.format(hero, tavern, hero.activity))
+    if not dungeon.active:
+        raise TavernException('Cannot send hero to adventure in inactive dungeon {}'.format(dungeon))
+
+    adventure = TavernAdventure(hero=hero, dungeon=dungeon, employer=tavern, active=True)
+    s.add(adventure)
+    change_hero_activity(hero, HeroActivity.Adventuring)
 
 
 @db.atomic
@@ -82,6 +97,7 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
 
     hero.activity = activity
     hero.visiting = None
+    hero.employer = None
     if hero.employer is not None:
         hero.employer.hire_hero = None
     if activity == HeroActivity.VisitingTavern:
