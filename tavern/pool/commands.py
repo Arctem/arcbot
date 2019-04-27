@@ -21,7 +21,7 @@ class Pool():
         hero_to_hire = pool_controller.search_heroes(name=args)
         if len(hero_to_hire) is 1:
             hero = hero_to_hire[0]
-            if hero.activity == HeroActivity.Elsewhere and tavern.resident_hero == hero:
+            if hero.activity == HeroActivity.Elsewhere and tavern.resident_hero.id == hero.id:
                 # hiring a resident hero is free
                 pool_controller.hire_hero(tavern.id, hero.id, 0)
                 self.plugin.say(channel, '{}: You hired your resident hero, {}, for free. Use .quest to send them somewhere!'.format(
