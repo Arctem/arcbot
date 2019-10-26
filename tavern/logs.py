@@ -49,6 +49,6 @@ def get_unsent(s=None):
     return s.query(TavernLog).filter(TavernLog.sent == False).order_by(TavernLog.time).all()
 
 
-@db.atomic
+@db.needs_session
 def mark_all_sent(s=None):
     return s.query(TavernLog).update({TavernLog.sent: True})

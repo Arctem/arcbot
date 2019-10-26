@@ -22,13 +22,13 @@ DUNGEONS_MIN_FLOORS = 5
 DUNGEONS_MAX_FLOORS = 10
 
 
-@db.atomic
+@db.needs_session
 def dungeon_tick(tick, s=None):
     if ensure_dungeon_count(s=s) > 0:
         dungeon_controller.print_debug(s=s)
 
 
-@db.atomic
+@db.needs_session
 def ensure_dungeon_count(s=None):
     created = 0
     known = s.query(TavernDungeon).filter(TavernDungeon.secret == True).count()

@@ -24,7 +24,7 @@ POOL_RESET_FREQUENCY = int(2 * 3600 / constants.TICK_LENGTH)  # once every 2 hou
 POOL_SIZE = 3
 
 
-@db.atomic
+@db.needs_session
 def pool_tick(tick, s=None):
     if ensure_hero_count(s=s) > 0:
         pool_controller.print_debug(s=s)
@@ -32,7 +32,7 @@ def pool_tick(tick, s=None):
         reset_pool(s=s)
 
 
-@db.atomic
+@db.needs_session
 def ensure_hero_count(s=None):
     alive = s.query(TavernHero).filter(TavernHero.activity != HeroActivity.Dead).count()
     idle = s.query(TavernHero).filter(TavernHero.activity.in_(
@@ -52,11 +52,11 @@ def time_to_reset_pool(tick, s=None):
     return tick % POOL_RESET_FREQUENCY == 0
 
 
-@db.atomic
+@db.needs_session
 def reset_pool(s=None):
     available = set(s.query(TavernHero).filter(TavernHero.activity.in_([
         HeroActivity.VisitingTavern, HeroActivity.CommonPool, HeroActivity.Elsewhere
-    ])).all())
+    ]), TavernHero.patron == None).all())
     taverns = hq_controller.get_taverns(s=s)
 
     # Divide heroes into three groups: those visiting taverns, those in the pool, and those elsewhere.

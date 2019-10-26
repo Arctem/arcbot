@@ -38,7 +38,7 @@ def search_heroes(name, s=None):
     return s.query(TavernHero).filter(TavernHero.name.like('%{}%'.format(name))).all()
 
 
-@db.atomic
+@db.needs_session
 def generate_hero(name=None, stat_points=None, s=None):
     if not name:
         print(set(s.query(TavernHero).values(TavernHero.name)))
@@ -58,7 +58,7 @@ def create_epithet(primary, secondary):
                           random.choice(tuple(job_raws.jobs[primary].nouns)).capitalize())
 
 
-@db.atomic
+@db.needs_session
 def hire_hero(tavern_id, hero_id, cost, s=None):
     # check current state and change
     tavern = s.query(Tavern).filter(Tavern.id == tavern_id).first()
@@ -66,14 +66,16 @@ def hire_hero(tavern_id, hero_id, cost, s=None):
     change_hero_activity(hero, HeroActivity.Hired, tavern)
     tavern.money -= cost
 
-@db.atomic
+
+@db.needs_session
 def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
     hero = s.query(TavernHero).filter(TavernHero.id == hero_id).first()
     dungeon = s.query(TavernDungeon).filter(TavernDungeon.id == dungeon_id).first()
     tavern = None if hiring_tavern_id is None else s.query(Tavern).filter(Tavern.id == hiring_tavern_id).first()
 
     if not (hero.activity == HeroActivity.Hired and tavern is not None and hero.employer == tavern) and not (tavern is None and hero.activity == HeroActivity.Elsewhere):
-        raise TavernException('Hero {} cannot start an adventure with tavern {} from state {}'.format(hero, tavern, hero.activity))
+        raise TavernException('Hero {} cannot start an adventure with tavern {} from state {}'.format(
+            hero, tavern, hero.activity))
     if not dungeon.active:
         raise TavernException('Cannot send hero to adventure in inactive dungeon {}'.format(dungeon))
 
@@ -82,7 +84,7 @@ def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
     change_hero_activity(hero, HeroActivity.Adventuring)
 
 
-@db.atomic
+@db.needs_session
 def change_hero_activity(hero, activity, tavern=None, s=None):
     if bool(tavern) != (activity in (HeroActivity.VisitingTavern, HeroActivity.Hired)):
         raise TavernException(
@@ -97,9 +99,9 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
 
     hero.activity = activity
     hero.visiting = None
-    hero.employer = None
     if hero.employer is not None:
         hero.employer.hire_hero = None
+        hero.employer = None
     if activity == HeroActivity.VisitingTavern:
         hero.visiting = tavern
     if activity == HeroActivity.Hired:
@@ -108,3 +110,36 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
     start_log = logs.make_start_activity_log(hero)
     if start_log:
         s.add(start_log)
+
+
+@db.needs_session
+def hero_details(hero, s=None):
+    info = []
+    info.append(hero.name)
+    if not hero.alive:
+        info.append('Dead.')
+    info.append(hero_activity_string(hero, s=s))
+    info.append(hero.level_string())
+    info.append('Demands {cost} gold.'.format(cost=hero.cost))
+    if hero.patron:
+        info.append('Patron of {patron}.'.format(patron=hero.patron.name))
+    info.append('Has been on {adv_count} adventures.'.format(adv_count=len(hero.adventures)))
+    return info
+
+
+@db.needs_session
+def hero_activity_string(hero, s=None):
+    if hero.activity is HeroActivity.Elsewhere:
+        return 'Is elsewhere.'
+    elif hero.activity is HeroActivity.CommonPool:
+        return 'Is hanging out at the town square'
+    elif hero.activity is HeroActivity.VisitingTavern:
+        return 'Is visiting {tavern}.'.format(tavern=hero.visiting)
+    elif hero.activity is HeroActivity.Hired:
+        return 'Has been hired by {tavern}.'.format(tavern=hero.employer)
+    elif hero.activity is HeroActivity.Adventuring:
+        for adventure in hero.adventures:
+            if adventure.active:
+                return 'Is adventuring in {dungeon}.'.format(dungeon=adventure.dungeon)
+    elif hero.activity is HeroActivity.Dead:
+        return 'At the graveyard.'

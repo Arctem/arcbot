@@ -52,12 +52,26 @@ def get_heroes_in_dungeon(dungeon_id, s=None):
     return s.query(TavernAdventure).filter(TavernAdventure.dungeon_id == dungeon_id and TavernAdventure.active == True).count()
 
 
+@db.needs_session
+def dungeon_details(dungeon, s=None):
+    info = []
+    info.append('{} has {} floors.'.format(dungeon.name, len(dungeon.floors)))
+    info.append('It is currently active.' if dungeon.active else 'It is not currently active.')
+    heroes = []
+    for adventure in filter(lambda adv: adv.active, dungeon.adventures):
+        heroes.append(adventure.hero)
+    if len(heroes) > 0:
+        info.append('{} are currently here.'.format(', '.join(map(str, heroes))))
+    info.append('It has been visited {} times.'.format(len(dungeon.adventures)))
+    return info
+
+
 ##################
 # Dungeon Creation
 ##################
 
 
-@db.atomic
+@db.needs_session
 def create_new_dungeon(floors, s=None):
     dungeon = TavernDungeon(
         secret=True,
@@ -101,7 +115,7 @@ def create_name(dungeon_traits):
 ####################
 
 
-@db.atomic
+@db.needs_session
 def discover_dungeon(dungeon, s=None):
     if not dungeon.secret:
         raise DungeonNotSecretException(dungeon)
@@ -111,7 +125,7 @@ def discover_dungeon(dungeon, s=None):
     return dungeon
 
 
-@db.atomic
+@db.needs_session
 def populate_dungeon(dungeon, s=None):
     traits = map(lambda t: dungeon_raws.types[t.name], dungeon.traits)
     required = set()

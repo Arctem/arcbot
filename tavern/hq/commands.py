@@ -1,9 +1,11 @@
+import ircbot.storage as db
+
 import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
 import tavern.pool.controller as pool_controller
 import tavern.util.tutorial as tutorial
 
-from tavern.tavern_models import HeroActivity
+from tavern.tavern_models import HeroActivity, Tavern, TavernDungeon, TavernHero
 
 
 class HQ():
@@ -11,19 +13,20 @@ class HQ():
     def __init__(self, plugin):
         self.plugin = plugin
 
-    def create(self, arcuser, channel, args):
+    @db.atomic
+    def name(self, arcuser, channel, args, s=None):
         if len(args) is 0:
             self.plugin.say(
                 channel, '{}: Please name your tavern with ".tavern name <tavern name>"'.format(arcuser.base.nick))
         else:
-            tavern = hq_controller.name_tavern(arcuser, args)
+            tavern = hq_controller.name_tavern(arcuser, args, s=s)
             if tavern:
                 self.plugin.say(channel, '{}: Your tavern is now named {}.'.format(arcuser.base.nick, tavern.name))
 
-                tavern = hq_controller.find_tavern(arcuser)
+                tavern = hq_controller.find_tavern(arcuser, s=s)
                 resident_hero = tavern.resident_hero
                 if not tavern.resident_hero:
-                    resident_hero = hq_controller.create_resident_hero(tavern)
+                    resident_hero = hq_controller.create_resident_hero(tavern, s=s)
 
                 self.plugin.say(channel, '{}: Your tavern has a resident hero. Their name is {}.'.format(
                     arcuser.base.nick, resident_hero))
@@ -31,10 +34,11 @@ class HQ():
                 self.plugin.say(channel, '{}: Unable to name tavern.'.format(arcuser.base.nick))
 
     @tutorial.tutorial_lock
-    def status(self, arcuser, channel, args):
+    @db.needs_session
+    def status(self, arcuser, channel, args, s=None):
         messages = []
 
-        tavern = hq_controller.find_tavern(arcuser)
+        tavern = hq_controller.find_tavern(arcuser, s=s)
         if args in ['', 'tavern']:
             if not tavern:
                 messages.append('Please name your tavern with ".tavern name <tavern name>" first.')
@@ -46,7 +50,7 @@ class HQ():
                 for visitor in tavern.visiting_heroes:
                     messages.append('{} is visiting your tavern.'.format(visitor.name))
         elif args == 'heroes':
-            heroes = pool_controller.get_heroes()
+            heroes = pool_controller.get_heroes(s=s)
             heroes = {
                 activity: list(map(
                     lambda h: h.name,
@@ -69,20 +73,20 @@ class HQ():
             if len(heroes[HeroActivity.Adventuring]) > 0:
                 messages.append('{} are out adventuring.'.format(', '.join(heroes[HeroActivity.Adventuring])))
         elif args == 'dungeons':
-            dungeons = dungeon_controller.get_known_dungeons()
+            dungeons = dungeon_controller.get_known_dungeons(s=s)
             if len(dungeons) == 0:
                 messages.append('No dungeons are known of.')
             for dungeon in dungeons:
                 message = '{} has {} floors.'.format(dungeon.name, len(dungeon.floors))
-                hero_count = dungeon_controller.get_heroes_in_dungeon(dungeon.id)
+                hero_count = dungeon_controller.get_heroes_in_dungeon(dungeon.id, s=s)
                 if hero_count > 0:
                     message += ' There are {} heroes inside.'.format(hero_count)
                 messages.append(message)
         else:
             options = hq_controller.search_taverns(
-                args) + pool_controller.search_heroes(args) + dungeon_controller.search_dungeons(args)
+                args, s=s) + pool_controller.search_heroes(args, s=s) + dungeon_controller.search_dungeons(args, s=s)
             if len(options) == 1:
-                messages += options[0].details_strings()
+                messages += make_long_description(options[0])
             elif len(options) == 0:
                 messages.append('Could not find {}.'.format(args))
             else:
@@ -91,3 +95,13 @@ class HQ():
 
         for message in messages:
             self.plugin.say(channel, '{}: {}'.format(arcuser.base.nick, message))
+
+
+@db.needs_session
+def make_long_description(entity, s=None):
+    if isinstance(entity, Tavern):
+        return hq_controller.tavern_details(entity, s=s)
+    if isinstance(entity, TavernHero):
+        return pool_controller.hero_details(entity, s=s)
+    if isinstance(entity, TavernDungeon):
+        return dungeon_controller.dungeon_details(entity, s=s)

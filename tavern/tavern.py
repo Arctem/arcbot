@@ -4,6 +4,7 @@ from circuits.core import timers
 
 from ircbot.events import debugalert, sendmessage, sendaction, sendnotice
 from ircbot.command import IRCCommand
+from ircbot.storage import session_scope
 
 from tavern import tick, logs
 from tavern.events import taverntick
@@ -32,8 +33,8 @@ class TavernPlugin(IRCCommand):
         self.functions = {
             'hire': self.pool.hire,
             'quest': self.pool.quest,
-            'name': self.hq.create,
-            'create': self.hq.create,
+            'name': self.hq.name,
+            'create': self.hq.name,
             'status': self.hq.status,
             'tick': lambda *args, **kwargs: self.fire(taverntick()),
         }
@@ -44,19 +45,20 @@ class TavernPlugin(IRCCommand):
         self.fire(debugalert("Tavern tick rate started."))
 
     def taverntick(self):
-        self.fire(debugalert("Tavern tick"))
-        # self.fire(sendnotice(DEFAULT_CHANNEL, "Tick"))
-        if not tick.tick():
-            self.fire(sendnotice(DEFAULT_CHANNEL, "Tick failed"))
-            return
+        with session_scope() as s:
+            self.fire(debugalert("Tavern tick"))
+            # self.fire(sendnotice(DEFAULT_CHANNEL, "Tick"))
+            if not tick.tick(s=s):
+                self.fire(sendnotice(DEFAULT_CHANNEL, "Tick failed"))
+                return
 
-        for log in logs.get_unsent():
-            print(log)
-            if log.user:
-                self.fire(sendmessage(log.user.base.nick, str(log)))
-            else:
-                self.fire(sendnotice(DEFAULT_CHANNEL, str(log)))
-        logs.mark_all_sent()
+            for log in logs.get_unsent(s=s):
+                print(log)
+                if log.user:
+                    self.fire(sendmessage(log.user.base.nick, str(log)))
+                else:
+                    self.fire(sendnotice(DEFAULT_CHANNEL, str(log)))
+            logs.mark_all_sent(s=s)
 
     def tavern(self, user, channel, args):
         arcuser = arcuser_controller.get_or_create_arcuser(user)

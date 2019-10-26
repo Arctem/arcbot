@@ -47,19 +47,6 @@ class Tavern(Base):
     def __str__(self):
         return self.name
 
-    def details_strings(self):
-        info = []
-        info.append('{name} is owned by {owner} and was founded on {creation_time:%d %B, %Y}.'.format(
-            name=self.name, owner=self.owner, creation_time=self.creation_time))
-        info.append('{gold} gold'.format(gold=self.money))
-        if self.resident_hero is not None:
-            info.append('Resident hero is {hero}.'.format(hero=self.resident_hero.name))
-        if len(self.visiting_heroes) == 1:
-            info.append('{} is visiting.'.format(self.visiting_heroes[0].name))
-        elif len(self.visiting_heroes) > 1:
-            info.append('{} are visiting.'.format(', '.format(self.visiting_heroes)))
-        return info
-
 
 class TavernKeyStore(Base):
     __tablename__ = 'tavern_keystore'
@@ -89,24 +76,11 @@ class TavernHero(Base):
 
     activity = Column(Enum(HeroActivity), nullable=False)
     visiting_id = Column(Integer, ForeignKey('taverns.id'))
-    visiting = relationship('Tavern', back_populates='visiting_heroes', lazy='joined', foreign_keys=[visiting_id])
-    employer = relationship('Tavern', uselist=False, back_populates='hired_hero', lazy='joined', foreign_keys=[Tavern.hired_hero_id])
+    visiting = relationship('Tavern', back_populates='visiting_heroes', foreign_keys=[visiting_id])
+    employer = relationship('Tavern', uselist=False, back_populates='hired_hero', foreign_keys=[Tavern.hired_hero_id])
 
     def __str__(self):
         return '{} the {}'.format(self.name, self.epithet)
-
-    def details_strings(self):
-        info = []
-        info.append(self.name)
-        if not self.alive:
-            info.append('Dead.')
-        info.append(self.activity_string())
-        info.append(self.level_string())
-        info.append('Demands {cost} gold.'.format(cost=self.cost))
-        if self.patron:
-            info.append('Patron of {patron}.'.format(patron=self.patron.name))
-        info.append('Has been on {adv_count} adventures.'.format(adv_count=len(self.adventures)))
-        return info
 
     def info_string(self):
         return '{name} | {stats}'.format(name=self.name, stats=self.level_string())
@@ -115,9 +89,6 @@ class TavernHero(Base):
         if self.secondary_class is not None:
             return 'level {lvl} {primary} {secondary}'.format(lvl=self.level, primary=self.primary_class.capitalize(), secondary=self.secondary_class.capitalize())
         return 'level {lvl} {primary}'.format(lvl=self.level, primary=self.primary_class.capitalize())
-
-    def activity_string(self):
-        return '{activity} at {location}'.format(activity=self.activity, location=self.visiting)
 
 
 class TavernLog(Base):
@@ -167,13 +138,6 @@ class TavernDungeon(Base):
 
     def __str__(self):
         return self.name
-
-    def details_strings(self):
-        info = []
-        info.append('{} has {} floors.'.format(self.name, len(self.floors)))
-        info.append('It is currently active.' if self.active else 'It is not currently active.')
-        # TODO: Mention heroes inside.
-        return info
 
 
 class TavernDungeonTrait(Base):

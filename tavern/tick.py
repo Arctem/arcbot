@@ -7,7 +7,7 @@ import tavern.pool.tasks as pool
 TICK = 'tick'
 
 
-@db.atomic
+@db.needs_session
 def increment_tick(s=None):
     tick = s.query(TavernValue).filter(TavernValue.key == TICK).one_or_none()
     if not tick:
@@ -18,7 +18,7 @@ def increment_tick(s=None):
     return int(tick.value)
 
 
-@db.atomic
+@db.needs_session
 def tick(s=None):
     tick = increment_tick(s=s)
     print("Starting tick {}".format(tick))
