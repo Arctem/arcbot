@@ -36,7 +36,7 @@ jobs = {
         adjectives={'knowledgeable', 'well-read'},
         nouns={'antiquarian', 'professor', 'scholar', 'teacher'},
         ),
-    Job('wizard',  # Good against magic things
+    Job('wizard',  # Good against magic things, weak against mundane things
         adjectives={'ancient', 'magical'},
         nouns={'witch', 'wizard'},
         ),
