@@ -28,21 +28,21 @@ class Tavern(Base):
 
     id = Column(Integer, primary_key=True)
     owner_id = Column(Integer, ForeignKey('arcusers.id'), nullable=False, unique=True)
-    owner = relationship('ArcUser', back_populates='tavern', lazy='joined')
+    owner = relationship('ArcUser', back_populates='tavern')
     creation_time = Column(DateTime, nullable=False)
 
     name = Column(String, nullable=False)
     money = Column(Integer, nullable=False)
 
     resident_hero_id = Column(Integer, ForeignKey('tavern_heroes.id'))
-    resident_hero = relationship('TavernHero', back_populates='patron', lazy='joined', foreign_keys=[resident_hero_id])
+    resident_hero = relationship('TavernHero', back_populates='patron', foreign_keys=[resident_hero_id])
 
     visiting_heroes = relationship('TavernHero', back_populates='visiting',
-                                   lazy='joined', foreign_keys='[TavernHero.visiting_id]')
+                                   foreign_keys='[TavernHero.visiting_id]')
 
     hired_hero_id = Column(Integer, ForeignKey('tavern_heroes.id'))
-    hired_hero = relationship('TavernHero', back_populates='employer', lazy='joined', foreign_keys=[hired_hero_id])
-    adventures = relationship('TavernAdventure', back_populates='employer', lazy='joined')
+    hired_hero = relationship('TavernHero', back_populates='employer', foreign_keys=[hired_hero_id])
+    adventures = relationship('TavernAdventure', back_populates='employer')
 
     def __str__(self):
         return self.name
@@ -70,8 +70,8 @@ class TavernHero(Base):
     secondary_class = Column(String, nullable=False)
     level = Column(Integer, nullable=False)
 
-    adventures = relationship('TavernAdventure', back_populates='hero', lazy='joined')
-    patron = relationship('Tavern', back_populates='resident_hero', lazy='joined',
+    adventures = relationship('TavernAdventure', back_populates='hero')
+    patron = relationship('Tavern', back_populates='resident_hero',
                           uselist=False, foreign_keys=[Tavern.resident_hero_id])
 
     activity = Column(Enum(HeroActivity), nullable=False)
@@ -97,7 +97,7 @@ class TavernLog(Base):
     id = Column(Integer, primary_key=True)
 
     user_id = Column(Integer, ForeignKey('arcusers.id'))
-    user = relationship('ArcUser', back_populates='tavern_logs', lazy='joined')
+    user = relationship('ArcUser', back_populates='tavern_logs')
     text = Column(String, nullable=False)
     time = Column(DateTime, nullable=False)
     sent = Column(Boolean, default=False, nullable=False)
@@ -131,10 +131,10 @@ class TavernDungeon(Base):
     secret = Column(Boolean, default=True, nullable=False)
 
     floors = relationship('TavernFloor', back_populates='dungeon',
-                          order_by='TavernFloor.number', lazy='joined')
+                          order_by='TavernFloor.number')
     traits = relationship('TavernDungeonTrait', back_populates='dungeon', lazy='joined')
 
-    adventures = relationship('TavernAdventure', back_populates='dungeon', lazy='joined')
+    adventures = relationship('TavernAdventure', back_populates='dungeon')
 
     def __str__(self):
         return self.name
@@ -158,8 +158,8 @@ class TavernFloor(Base):
     id = Column(Integer, primary_key=True)
     number = Column(Integer, nullable=False)
     dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
-    dungeon = relationship('TavernDungeon', back_populates='floors', lazy='joined')
-    monsters = relationship('TavernMonster', back_populates='floor', lazy='joined')
+    dungeon = relationship('TavernDungeon', back_populates='floors')
+    monsters = relationship('TavernMonster', back_populates='floor')
 
     def __str__(self):
         return "{} F{}".format(self.dungeon.name, self.number)
@@ -174,7 +174,7 @@ class TavernMonster(Base):
     modifier = Column(String, nullable=True)
 
     floor_id = Column(Integer, ForeignKey('tavern_floors.id'), nullable=False)
-    floor = relationship('TavernFloor', back_populates='monsters', lazy='joined')
+    floor = relationship('TavernFloor', back_populates='monsters')
 
     def __str__(self):
         species = self.stock

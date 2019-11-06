@@ -11,7 +11,7 @@ def tutorial_lock(function):
             plugin.say(
                 channel, '{}: Please name your tavern with ".tavern name <tavern name>" first.'.format(arcuser.base.nick))
             return
-        if not tavern.resident_hero:
+        if not tavern.resident_hero_id:
             plugin.say(
                 channel, '{}: Please hire your first hero with ".tavern hire <hero name>" first.'.format(arcuser.base.nick))
             return
