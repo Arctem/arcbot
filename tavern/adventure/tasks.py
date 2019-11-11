@@ -64,7 +64,7 @@ def process_active_adventures(s=None):
             return
         enemy = random.choice(floor.monsters)
         result = battle_result(adventure.hero, enemy)
-        if result == BattleTier.INJURED:
+        if result == BattleOutcome.INJURED:
             if not adventure.hero.injured:
                 pool_controller.injure_hero(adventure.hero, s=s)
                 s.add(logs.hero_injured_by_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
@@ -75,15 +75,15 @@ def process_active_adventures(s=None):
                 s.add(logs.hero_killed_by_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
                 adventure_controller.fail_adventure(adventure, s=s)
                 pool_controller.change_hero_activity(hero, HeroActivity.Dead, s=s)
-        elif result == BattleTier.FLEE:
+        elif result == BattleOutcome.FLEE:
             pass
-        elif result == BattleTier.WIN:
+        elif result == BattleOutcome.WIN:
             pass
-        elif result == BattleTier.WIN_LOOT:
+        elif result == BattleOutcome.WIN_LOOT:
             pass
-        elif result == BattleTier.WIN_LEVEL:
+        elif result == BattleOutcome.WIN_LEVEL:
             pass
-        elif result == BattleTier.WIN_ADVANCE:
+        elif result == BattleOutcome.WIN_ADVANCE:
             pass
 
         s.add(logs.make_fight_log(adventure.hero, enemy, result, adventure.employer.owner, s=s))
