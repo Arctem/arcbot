@@ -75,6 +75,7 @@ def hire_hero(tavern_id, hero_id, cost, s=None):
     hero = find_hero(heroId=hero_id, s=s)
     change_hero_activity(hero, HeroActivity.Hired, tavern, s=s)
     tavern.money -= cost
+    hero.money += cost
 
 
 @db.needs_session
@@ -103,6 +104,20 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
     start_log = logs.make_start_activity_log(hero, s=s)
     if start_log:
         s.add(start_log)
+
+
+@db.needs_session
+def injure_hero(hero, s=None):
+    if hero.injured:
+        raise TavernException("Hero {} already injured.".format(hero))
+    hero.injured = True
+
+
+@db.needs_session
+def kill_hero(hero, s=None):
+    if not hero.alive:
+        raise TavernException("Hero {} already dead.".format(hero))
+    hero.alive = False
 
 
 @db.needs_session

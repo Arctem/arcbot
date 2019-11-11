@@ -56,8 +56,23 @@ def make_start_activity_log(hero, s=None):
 
 
 @db.needs_session
-def make_fight_log(hero, monster, s=None):
-    return TavernLog(text="{hero} gets ready to fight a {monster}, but unfortunately that isn't possible yet.".format(hero=hero, monster=monster),
+def adventure_ended(hero, tavern, dungeon, money, s=None):
+    return TavernLog(text="{hero} has returned from {dungeon}, bringing back {money} gold for themselves and {tavern}."
+                     .format(hero=hero, tavern=tavern, dungeon=dungeon, money=money),
+                     time=datetime.now())
+
+
+@db.needs_session
+def adventure_failed(hero, tavern, dungeon, money, s=None):
+    return TavernLog(text="{hero} was has failed {tavern}'s ques to {dungeon}, leaving {money} gold behind."
+                     .format(hero=hero, tavern=tavern, dungeon=dungeon, money=money),
+                     time=datetime.now())
+
+
+@db.needs_session
+def make_fight_log(hero, monster, result, player, s=None):
+    return TavernLog(text="{hero} fought {monster}, and got {result}.".format(hero=hero, monster=monster, result=result),
+                     user=player,
                      time=datetime.now())
 
 

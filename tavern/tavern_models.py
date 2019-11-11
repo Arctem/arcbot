@@ -67,6 +67,7 @@ class TavernHero(Base):
     secondary_class = Column(String, nullable=False)
 
     alive = Column(Boolean, default=True, nullable=False)
+    injured = Column(Boolean, default=False, nullable=False)
     level = Column(Integer, nullable=False)
     cost = Column(Integer, nullable=False)
     money = Column(Integer, nullable=False)

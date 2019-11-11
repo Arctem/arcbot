@@ -1,5 +1,6 @@
 import ircbot.storage as db
 
+from tavern import logs
 import tavern.dungeon.controller as dungeon_controller
 import tavern.pool.controller as pool_controller
 
@@ -23,3 +24,29 @@ def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
                                 active=True, money_gained=0)
     s.add(adventure)
     pool_controller.change_hero_activity(hero, HeroActivity.Adventuring, s=s)
+
+
+@db.needs_session
+def end_adventure(adventure, s=None):
+    hero = adventure.hero
+    dungeon = adventure.dungeon
+    tavern = adventure.tavern
+
+    if not adventure.active:
+        raise TavernException('Adventure {} is not active.'.format(adventure))
+    tavern.money += adventure.money_gained
+    hero.money += adventure.money_gained
+    adventure.active = False
+    s.add(logs.adventure_ended(hero, tavern, dungeon, money, s=s))
+
+
+@db.needs_session
+def fail_adventure(adventure, s=None):
+    hero = adventure.hero
+    dungeon = adventure.dungeon
+    tavern = adventure.tavern
+
+    if not adventure.active:
+        raise TavernException('Adventure {} is not active.'.format(adventure))
+    adventure.active = False
+    s.add(logs.adventure_failed(hero, tavern, dungeon, money, s=s))
