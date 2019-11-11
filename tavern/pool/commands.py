@@ -1,6 +1,7 @@
 # from ircbot.storage import session_scope
 import ircbot.storage as db
 
+import tavern.adventure.controller as adventure_controller
 import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
 import tavern.pool.controller as pool_controller
@@ -79,6 +80,6 @@ class Pool():
 
         dungeon = dungeons[0]
         hero = tavern.hired_hero
-        pool_controller.start_adventure(hero.id, dungeon.id, tavern.id, s=s)
+        adventure_controller.start_adventure(hero.id, dungeon.id, tavern.id, s=s)
         self.plugin.say(channel, '{}: You sent {} on an adventure to {}! Hopefully they survive.'.format(
             arcuser.base.nick, hero, dungeon))

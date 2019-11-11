@@ -63,12 +63,13 @@ class TavernHero(Base):
 
     name = Column(String, unique=True, nullable=False)
     epithet = Column(String, nullable=False)
-    alive = Column(Boolean, default=True, nullable=False)
-    cost = Column(Integer, nullable=False)
-
     primary_class = Column(String, nullable=False)
     secondary_class = Column(String, nullable=False)
+
+    alive = Column(Boolean, default=True, nullable=False)
     level = Column(Integer, nullable=False)
+    cost = Column(Integer, nullable=False)
+    money = Column(Integer, nullable=False)
 
     adventures = relationship('TavernAdventure', back_populates='hero')
     patron = relationship('Tavern', back_populates='resident_hero',
@@ -118,7 +119,10 @@ class TavernAdventure(Base):
 
     dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
     dungeon = relationship('TavernDungeon', back_populates='adventures', lazy='joined')
+    floor_id = Column(Integer, ForeignKey('tavern_floors.id'), nullable=False)
+    floor = relationship('TavernFloor', back_populates='adventures', lazy='joined')
 
+    money_gained = Column(Integer, nullable=False)
     active = Column(Boolean, default=True, nullable=False)
 
 
@@ -160,6 +164,7 @@ class TavernFloor(Base):
     dungeon_id = Column(Integer, ForeignKey('tavern_dungeons.id'), nullable=False)
     dungeon = relationship('TavernDungeon', back_populates='floors')
     monsters = relationship('TavernMonster', back_populates='floor')
+    adventures = relationship('TavernAdventure', back_populates='floor')
 
     def __str__(self):
         return "{} F{}".format(self.dungeon.name, self.number)

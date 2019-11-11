@@ -39,7 +39,7 @@ def get_dungeons(s=None):
 
 @db.needs_session
 def get_known_dungeons(s=None):
-    return s.query(TavernDungeon).filter(TavernDungeon.active == True and TavernDungeon.secret == False).all()
+    return s.query(TavernDungeon).filter(TavernDungeon.active == True, TavernDungeon.secret == False).all()
 
 
 @db.needs_session
@@ -49,7 +49,12 @@ def search_dungeons(name, s=None):
 
 @db.needs_session
 def get_heroes_in_dungeon(dungeon_id, s=None):
-    return s.query(TavernAdventure).filter(TavernAdventure.dungeon_id == dungeon_id and TavernAdventure.active == True).count()
+    return s.query(TavernAdventure).filter(TavernAdventure.dungeon_id == dungeon_id, TavernAdventure.active == True).count()
+
+
+@db.needs_session
+def get_floor(dungeon_id, floor_num, s=None):
+    return s.query(TavernFloor).filter(TavernFloor.dungeon_id == dungeon_id, TavernFloor.number == floor_num).one_or_none()
 
 
 @db.needs_session

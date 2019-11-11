@@ -1,6 +1,7 @@
 import ircbot.storage as db
 
 from tavern.tavern_models import TavernValue
+import tavern.adventure.tasks as adventure
 import tavern.dungeon.tasks as dungeon
 import tavern.pool.tasks as pool
 
@@ -22,6 +23,7 @@ def increment_tick(s=None):
 def tick(s=None):
     tick = increment_tick(s=s)
     print("Starting tick {}".format(tick))
+    adventure.adventure_tick(tick, s=s)
     dungeon.dungeon_tick(tick, s=s)
     pool.pool_tick(tick, s=s)
     return True
