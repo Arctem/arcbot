@@ -31,7 +31,7 @@ def dungeon_tick(tick, s=None):
 @db.needs_session
 def ensure_dungeon_count(s=None):
     created = 0
-    known = s.query(TavernDungeon).filter(TavernDungeon.secret == True).count()
+    known = s.query(TavernDungeon).filter(TavernDungeon.secret == False).count()
     for i in range(DUNGEONS_MIN_KNOWN - known):
         dungeon = dungeon_controller.create_new_dungeon(random.randint(DUNGEONS_MIN_FLOORS, DUNGEONS_MAX_FLOORS), s=s)
         created += 1

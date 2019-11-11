@@ -125,7 +125,7 @@ def discover_dungeon(dungeon, s=None):
     if not dungeon.secret:
         raise DungeonNotSecretException(dungeon)
 
-    dungeon.secret = True
+    dungeon.secret = False
     s.add(logs.make_discovery_log(dungeon))
     return dungeon
 
