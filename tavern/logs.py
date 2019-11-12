@@ -78,7 +78,7 @@ def adventure_ended(hero, tavern, dungeon, money, s=None):
 
 @db.needs_session
 def adventure_failed(hero, tavern, dungeon, money, s=None):
-    return TavernLog(text="{hero} was has failed {tavern}'s ques to {dungeon}, leaving {money} gold behind."
+    return TavernLog(text="{hero} has failed {tavern}'s quest to {dungeon}, leaving {money} gold behind."
                      .format(hero=hero, tavern=tavern, dungeon=dungeon, money=money),
                      time=datetime.now())
 
