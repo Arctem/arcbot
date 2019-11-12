@@ -72,6 +72,12 @@ class HQ():
                 messages.append('{} have been hired.'.format(', '.join(heroes[HeroActivity.Hired])))
             if len(heroes[HeroActivity.Adventuring]) > 0:
                 messages.append('{} are out adventuring.'.format(', '.join(heroes[HeroActivity.Adventuring])))
+
+            injured_heroes = list(
+                map(lambda h: h.name,
+                    filter(lambda h: h.injured, pool_controller.get_heroes(s=s))))
+            if len(injured_heroes) > 0:
+                messages.append('{} are injured.'.format(', '.join(injured_heroes)))
         elif args == 'dungeons':
             dungeons = dungeon_controller.get_known_dungeons(s=s)
             if len(dungeons) == 0:

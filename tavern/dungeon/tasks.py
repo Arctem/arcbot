@@ -10,16 +10,11 @@ from arcuser.arcuser_models import ArcUser
 
 from tavern.shared import TavernException
 from tavern.tavern_models import TavernDungeon, TavernDungeonTrait, TavernFloor, TavernMonster
+from tavern.util import constants
 from tavern import logs
 import tavern.raws.dungeon as dungeon_raws
 import tavern.raws.monster as monster_raws
 import tavern.dungeon.controller as dungeon_controller
-
-
-DUNGEONS_MAX_ACTIVE = 10  # Soft max, beaten by DUNGEONS_MIN_KNOWN
-DUNGEONS_MIN_KNOWN = 5
-DUNGEONS_MIN_FLOORS = 5
-DUNGEONS_MAX_FLOORS = 10
 
 
 @db.needs_session
@@ -32,8 +27,9 @@ def dungeon_tick(tick, s=None):
 def ensure_dungeon_count(s=None):
     created = 0
     known = s.query(TavernDungeon).filter(TavernDungeon.secret == False).count()
-    for i in range(DUNGEONS_MIN_KNOWN - known):
-        dungeon = dungeon_controller.create_new_dungeon(random.randint(DUNGEONS_MIN_FLOORS, DUNGEONS_MAX_FLOORS), s=s)
+    for i in range(constants.DUNGEONS_MIN_KNOWN - known):
+        dungeon = dungeon_controller.create_new_dungeon(random.randint(
+            constants.DUNGEONS_MIN_FLOORS, constants.DUNGEONS_MAX_FLOORS), s=s)
         created += 1
         dungeon_controller.discover_dungeon(dungeon, s=s)
         dungeon_controller.populate_dungeon(dungeon, s=s)

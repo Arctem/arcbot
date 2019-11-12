@@ -6,6 +6,10 @@ import tavern.pool.controller as pool_controller
 
 from tavern.tavern_models import Tavern, TavernAdventure, TavernDungeon, TavernHero, HeroActivity
 
+##################################
+# Starting and Stopping Adventures
+##################################
+
 
 @db.needs_session
 def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
@@ -50,3 +54,15 @@ def fail_adventure(adventure, s=None):
         raise TavernException('Adventure {} is not active.'.format(adventure))
     adventure.active = False
     s.add(logs.adventure_failed(hero, tavern, dungeon, adventure.money_gained, s=s))
+
+
+##########################
+# Events During Adventures
+##########################
+
+@db.needs_session
+def advance_floor(adventure, s=None):
+    next_floor = dungeon_controller.get_floor(adventure.dungeon.id, adventure.floor.number + 1, s=s)
+    if next_floor:
+        adventure.floor = next_floor
+        s.add(logs.adventure_reached_floor)

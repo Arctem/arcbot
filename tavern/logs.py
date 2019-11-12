@@ -6,10 +6,18 @@ import tavern.pool.controller as pool_controller
 from tavern.shared import TavernException
 from tavern.tavern_models import HeroActivity, TavernLog
 
+##########
+# Dungeons
+##########
+
 
 @db.needs_session
 def make_discovery_log(dungeon, s=None):
     return TavernLog(text="The entrance to {} has been found!".format(dungeon), time=datetime.now())
+
+########
+# Heroes
+########
 
 
 @db.needs_session
@@ -56,6 +64,29 @@ def make_start_activity_log(hero, s=None):
 
 
 @db.needs_session
+def hero_injured(hero, s=None):
+    return TavernLog(text="{hero} has been injured!".format(hero=hero),
+                     time=datetime.now())
+
+
+@db.needs_session
+def hero_died(hero, s=None):
+    return TavernLog(text="{hero} died!".format(hero=hero),
+                     time=datetime.now())
+
+
+@db.needs_session
+def hero_leveled_up(hero, level, s=None):
+    return TavernLog(text="{hero} has reached level {level}!".format(hero=hero, level=level),
+                     time=datetime.now())
+
+
+############
+# Adventures
+############
+
+
+@db.needs_session
 def hero_injured_by_monster(hero, monster, player, s=None):
     return TavernLog(text="{hero} was injured by {monster}!".format(hero=hero, monster=monster),
                      user=player,
@@ -66,6 +97,35 @@ def hero_injured_by_monster(hero, monster, player, s=None):
 def hero_killed_by_monster(hero, monster, player, s=None):
     return TavernLog(text="{hero} was killed by {monster}!".format(hero=hero, monster=monster),
                      user=player,
+                     time=datetime.now())
+
+
+@db.needs_session
+def hero_defeated_monster(hero, monster, player, s=None):
+    return TavernLog(text="{hero} has defeated {monster}!".format(hero=hero, monster=monster),
+                     user=player,
+                     time=datetime.now())
+
+
+@db.needs_session
+def hero_looted_monster(hero, monster, loot, player, s=None):
+    return TavernLog(text="{hero} has defeated {monster} and looted {loot} gold!".format(hero=hero, monster=monster, loot=loot),
+                     user=player,
+                     time=datetime.now())
+
+
+@db.needs_session
+def hero_leveled_monster(hero, monster, player, s=None):
+    return TavernLog(text="{hero} has leveled up from their experience defeating {monster}!".format(hero=hero, monster=monster),
+                     user=player,
+                     time=datetime.now())
+
+
+@db.needs_session
+def adventure_reached_floor(adventure, s=None):
+    return TavernLog(text="{hero} has reached floor {floor_num} in {dungeon}."
+                     .format(hero=adventure.hero, floor_num=adventure.floor.number, dungeon=adventure.dungeon),
+                     user=adventure.employer.owner,
                      time=datetime.now())
 
 
@@ -88,6 +148,10 @@ def make_fight_log(hero, monster, result, player, s=None):
     return TavernLog(text="{hero} fought {monster}, and got {result}.".format(hero=hero, monster=monster, result=result),
                      user=player,
                      time=datetime.now())
+
+################
+# Log Management
+################
 
 
 @db.needs_session

@@ -155,6 +155,17 @@ def populate_dungeon(dungeon, s=None):
 # Monster Management
 ####################
 
+@db.needs_session
+def kill_monster(monster, s=None):
+    s.delete(monster)
+
+
+@db.needs_session
+def monster_gold(monster, s=None):
+    return min(1, monster_effective_level(monster))
+
+
+@db.needs_session
 def generate_monsters(num_monsters, options, s=None):
     monsters = []
     for i in range(num_monsters):
@@ -180,13 +191,20 @@ def generate_monsters(num_monsters, options, s=None):
 
 def monster_rank_func(variation=0):
     def ranking_func(monster):
-        level = monster_level(monster)
+        level = monster_effective_level(monster)
         level *= random.uniform(1 - variation, 1 + variation)
         return level
     return ranking_func
 
 
 def monster_level(monster):
+    level = monster.level
+    if monster.modifier:
+        level += monster_raws.modifiers[monster.modifier].level
+    return level
+
+
+def monster_effective_level(monster):
     level = monster.level
     level += len(monster_raws.stocks[monster.stock].strengths)
     level -= len(monster_raws.stocks[monster.stock].weaknesses)

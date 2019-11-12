@@ -111,6 +111,7 @@ def injure_hero(hero, s=None):
     if hero.injured:
         raise TavernException("Hero {} already injured.".format(hero))
     hero.injured = True
+    s.add(logs.hero_injured(hero, s=s))
 
 
 @db.needs_session
@@ -118,6 +119,13 @@ def kill_hero(hero, s=None):
     if not hero.alive:
         raise TavernException("Hero {} already dead.".format(hero))
     hero.alive = False
+    s.add(logs.hero_died(hero, s=s))
+
+
+@db.needs_session
+def level_hero(hero, s=None):
+    hero.level += 1
+    s.add(logs.hero_leveled_up(hero, hero.level, s=s))
 
 
 @db.needs_session

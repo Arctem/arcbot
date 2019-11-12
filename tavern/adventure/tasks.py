@@ -5,6 +5,7 @@ import ircbot.storage as db
 
 from tavern import logs
 import tavern.adventure.controller as adventure_controller
+import tavern.dungeon.controller as dungeon_controller
 import tavern.pool.controller as pool_controller
 from tavern.tavern_models import Tavern, TavernAdventure, TavernDungeon, TavernHero, HeroActivity
 import tavern.raws.monster as monster_raws
@@ -60,10 +61,12 @@ def process_active_adventures(s=None):
     for adventure in s.query(TavernAdventure).filter(TavernAdventure.active == True).all():
         floor = adventure.floor
         if len(floor.monsters) is 0:
-            pass  # advance to next floor
+            adventure_controller.advance_floor(adventure, s=s)
             return
         enemy = random.choice(floor.monsters)
         result = battle_result(adventure.hero, enemy)
+        s.add(logs.make_fight_log(adventure.hero, enemy, result, adventure.employer.owner, s=s))
+
         if result == BattleOutcome.INJURED:
             if not adventure.hero.injured:
                 pool_controller.injure_hero(adventure.hero, s=s)
@@ -78,15 +81,21 @@ def process_active_adventures(s=None):
         elif result == BattleOutcome.FLEE:
             pass
         elif result == BattleOutcome.WIN:
-            pass
+            s.add(logs.hero_defeated_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+            dungeon_controller.kill_monster(enemy, s=s)
         elif result == BattleOutcome.WIN_LOOT:
-            pass
+            loot = dungeon_controller.monster_gold(enemy, s=s)
+            s.add(logs.hero_looted_monster(adventure.hero, enemy, loot, adventure.employer.owner, s=s))
+            adventure.money_gained += loot
+            dungeon_controller.kill_monster(enemy, s=s)
         elif result == BattleOutcome.WIN_LEVEL:
-            pass
+            s.add(logs.hero_leveled_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+            pool_controller.level_hero(adventure.hero, s=s)
+            dungeon_controller.kill_monster(enemy, s=s)
         elif result == BattleOutcome.WIN_ADVANCE:
-            pass
-
-        s.add(logs.make_fight_log(adventure.hero, enemy, result, adventure.employer.owner, s=s))
+            s.add(logs.hero_defeated_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+            dungeon_controller.kill_monster(enemy, s=s)
+            adventure_controller.advance_floor(adventure, s=s)
 
 
 def battle_result(hero, monster):
@@ -116,7 +125,7 @@ def battle_result(hero, monster):
 
 
 def battle_tier(hero, monster):
-    diff = hero.level - monster.level
+    diff = hero.level - dungeon_controller.monster_level(monster)
     while diff not in BATTLE_RESULTS:
         diff = diff + (-1 if diff > 0 else 1)
     return BATTLE_RESULTS[diff]
