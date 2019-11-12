@@ -29,6 +29,10 @@ class Pool():
         if len(hero_to_hire) is 1:
             hero = hero_to_hire[0]
             if hero.activity == HeroActivity.Elsewhere and tavern.resident_hero.id == hero.id:
+                if hero.injured:
+                    self.plugin.say(channel, '{}: {} is injured and cannot be hired until they have healed.'.format(
+                        arcuser.base.nick, hero))
+                    return
                 # hiring a resident hero is free
                 pool_controller.hire_hero(tavern.id, hero.id, 0, s=s)
                 s.commit()
