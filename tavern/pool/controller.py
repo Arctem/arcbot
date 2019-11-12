@@ -126,6 +126,8 @@ def hero_details(hero, s=None):
     info.append(hero.name)
     if not hero.alive:
         info.append('Dead.')
+    elif hero.injured:
+        info.append('Recovering from an injury.')
     info.append(hero_activity_string(hero, s=s))
     info.append(hero.level_string())
     info.append('Has {money} and demands {cost} gold.'.format(money=hero.money, cost=hero.cost))

@@ -68,13 +68,13 @@ def process_active_adventures(s=None):
             if not adventure.hero.injured:
                 pool_controller.injure_hero(adventure.hero, s=s)
                 s.add(logs.hero_injured_by_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+                pool_controller.change_hero_activity(adventure.hero, HeroActivity.Elsewhere, s=s)
                 adventure_controller.end_adventure(adventure, s=s)
-                pool_controller.change_hero_activity(hero, HeroActivity.Elsewhere, s=s)
             else:
                 pool_controller.kill_hero(adventure.hero, s=s)
                 s.add(logs.hero_killed_by_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+                pool_controller.change_hero_activity(adventure.hero, HeroActivity.Dead, s=s)
                 adventure_controller.fail_adventure(adventure, s=s)
-                pool_controller.change_hero_activity(hero, HeroActivity.Dead, s=s)
         elif result == BattleOutcome.FLEE:
             pass
         elif result == BattleOutcome.WIN:

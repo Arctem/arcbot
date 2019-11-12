@@ -30,23 +30,23 @@ def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
 def end_adventure(adventure, s=None):
     hero = adventure.hero
     dungeon = adventure.dungeon
-    tavern = adventure.tavern
+    tavern = adventure.employer
 
     if not adventure.active:
         raise TavernException('Adventure {} is not active.'.format(adventure))
     tavern.money += adventure.money_gained
     hero.money += adventure.money_gained
     adventure.active = False
-    s.add(logs.adventure_ended(hero, tavern, dungeon, money, s=s))
+    s.add(logs.adventure_ended(hero, tavern, dungeon, adventure.money_gained, s=s))
 
 
 @db.needs_session
 def fail_adventure(adventure, s=None):
     hero = adventure.hero
     dungeon = adventure.dungeon
-    tavern = adventure.tavern
+    tavern = adventure.employer
 
     if not adventure.active:
         raise TavernException('Adventure {} is not active.'.format(adventure))
     adventure.active = False
-    s.add(logs.adventure_failed(hero, tavern, dungeon, money, s=s))
+    s.add(logs.adventure_failed(hero, tavern, dungeon, adventure.money_gained, s=s))

@@ -56,6 +56,20 @@ def make_start_activity_log(hero, s=None):
 
 
 @db.needs_session
+def hero_injured_by_monster(hero, monster, player, s=None):
+    return TavernLog(text="{hero} was injured by {monster}!".format(hero=hero, monster=monster),
+                     user=player,
+                     time=datetime.now())
+
+
+@db.needs_session
+def hero_killed_by_monster(hero, monster, player, s=None):
+    return TavernLog(text="{hero} was killed by {monster}!".format(hero=hero, monster=monster),
+                     user=player,
+                     time=datetime.now())
+
+
+@db.needs_session
 def adventure_ended(hero, tavern, dungeon, money, s=None):
     return TavernLog(text="{hero} has returned from {dungeon}, bringing back {money} gold for themselves and {tavern}."
                      .format(hero=hero, tavern=tavern, dungeon=dungeon, money=money),
