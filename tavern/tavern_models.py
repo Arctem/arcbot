@@ -78,7 +78,7 @@ class TavernHero(Base):
 
     activity = Column(Enum(HeroActivity), nullable=False)
     visiting_id = Column(Integer, ForeignKey('taverns.id'))
-    visiting = relationship('Tavern', back_populates='visiting_heroes', foreign_keys=[visiting_id])
+    visiting = relationship('Tavern', back_populates='visiting_heroes', foreign_keys=[visiting_id], post_update=True)
     employer = relationship('Tavern', uselist=False, back_populates='hired_hero', foreign_keys=[Tavern.hired_hero_id])
 
     def __str__(self):
