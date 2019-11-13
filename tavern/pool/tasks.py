@@ -27,9 +27,9 @@ def pool_tick(tick, s=None):
 
 @db.needs_session
 def ensure_hero_count(s=None):
-    alive = s.query(TavernHero).filter(TavernHero.activity != HeroActivity.Dead).count()
+    alive = s.query(TavernHero).filter(TavernHero.activity != HeroActivity.Dead, TavernHero.patron == None).count()
     idle = s.query(TavernHero).filter(TavernHero.activity.in_(
-        [HeroActivity.CommonPool, HeroActivity.Elsewhere])).count()
+        [HeroActivity.CommonPool, HeroActivity.Elsewhere]), TavernHero.patron == None).count()
     to_create = max(constants.HEROES_MIN_ALIVE - alive, constants.HEROES_MIN_IDLE -
                     idle, hq_controller.count_taverns(s=s) - idle)
 
