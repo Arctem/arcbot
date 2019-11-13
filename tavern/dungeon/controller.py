@@ -162,7 +162,7 @@ def kill_monster(monster, s=None):
 
 @db.needs_session
 def monster_gold(monster, s=None):
-    return min(1, monster_effective_level(monster))
+    return max(1, monster_effective_level(monster))
 
 
 @db.needs_session
