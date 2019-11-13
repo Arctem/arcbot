@@ -65,4 +65,6 @@ def advance_floor(adventure, s=None):
     next_floor = dungeon_controller.get_floor(adventure.dungeon.id, adventure.floor.number + 1, s=s)
     if next_floor:
         adventure.floor = next_floor
-        s.add(logs.adventure_reached_floor)
+        s.add(logs.adventure_reached_floor(adventure, s=s))
+    else:
+        end_adventure(adventure, s=s)
