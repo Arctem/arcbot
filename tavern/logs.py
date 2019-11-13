@@ -28,7 +28,7 @@ STOP_LOGS = {
     HeroActivity.Elsewhere: None,
     HeroActivity.CommonPool: "{hero} has left the town square.",
     HeroActivity.VisitingTavern: "{hero} has left {tavern}.",
-    HeroActivity.Hired: "{hero} is no longer waiting orders from {employer}.",
+    HeroActivity.Hired: None,
     HeroActivity.Adventuring: "{hero} has left {dungeon}.",
     HeroActivity.Dead: "{hero} has stopped...being dead? Really?",  # TODO
 }
@@ -49,7 +49,7 @@ START_LOGS = {
     HeroActivity.VisitingTavern: "{hero} is visiting {tavern}.",
     HeroActivity.Hired: "{hero} was hired by {employer}.",
     HeroActivity.Adventuring: "{hero} has started adventuring at {dungeon}.",
-    HeroActivity.Dead: "{hero} has died? Really? I didn't think we did that yet.",  # TODO
+    HeroActivity.Dead: None,
 }
 
 
