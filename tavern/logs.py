@@ -76,6 +76,12 @@ def hero_died(hero, s=None):
 
 
 @db.needs_session
+def hero_healed(hero, s=None):
+    return TavernLog(text="{hero} has recovered from their wounds!".format(hero=hero),
+                     time=datetime.now())
+
+
+@db.needs_session
 def hero_leveled_up(hero, level, s=None):
     return TavernLog(text="{hero} has reached level {level}!".format(hero=hero, level=level),
                      time=datetime.now())
