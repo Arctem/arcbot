@@ -25,10 +25,15 @@ def dead_hero_money_distributed(hero, money):
 ##########
 
 
-@db.needs_session
-def make_discovery_log(dungeon, s=None):
+def make_discovery_log(dungeon):
     return TavernLog(text="The entrance to {} has been found!".format(dungeon),
                      time=datetime.now())
+
+
+def make_hidden_log(dungeon):
+    return TavernLog(text="The way to {} has been lost!".format(dungeon),
+                     time=datetime.now())
+
 
 ########
 # Heroes

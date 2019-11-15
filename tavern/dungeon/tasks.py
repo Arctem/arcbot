@@ -18,11 +18,18 @@ from tavern.util import constants
 
 @db.needs_session
 def dungeon_tick(tick, s=None):
+    hide_emptied_dungeons(s=s)
     if ensure_dungeon_count(s=s) > 0:
         dungeon_controller.print_debug(s=s)
 
 
-@db.needs_session
+def hide_emptied_dungeons(s=None):
+    for dungeon in dungeon_controller.get_known_dungeons(s=s):
+        empty_floors = len(list(filter(lambda f: len(f.monsters) == 0, dungeon.floors)))
+        if empty_floors / len(dungeon.floors) > constants.DUNGEON_EMPTY_THRESHHOLD:
+            dungeon_controller.hide_dungeon(dungeon, s=s)
+
+
 def ensure_dungeon_count(s=None):
     created = 0
     known = s.query(TavernDungeon).filter(TavernDungeon.secret == False).count()

@@ -12,7 +12,7 @@ jobs = {
         adjectives={'angry', 'raging', 'ravenous'},
         nouns={'barbarian', 'berserker', 'hulk'},
         ),
-    Job('bard',  # Good against things they can talk to
+    Job('bard',  # Good against things they can talk to, bad against things they can't
         adjectives={'charismatic', 'lyrical', 'musical'},
         nouns={'bard', 'charmer'},
         ),
@@ -20,7 +20,7 @@ jobs = {
         adjectives={'mundane', 'ordinary'},
         nouns={'citizen', 'commoner'},
         ),
-    Job('druid',  # Good against natural things, bad against technology
+    Job('druid',  # Good against natural things, bad against civilization and technology
         adjectives={'all-seeing', 'druidic'},
         nouns={'auspex', 'druid', 'woods-watcher'},
         ),
@@ -28,7 +28,7 @@ jobs = {
         adjectives={'holy', 'noble'},
         nouns={'monk'},
         ),
-    Job('rogue',  # Good against big things
+    Job('rogue',  # Good against big things, bad against observant things
         adjectives={'sneaky', 'thieving', 'tricky'},
         nouns={'bandit', 'cutpurse', 'trickster'},
         ),

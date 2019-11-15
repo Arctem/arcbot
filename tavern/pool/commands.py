@@ -80,6 +80,14 @@ class Pool():
             return
 
         dungeon = dungeons[0]
+        if dungeon.secret:
+            self.plugin.say(channel, '{}: The way to {} has been lost and heroes can no longer reach it'.format(
+                arcuser.base.nick, dungeon))
+            return
+        if not dungeon.active:
+            self.plugin.say(channel, '{}: Evil no longer lurks in {} and no fame remains to be found there'.format(
+                arcuser.base.nick, dungeon))
+            return
         hero = tavern.hired_hero
         adventure_controller.start_adventure(hero.id, dungeon.id, tavern.id, s=s)
         self.plugin.say(channel, '{}: You sent {} on an adventure to {}! Hopefully they survive.'.format(

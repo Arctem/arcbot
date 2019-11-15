@@ -73,7 +73,6 @@ def dungeon_details(dungeon, s=None):
 ##################
 
 
-@db.needs_session
 def create_new_dungeon(floors, s=None):
     dungeon = TavernDungeon(
         secret=True,
@@ -117,7 +116,6 @@ def create_name(dungeon_traits):
 ####################
 
 
-@db.needs_session
 def discover_dungeon(dungeon, s=None):
     if not dungeon.secret:
         raise DungeonNotSecretException(dungeon)
@@ -127,7 +125,14 @@ def discover_dungeon(dungeon, s=None):
     return dungeon
 
 
-@db.needs_session
+def hide_dungeon(dungeon, s=None):
+    if dungeon.secret:
+        raise DungeonSecretException(dungeon)
+    dungeon.secret = True
+    s.add(logs.make_hidden_log(dungeon))
+    return dungeon
+
+
 def populate_dungeon(dungeon, s=None):
     traits = map(lambda t: dungeon_raws.types[t.name], dungeon.traits)
     required = set()
@@ -153,18 +158,15 @@ def populate_dungeon(dungeon, s=None):
 # Monster Management
 ####################
 
-@db.needs_session
 def kill_monster(monster, s=None):
     s.delete(monster)
 
 
-@db.needs_session
 def monster_gold(monster, s=None):
     return max(1, monster_effective_level(monster))
 
 
-@db.needs_session
-def generate_monsters(num_monsters, options, s=None):
+def generate_monsters(num_monsters, options):
     monsters = []
     for i in range(num_monsters):
         stock, modifier = None, None
@@ -211,6 +213,12 @@ def monster_effective_level(monster):
         level += len(monster_raws.modifiers[monster.modifier].strengths)
         level -= len(monster_raws.modifiers[monster.modifier].weaknesses)
     return level
+
+
+class DungeonSecretException(TavernException):
+
+    def __init__(self, dungeon, *args, **kwargs):
+        TavernException.__init__(self, "Dungeon {} is secret.".format(dungeon))
 
 
 class DungeonNotSecretException(TavernException):
