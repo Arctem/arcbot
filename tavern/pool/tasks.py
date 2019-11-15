@@ -23,6 +23,7 @@ def pool_tick(tick, s=None):
     if time_to_reset_pool(tick, s=s):
         reset_pool(s=s)
     heal_heroes(s=s)
+    pay_tabs(s=s)
 
 
 @db.needs_session
@@ -77,3 +78,9 @@ def heal_heroes(s=None):
             TavernHero.injured == True):
         if random.random() < constants.HERO_HEAL_CHANCE:
             pool_controller.heal_hero(hero, s=s)
+
+
+@db.needs_session
+def pay_tabs(s=None):
+    for hero in s.query(TavernHero).filter(TavernHero.activity == HeroActivity.VisitingTavern):
+        pool_controller.pay_tab(hero, s=s)

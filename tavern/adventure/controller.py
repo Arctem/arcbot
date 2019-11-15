@@ -1,7 +1,7 @@
 import ircbot.storage as db
 
-from tavern import logs
 import tavern.dungeon.controller as dungeon_controller
+import tavern.logs as logs
 import tavern.pool.controller as pool_controller
 
 from tavern.tavern_models import Tavern, TavernAdventure, TavernDungeon, TavernHero, HeroActivity

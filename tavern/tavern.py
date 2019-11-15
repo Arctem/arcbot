@@ -6,7 +6,6 @@ from ircbot.events import debugalert, sendmessage, sendaction, sendnotice
 from ircbot.command import IRCCommand
 from ircbot.storage import session_scope
 
-from tavern import tick, logs
 from tavern.events import taverntick
 from tavern.hq.commands import HQ
 from tavern.pool.commands import Pool
@@ -14,7 +13,9 @@ from tavern.util import constants
 import arcuser.arcuser_controller as arcuser_controller
 import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
+import tavern.logs as logs
 import tavern.pool.controller as pool_controller
+import tavern.tick as tick
 import tavern.util.tutorial
 
 DEFAULT_CHANNEL = "#bot"

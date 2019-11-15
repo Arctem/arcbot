@@ -5,11 +5,10 @@ from sqlalchemy.sql.expression import func
 
 import ircbot.storage as db
 
-import tavern.pool.controller as pool_controller
+import tavern.pool as pool
 
 from tavern.tavern_models import Tavern
 from arcuser.arcuser_models import ArcUser
-import tavern.pool.controller as pool_controller
 
 
 STARTING_MONEY = 100
@@ -50,7 +49,7 @@ def name_tavern(owner, name, s=None):
 @db.needs_session
 def create_resident_hero(tavern, s=None):
     s.add(tavern)
-    tavern.resident_hero = pool_controller.generate_hero(s=s)
+    tavern.resident_hero = pool.controller.generate_hero(s=s)
     return tavern.resident_hero
 
 
@@ -75,3 +74,18 @@ def tavern_details(tavern, s=None):
     elif len(tavern.visiting_heroes) > 1:
         info.append('{} are visiting.'.format(', '.format(tavern.visiting_heroes)))
     return info
+
+
+@db.needs_session
+def give_money(tavern, money, s=None):
+    tavern.money += money
+    s.add(logs.tavern_got_money(tavern, money))
+
+
+@db.needs_session
+def distribute_dead_hero_money(hero, s=None):
+    money_per_tavern = int(hero.money / count_taverns(s=s))
+    hero.money -= money_per_tavern * count_taverns(s=s)
+    for tavern in get_taverns(s=s):
+        give_money(tavern, money_per_tavern, s=s)
+    s.add(logs.dead_hero_money_distributed(hero, money_per_tavern))

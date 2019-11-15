@@ -6,6 +6,22 @@ import tavern.pool.controller as pool_controller
 from tavern.shared import TavernException
 from tavern.tavern_models import HeroActivity, TavernLog
 
+
+#########
+# Taverns
+#########
+
+
+def tavern_got_money(tavern, money):
+    return TavernLog(text="You got {money} gold. You now have {total} gold.".format(money=money, total=tavern.money),
+                     user=tavern.owner.owner,
+                     time=datetime.now())
+
+
+def dead_hero_money_distributed(hero, money):
+    return TavernLog(text="{hero}'s money was shared with the town. Each tavern has received {money}.".format(hero=hero, money=money),
+                     time=datetime.now())
+
 ##########
 # Dungeons
 ##########
@@ -13,7 +29,8 @@ from tavern.tavern_models import HeroActivity, TavernLog
 
 @db.needs_session
 def make_discovery_log(dungeon, s=None):
-    return TavernLog(text="The entrance to {} has been found!".format(dungeon), time=datetime.now())
+    return TavernLog(text="The entrance to {} has been found!".format(dungeon),
+                     time=datetime.now())
 
 ########
 # Heroes
@@ -22,7 +39,8 @@ def make_discovery_log(dungeon, s=None):
 
 @db.needs_session
 def make_arrival_log(hero, s=None):
-    return TavernLog(text="The brave hero {} has arrived in town!".format(hero), time=datetime.now())
+    return TavernLog(text="The brave hero {} has arrived in town!".format(hero),
+                     time=datetime.now())
 
 STOP_LOGS = {
     HeroActivity.Elsewhere: None,
@@ -61,6 +79,13 @@ def make_start_activity_log(hero, s=None):
                                           patron=hero.patron, employer=hero.employer,
                                           dungeon=pool_controller.get_dungeon(hero, s=s)),
                          time=datetime.now())
+
+
+@db.needs_session
+def hero_paid_tab(hero, amount, player, s=None):
+    return TavernLog(text="{hero} paid {amount} gold for drinks.".format(hero=hero, amount=amount),
+                     user=player,
+                     time=datetime.now())
 
 
 @db.needs_session

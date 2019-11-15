@@ -2,11 +2,14 @@ import random
 
 import ircbot.storage as db
 
+import tavern.hq.controller as hq_controller
+import tavern.raws.job as job_raws
+
 from tavern import logs
 from tavern.shared import TavernException
 from tavern.tavern_models import Tavern, TavernAdventure, TavernDungeon, TavernHero, HeroActivity
+from tavern.util import constants
 from tavern.util.names import SHAKESPEARE_NAMES
-import tavern.raws.job as job_raws
 
 START_COST = 10
 START_MONEY = 10
@@ -107,6 +110,16 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
 
 
 @db.needs_session
+def pay_tab(hero, s=None):
+    if hero.activity != HeroActivity.VisitingTavern or hero.visiting is None:
+        raise TavernException("Hero {} not at Tavern.".format(hero))
+    if hero.money >= constants.HERO_BAR_TAB:
+        hero.money -= constants.HERO_BAR_TAB
+        hero.visiting.money += constants.HERO_BAR_TAB
+        s.add(logs.hero_paid_tab(hero, constants.HERO_BAR_TAB, hero.visiting.owner, s=s))
+
+
+@db.needs_session
 def injure_hero(hero, s=None):
     if hero.injured:
         raise TavernException("Hero {} already injured.".format(hero))
@@ -127,7 +140,9 @@ def kill_hero(hero, s=None):
     if not hero.alive:
         raise TavernException("Hero {} already dead.".format(hero))
     hero.alive = False
+    pool_controller.change_hero_activity(adventure.hero, HeroActivity.Dead, s=s)
     s.add(logs.hero_died(hero, s=s))
+    hq_controller.distribute_dead_hero_money(hero, s=s)
 
 
 @db.needs_session
