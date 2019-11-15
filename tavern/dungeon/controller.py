@@ -45,8 +45,8 @@ def search_dungeons(name, s=None):
 
 
 @db.needs_session
-def get_heroes_in_dungeon(dungeon_id, s=None):
-    return s.query(TavernAdventure).filter(TavernAdventure.dungeon_id == dungeon_id, TavernAdventure.active == True).count()
+def get_heroes_in_dungeon(dungeon, s=None):
+    return s.query(TavernAdventure).filter(TavernAdventure.dungeon == dungeon, TavernAdventure.active == True).count()
 
 
 @db.needs_session

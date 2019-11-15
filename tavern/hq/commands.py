@@ -83,7 +83,7 @@ class HQ():
                 messages.append('No dungeons are known of.')
             for dungeon in dungeons:
                 message = '{} has {} floors.'.format(dungeon.name, len(dungeon.floors))
-                hero_count = dungeon_controller.get_heroes_in_dungeon(dungeon.id, s=s)
+                hero_count = dungeon_controller.get_heroes_in_dungeon(dungeon, s=s)
                 if hero_count > 0:
                     message += ' There are {} heroes inside.'.format(hero_count)
                 messages.append(message)
