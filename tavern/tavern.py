@@ -13,7 +13,7 @@ from tavern.util import constants
 import arcuser.arcuser_controller as arcuser_controller
 import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
-import tavern.logs as logs
+from tavern import logs
 import tavern.pool.controller as pool_controller
 import tavern.tick as tick
 import tavern.util.tutorial

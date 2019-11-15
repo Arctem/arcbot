@@ -10,7 +10,7 @@ from arcuser.arcuser_models import ArcUser
 
 from tavern.shared import TavernException
 from tavern.tavern_models import TavernAdventure, TavernDungeon, TavernDungeonTrait, TavernFloor, TavernMonster
-import tavern.logs as logs
+from tavern import logs
 import tavern.raws.dungeon as dungeon_raws
 import tavern.raws.monster as monster_raws
 
