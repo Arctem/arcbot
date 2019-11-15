@@ -12,7 +12,7 @@ from tavern.tavern_models import HeroActivity, TavernLog
 
 def tavern_got_money(tavern, money):
     return TavernLog(text="You got {money} gold. You now have {total} gold.".format(money=money, total=tavern.money),
-                     user=tavern.owner.owner,
+                     user=tavern.owner,
                      time=datetime.now())
 
 

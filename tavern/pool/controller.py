@@ -139,7 +139,7 @@ def kill_hero(hero, s=None):
     if not hero.alive:
         raise TavernException("Hero {} already dead.".format(hero))
     hero.alive = False
-    pool_controller.change_hero_activity(adventure.hero, HeroActivity.Dead, s=s)
+    change_hero_activity(hero, HeroActivity.Dead, s=s)
     s.add(logs.hero_died(hero, s=s))
     hq_controller.distribute_dead_hero_money(hero, s=s)
 

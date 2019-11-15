@@ -26,9 +26,19 @@ from thefucking import TheFucking
 from word_swap import WordSwap
 from words.define import Define
 from words.mangle import Mangle
-import phrase_commands
+
+# try:
+#     import psutil
+#     print(' Succeeded in loading psutil for CPU and RAM tracking.')
+# except:
+#     print(' Could not import psutil for CPU and RAM tracking.')
+#     psutil = None
+
+
+
 
 storage.initialize('sqlite:///coerce.db')
+
 
 class ArcBot(IRCBot):
     markov_dat_file = 'markov.botdat'
