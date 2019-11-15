@@ -1,6 +1,7 @@
 #-*- coding: utf-8 -*-
-import requests
 import random
+
+import requests
 
 base = r'https://www.reddit.com/'
 title_list = ['I don\'t know how I feel about carjackers.',

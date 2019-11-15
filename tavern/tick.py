@@ -1,9 +1,8 @@
 import ircbot.storage as db
-
-from tavern.tavern_models import TavernValue
 import tavern.adventure.tasks as adventure
 import tavern.dungeon.tasks as dungeon
 import tavern.pool.tasks as pool
+from tavern.tavern_models import TavernValue
 
 TICK = 'tick'
 

@@ -1,19 +1,17 @@
-from datetime import datetime
 import random
 import string
+from datetime import datetime
 
 import inflection
 
 import ircbot.storage as db
-
+import tavern.hq.controller as hq_controller
+import tavern.pool.controller as pool_controller
 from arcuser.arcuser_models import ArcUser
-
+from tavern import logs
 from tavern.shared import TavernException
 from tavern.tavern_models import HeroActivity, TavernHero
 from tavern.util import constants
-from tavern import logs
-import tavern.hq.controller as hq_controller
-import tavern.pool.controller as pool_controller
 
 
 @db.needs_session

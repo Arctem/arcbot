@@ -1,10 +1,11 @@
-import sys
-import random
 import pickle
+import random
 import re
+import sys
 
 from ircbot.command import IRCCommand
-from ircbot.events import sendmessage, debugalert, debugout
+from ircbot.events import debugalert, debugout, sendmessage
+
 
 class Markov(IRCCommand):
     def __init__(self, filename = None):

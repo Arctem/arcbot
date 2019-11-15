@@ -1,5 +1,6 @@
 from circuits import Event
 
+
 class sendsmartmessage(Event):
     """Send a PRIVMSG to the server with variable replacements."""
 

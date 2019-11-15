@@ -1,13 +1,12 @@
 import random
 
 import ircbot.storage as db
-
 import tavern.hq.controller as hq_controller
 import tavern.raws.job as job_raws
-
 from tavern import logs
 from tavern.shared import TavernException
-from tavern.tavern_models import Tavern, TavernAdventure, TavernDungeon, TavernHero, HeroActivity
+from tavern.tavern_models import (HeroActivity, Tavern, TavernAdventure,
+                                  TavernDungeon, TavernHero)
 from tavern.util import constants
 from tavern.util.names import SHAKESPEARE_NAMES
 

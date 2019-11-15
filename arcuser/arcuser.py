@@ -1,9 +1,8 @@
+import arcuser.arcuser_controller as arcuser_controller
+from factoid.events import registersmartvariable
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
 from ircbot.plugin import IRCPlugin
-
-import arcuser.arcuser_controller as arcuser_controller
-from factoid.events import registersmartvariable
 
 
 class Me(IRCCommand):

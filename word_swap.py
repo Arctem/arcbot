@@ -1,8 +1,10 @@
-import nltk
 import random
 
+import nltk
+
+from ircbot.events import debugout, sendmessage
 from ircbot.plugin import IRCPlugin
-from ircbot.events import sendmessage, debugout
+
 
 class WordSwap(IRCPlugin):
     def __init__(self):

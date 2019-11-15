@@ -1,7 +1,8 @@
 import re
 
-from ircbot.plugin import IRCPlugin
 from ircbot.events import sendmessage
+from ircbot.plugin import IRCPlugin
+
 
 class TheFucking(IRCPlugin):
     reg = re.compile(r'[tT][hH][eE] [fF][uU][cC][kK][iI][nN][gG]')

@@ -1,10 +1,10 @@
 from datetime import datetime
+
 from sqlalchemy.sql.expression import func
 
 import ircbot.storage as db
-
-from factoid.factoid_models import Factoid
 from arcuser.arcuser_models import ArcUser
+from factoid.factoid_models import Factoid
 
 
 @db.atomic

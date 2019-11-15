@@ -1,5 +1,5 @@
 import json
-from urllib import request, parse
+from urllib import parse, request
 
 API_ENDPOINT = 'https://api.datamuse.com/words'
 

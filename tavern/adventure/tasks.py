@@ -1,14 +1,14 @@
-from enum import Enum, auto
 import random
+from enum import Enum, auto
 
 import ircbot.storage as db
-
 import tavern.adventure.controller as adventure_controller
 import tavern.dungeon.controller as dungeon_controller
-from tavern import logs
 import tavern.pool.controller as pool_controller
-from tavern.tavern_models import Tavern, TavernAdventure, TavernDungeon, TavernHero, HeroActivity
 import tavern.raws.monster as monster_raws
+from tavern import logs
+from tavern.tavern_models import (HeroActivity, Tavern, TavernAdventure,
+                                  TavernDungeon, TavernHero)
 
 
 class BattleOutcome(Enum):

@@ -8,8 +8,8 @@ import time
 from sqlalchemy.sql import exists
 
 import ircbot.storage as db
-
-from assassins.coerce_models import CoercePlayer, CoercePlayerGame, CoercePartialPoint, CoerceGame
+from assassins.coerce_models import (CoerceGame, CoercePartialPoint,
+                                     CoercePlayer, CoercePlayerGame)
 
 MIN_PLAYERS = 4
 BASE_DIR = os.path.dirname(__file__)

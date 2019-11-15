@@ -6,7 +6,6 @@ import inflection
 
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
-
 from words import datamuse
 
 # API details here: http://www.datamuse.com/api/

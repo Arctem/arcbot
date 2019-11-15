@@ -1,8 +1,8 @@
 import random
 import re
 
-from ircbot.plugin import IRCPlugin
 from ircbot.events import sendmessage
+from ircbot.plugin import IRCPlugin
 
 choose_regex = re.compile(r'^((?:(?:.+?), )*)(.+?),? or (.+?)\??$')
 

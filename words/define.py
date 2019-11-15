@@ -1,10 +1,9 @@
 import json
 import random
-from urllib import request, parse
+from urllib import parse, request
 
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
-
 from words import datamuse
 
 PEARSON_API = 'http://api.pearson.com/v2/dictionaries/ldoce5/entries'

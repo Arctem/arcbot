@@ -5,6 +5,7 @@ import urllib.request as request
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
 
+
 class Link(IRCCommand):
     link_regex = re.compile(  r"^"
         # protocol identifier

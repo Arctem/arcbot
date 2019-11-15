@@ -1,7 +1,7 @@
+import assassins.coerce_controller as coerce_controller
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
 
-import assassins.coerce_controller as coerce_controller
 
 class Coercion(IRCCommand):
   help_msg = {

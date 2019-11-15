@@ -1,6 +1,7 @@
-import os
 import glob
 import imp
+import os
+
 import phrase_maker.phrase_maker as phrase_maker
 
 for module in glob.glob(os.path.dirname(__file__)+"/*.py"):
@@ -15,4 +16,3 @@ del glob
 del imp
 del phrase_maker
 del module
-

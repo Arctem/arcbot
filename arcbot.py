@@ -1,30 +1,22 @@
-import sys
 import os
+import sys
 
 from circuits import Debugger
 
-# try:
-#     import psutil
-#     print(' Succeeded in loading psutil for CPU and RAM tracking.')
-# except:
-#     print(' Could not import psutil for CPU and RAM tracking.')
-#     psutil = None
-
-from ircbot.ircbot import IRCBot
-
-from ircbot import storage
-from ircbot.admin import Admin
-from ircbot.command import IRCCommand
-from ircbot.events import sendmessage
-from ircbot.help import Help
-from ircbot.stats import Stats
-from ircbot.usertracker import UserTracker, LastMessage
-
+import phrase_commands
 from arcuser.arcuser import ArcUserVariables
 from assassins.coerce import Coercion
 from band.band import BandPlugin
 from factoid.factoid import FactoidPlugin, LearnerPlugin
 from factoid.smart_variables import SmartVariables
+from ircbot import storage
+from ircbot.admin import Admin
+from ircbot.command import IRCCommand
+from ircbot.events import sendmessage
+from ircbot.help import Help
+from ircbot.ircbot import IRCBot
+from ircbot.stats import Stats
+from ircbot.usertracker import LastMessage, UserTracker
 from item.item import ItemPlugin
 from link_command import Link
 from markov import Markov

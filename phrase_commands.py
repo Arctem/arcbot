@@ -1,9 +1,7 @@
+import phrase_data
+import phrase_maker.phrase_maker as phrase_maker
 from ircbot.command import IRCCommand
 from ircbot.events import sendmessage
-
-import phrase_maker.phrase_maker as phrase_maker
-
-import phrase_data
 
 PHRASES = ['clickbait', 'cyber', 'dnd', 'fate', 'how', 'insult', 'loot', 'movie', 'name', 'plan', 'ration']
 

@@ -1,12 +1,10 @@
 # from ircbot.storage import session_scope
 import ircbot.storage as db
-
 import tavern.adventure.controller as adventure_controller
 import tavern.dungeon.controller as dungeon_controller
 import tavern.hq.controller as hq_controller
 import tavern.pool.controller as pool_controller
 import tavern.util.tutorial as tutorial
-
 from tavern.tavern_models import HeroActivity
 
 

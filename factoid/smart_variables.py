@@ -1,11 +1,10 @@
 import random
 import re
 
-from ircbot.plugin import IRCPlugin
-from ircbot.events import sendmessage, sendaction
-import ircbot.user_controller as user_controller
-
 import arcuser.arcuser_controller as arcuser_controller
+import ircbot.user_controller as user_controller
+from ircbot.events import sendaction, sendmessage
+from ircbot.plugin import IRCPlugin
 
 variables_regex = re.compile(r'(\$[a-zA-Z]+)')
 directed_regex = re.compile(r'^\S+(?=[:,])')

@@ -1,15 +1,12 @@
-from datetime import datetime
 import random
+from datetime import datetime
 
 from sqlalchemy.sql.expression import func
 
 import ircbot.storage as db
-
 import tavern.pool as pool
-
-from tavern.tavern_models import Tavern
 from arcuser.arcuser_models import ArcUser
-
+from tavern.tavern_models import Tavern
 
 STARTING_MONEY = 100
 

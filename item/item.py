@@ -1,12 +1,10 @@
 import random
 
-from ircbot.events import sendmessage, sendaction
-from ircbot.command import IRCCommand
-
 import arcuser.arcuser_controller as arcuser_controller
-from factoid.events import registersmartvariable
-
 import item.item_controller as item_controller
+from factoid.events import registersmartvariable
+from ircbot.command import IRCCommand
+from ircbot.events import sendaction, sendmessage
 
 PREMADE_ITEMS = ['a thousand rolls of toilet paper', 'three mushrooms', 'a pet turtle named Turt']
 

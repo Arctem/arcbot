@@ -1,6 +1,7 @@
 import enum
 
-from sqlalchemy import Boolean, Column, Enum, Integer, String, DateTime, ForeignKey
+from sqlalchemy import (Boolean, Column, DateTime, Enum, ForeignKey, Integer,
+                        String)
 from sqlalchemy.orm import relationship
 
 from ircbot.storage import Base

@@ -2,21 +2,20 @@ from datetime import datetime
 
 from circuits.core import timers
 
-from ircbot.events import debugalert, sendmessage, sendaction, sendnotice
+import arcuser.arcuser_controller as arcuser_controller
+import tavern.dungeon.controller as dungeon_controller
+import tavern.hq.controller as hq_controller
+import tavern.pool.controller as pool_controller
+import tavern.tick as tick
+import tavern.util.tutorial
 from ircbot.command import IRCCommand
+from ircbot.events import debugalert, sendaction, sendmessage, sendnotice
 from ircbot.storage import session_scope
-
+from tavern import logs
 from tavern.events import taverntick
 from tavern.hq.commands import HQ
 from tavern.pool.commands import Pool
 from tavern.util import constants
-import arcuser.arcuser_controller as arcuser_controller
-import tavern.dungeon.controller as dungeon_controller
-import tavern.hq.controller as hq_controller
-from tavern import logs
-import tavern.pool.controller as pool_controller
-import tavern.tick as tick
-import tavern.util.tutorial
 
 DEFAULT_CHANNEL = "#bot"
 

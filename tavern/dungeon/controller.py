@@ -1,18 +1,18 @@
-from datetime import datetime
 import random
 import string
+from datetime import datetime
 
 import inflection
 
 import ircbot.storage as db
-
-from arcuser.arcuser_models import ArcUser
-
-from tavern.shared import TavernException
-from tavern.tavern_models import TavernAdventure, TavernDungeon, TavernDungeonTrait, TavernFloor, TavernMonster
-from tavern import logs
 import tavern.raws.dungeon as dungeon_raws
 import tavern.raws.monster as monster_raws
+from arcuser.arcuser_models import ArcUser
+from tavern import logs
+from tavern.shared import TavernException
+from tavern.tavern_models import (TavernAdventure, TavernDungeon,
+                                  TavernDungeonTrait, TavernFloor,
+                                  TavernMonster)
 
 MONSTERS_PER_FLOOR = 10
 MONSTER_NO_MOD_CHANCE = 0.3

@@ -1,8 +1,8 @@
 import ircbot.storage as db
-from ircbot.models import User, Message
 import ircbot.user_controller as parent
-
 from arcuser.arcuser_models import ArcUser
+from ircbot.models import Message, User
+
 
 @db.atomic
 def get_arcuser(user, s=None):

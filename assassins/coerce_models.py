@@ -1,4 +1,5 @@
-from sqlalchemy import Boolean, Column, Integer, Float, String, ForeignKey, UniqueConstraint
+from sqlalchemy import (Boolean, Column, Float, ForeignKey, Integer, String,
+                        UniqueConstraint)
 from sqlalchemy.orm import relationship
 
 from ircbot.storage import Base

@@ -1,8 +1,8 @@
 import sys
 
-import tests.test_sql
 import tests.test_mangle
 import tests.test_phrases
+import tests.test_sql
 
 TEST_OPTIONS = {
     'sql' : tests.test_sql,

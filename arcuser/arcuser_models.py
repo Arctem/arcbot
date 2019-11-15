@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Boolean, Integer, Date, String, ForeignKey, UniqueConstraint
-from sqlalchemy.orm import relationship, backref
+from sqlalchemy import (Boolean, Column, Date, ForeignKey, Integer, String,
+                        UniqueConstraint)
+from sqlalchemy.orm import backref, relationship
 
 from ircbot.storage import Base
 

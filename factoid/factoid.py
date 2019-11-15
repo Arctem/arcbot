@@ -1,11 +1,10 @@
 import re
 
-from ircbot.events import sendmessage, sendaction
-from ircbot.command import IRCCommand
-
 import arcuser.arcuser_controller as arcuser_controller
 import factoid.factoid_controller as factoid_controller
-from factoid.events import sendsmartmessage, sendsmartaction
+from factoid.events import sendsmartaction, sendsmartmessage
+from ircbot.command import IRCCommand
+from ircbot.events import sendaction, sendmessage
 
 regex_to = re.compile('^(?P<to>\S+)[:,]\s+(?P<message>.+)$')
 
