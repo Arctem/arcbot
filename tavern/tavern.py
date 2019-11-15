@@ -24,8 +24,8 @@ class TavernPlugin(IRCCommand):
 
     def __init__(self):
         super(TavernPlugin, self).__init__('tavern', self.tavern,
-                                           args='<things?>',
-                                           description='Sorry Elliot, I got no idea yet.')
+                                           args='<function> [<args>]',
+                                           description='A game about running a tavern and hiring adventurers!')
         self.hq = HQ(self)
         self.pool = Pool(self)
         tavern.util.tutorial.plugin = self
@@ -37,6 +37,40 @@ class TavernPlugin(IRCCommand):
             'create': self.hq.name,
             'status': self.hq.status,
             'tick': lambda *args, **kwargs: self.fire(taverntick()),
+        }
+
+    def help_topics(self):
+        return {
+            'status': {
+                None: 'See the status of your tavern with .status. Give an argument to learn about other things.',
+                'dungeons': 'See the status of all the active dungeons.',
+                'heroes': 'See the status of all the active heroes.',
+                'search': 'Type any other string to search heroes, dungeons, and taverns and learn about them!',
+            },
+            'name': 'Create or rename your tavern with .name!',
+            'hire': 'Use .hire to hire a hero, then use .quest to send them on a quest! Make sure you can afford to hire them with .status.',
+            'quest': "Once you've hired a hero, use .quest <dungeon name> to send them on a quest!",
+            'heroes': {
+                None: 'Every hero has a name, a primary and secondary class, and a level.',
+                'resident': 'Your tavern has a resident hero that only you can hire and is free! Treat them well.',
+                'injury': 'Heroes can become injured. If you send them on another quest before they heal, they might die!',
+                'visiting': "A visiting hero will buy drinks from your tavern, giving a bit of income. They also can't be hired by anyone else until they leave, so snatch them up while you can!",
+                'square': "Heroes in the town square can be hired by anyone.",
+                'classes': {
+                    None: "A hero's class tells you what they're good at. If you want to succeed, never send a Rogue to do a Wizard's job!",
+                    'barbarian': 'Barbarians are good at smashing fragile things, but have trouble catching evasive things.',
+                    'bard': "Bards are charismatic musicians that can talk their way out of any situation. If that doesn't work, they're out of luck!",
+                    'commoner': "Commoners aren't experts at any particular thing, but they aren't bad at anything either!",
+                    'druid': "Druids are completely in-tune with nature, but haven't quite figured out how civilized life works.",
+                    'monk': "Monks have trained for years to have lightning-fast reflexes, but anything that hurts to touch won't give them a good time.",
+                    'rogue': "Rogues can sneak up on anyone bigger and slower than them, but you better hope nothing notices them!",
+                    'scholar': "Scholars are experts on everything ancient, but haven't quite figured out this newfangled 'technology' the kids love talking about.",
+                    'wizard': "Wizards have spent decades studying the arcane. It's left them a bit out of touch with day to day life.",
+                },
+            },
+            'dungeons': {
+                None: "Every dungeon has a number of floors, all crawling with monsters! Try to figure out which classes might be strong against the dungeon's theme if you want heroes to succeed."
+            },
         }
 
     def ready(self, component):
