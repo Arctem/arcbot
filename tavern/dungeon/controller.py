@@ -13,10 +13,7 @@ from tavern.shared import TavernException
 from tavern.tavern_models import (TavernAdventure, TavernDungeon,
                                   TavernDungeonTrait, TavernFloor,
                                   TavernMonster)
-
-MONSTERS_PER_FLOOR = 10
-MONSTER_NO_MOD_CHANCE = 0.3
-MONSTER_SORT_VARIATION = 0.5
+from tavern.util import constants
 
 
 @db.needs_session
@@ -142,13 +139,14 @@ def populate_dungeon(dungeon, s=None):
 
     options = monster_raws.get_monster_options(required, optional)
 
-    num_monsters = len(dungeon.floors) * MONSTERS_PER_FLOOR
+    num_monsters = len(dungeon.floors) * constants.MONSTERS_PER_FLOOR
     monsters = generate_monsters(num_monsters, options)
-    monsters.sort(key=monster_rank_func(MONSTER_SORT_VARIATION))
+    monsters.sort(key=monster_rank_func(constants.MONSTER_SORT_VARIATION))
 
     print(dungeon.floors)
     for floor in range(len(dungeon.floors)):
-        dungeon.floors[floor].monsters = monsters[floor * MONSTERS_PER_FLOOR:(floor + 1) * MONSTERS_PER_FLOOR]
+        dungeon.floors[floor].monsters = monsters[
+            floor * constants.MONSTERS_PER_FLOOR:(floor + 1) * constants.MONSTERS_PER_FLOOR]
 
 
 ####################
@@ -170,7 +168,7 @@ def generate_monsters(num_monsters, options, s=None):
     monsters = []
     for i in range(num_monsters):
         stock, modifier = None, None
-        if random.random() < MONSTER_NO_MOD_CHANCE:
+        if random.random() < constants.MONSTER_NO_MOD_CHANCE:
             # Only a stock
             stock = random.choice(tuple(options['required_stocks']))
         else:
