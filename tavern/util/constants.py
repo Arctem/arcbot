@@ -10,7 +10,8 @@ HEROES_MIN_IDLE = 7  # Minimum amount of heroes either Elsewhere or CommonPool.
 POOL_RESET_FREQUENCY = int(6 * 3600 / TICK_LENGTH)  # once every 6 hours, reset the pool
 POOL_SIZE = 5
 
-HERO_HEAL_CHANCE = 0.05  # 5% chance to heal per tick
+HERO_HEAL_CHANCE = 0.01  # 1% chance to heal per tick
+RESIDENT_HERO_HEAL_CHANCE = 0.05  # resident heroes can heal faster so players can have regular use of them
 HERO_BAR_TAB = 1
 
 DUNGEONS_MAX_ACTIVE = 10  # Soft max, beaten by DUNGEONS_MIN_KNOWN

@@ -74,7 +74,8 @@ def heal_heroes(s=None):
     for hero in s.query(TavernHero).filter(TavernHero.activity.in_([
             HeroActivity.Elsewhere, HeroActivity.CommonPool, HeroActivity.VisitingTavern]),
             TavernHero.injured == True):
-        if random.random() < constants.HERO_HEAL_CHANCE:
+        if (hero.patron is None and random.random() < constants.HERO_HEAL_CHANCE) or \
+                (hero.patron is not None and random.random() < constants.RESIDENT_HERO_HEAL_CHANCE):
             pool_controller.heal_hero(hero, s=s)
 
 
