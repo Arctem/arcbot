@@ -62,7 +62,7 @@ def process_active_adventures(s=None):
         floor = adventure.floor
         if len(floor.monsters) is 0:
             adventure_controller.advance_floor(adventure, s=s)
-            return
+            continue
         enemy = random.choice(floor.monsters)
         result = battle_result(adventure.hero, enemy)
         s.add(logs.make_fight_log(adventure.hero, enemy, result, adventure.employer.owner, s=s))
