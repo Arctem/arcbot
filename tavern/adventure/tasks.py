@@ -65,34 +65,33 @@ def process_active_adventures(s=None):
             continue
         enemy = random.choice(floor.monsters)
         result = battle_result(adventure.hero, enemy)
-        s.add(logs.make_fight_log(adventure.hero, enemy, result, adventure.employer.owner, s=s))
 
         if result == BattleOutcome.INJURED:
             if not adventure.hero.injured:
                 pool_controller.injure_hero(adventure.hero, s=s)
-                s.add(logs.hero_injured_by_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+                s.add(logs.hero_injured_by_monster(adventure, enemy))
                 pool_controller.change_hero_activity(adventure.hero, HeroActivity.Elsewhere, s=s)
                 adventure_controller.end_adventure(adventure, s=s)
             else:
                 pool_controller.kill_hero(adventure.hero, s=s)
-                s.add(logs.hero_killed_by_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+                s.add(logs.hero_killed_by_monster(adventure, enemy))
                 adventure_controller.fail_adventure(adventure, s=s)
         elif result == BattleOutcome.FLEE:
-            pass
+            s.add(logs.hero_fled_monster(adventure.hero, enemy, adventure.employer.owner))
         elif result == BattleOutcome.WIN:
-            s.add(logs.hero_defeated_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+            s.add(logs.hero_defeated_monster(adventure.hero, enemy, adventure.employer.owner))
             dungeon_controller.kill_monster(enemy, s=s)
         elif result == BattleOutcome.WIN_LOOT:
             loot = dungeon_controller.monster_gold(enemy, s=s)
-            s.add(logs.hero_looted_monster(adventure.hero, enemy, loot, adventure.employer.owner, s=s))
+            s.add(logs.hero_looted_monster(adventure.hero, enemy, loot, adventure.employer.owner))
             adventure.money_gained += loot
             dungeon_controller.kill_monster(enemy, s=s)
         elif result == BattleOutcome.WIN_LEVEL:
-            s.add(logs.hero_leveled_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+            s.add(logs.hero_leveled_monster(adventure.hero, enemy, adventure.employer.owner))
             pool_controller.level_hero(adventure.hero, s=s)
             dungeon_controller.kill_monster(enemy, s=s)
         elif result == BattleOutcome.WIN_ADVANCE:
-            s.add(logs.hero_defeated_monster(adventure.hero, enemy, adventure.employer.owner, s=s))
+            s.add(logs.hero_defeated_monster(adventure.hero, enemy, adventure.employer.owner))
             dungeon_controller.kill_monster(enemy, s=s)
             adventure_controller.advance_floor(adventure, s=s)
 

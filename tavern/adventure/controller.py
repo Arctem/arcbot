@@ -27,6 +27,7 @@ def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
                                 active=True, money_gained=0)
     s.add(adventure)
     pool_controller.change_hero_activity(hero, HeroActivity.Adventuring, s=s)
+    s.add(logs.adventure_started(hero, dungeon, tavern))
 
 
 @db.needs_session
@@ -40,7 +41,7 @@ def end_adventure(adventure, s=None):
     tavern.money += adventure.money_gained
     hero.money += adventure.money_gained
     adventure.active = False
-    s.add(logs.adventure_ended(hero, tavern, dungeon, adventure.money_gained, s=s))
+    s.add(logs.adventure_ended(hero, dungeon, tavern, adventure.money_gained))
 
 
 @db.needs_session
@@ -52,7 +53,7 @@ def fail_adventure(adventure, s=None):
     if not adventure.active:
         raise TavernException('Adventure {} is not active.'.format(adventure))
     adventure.active = False
-    s.add(logs.adventure_failed(hero, tavern, dungeon, adventure.money_gained, s=s))
+    s.add(logs.adventure_failed(hero, dungeon, tavern, adventure.money_gained))
 
 
 ##########################
@@ -64,6 +65,6 @@ def advance_floor(adventure, s=None):
     next_floor = dungeon_controller.get_floor(adventure.dungeon.id, adventure.floor.number + 1, s=s)
     if next_floor:
         adventure.floor = next_floor
-        s.add(logs.adventure_reached_floor(adventure, s=s))
+        s.add(logs.adventure_reached_floor(adventure))
     else:
         end_adventure(adventure, s=s)

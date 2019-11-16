@@ -89,10 +89,6 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
     if activity == hero.activity and (activity != HeroActivity.VisitingTavern or hero.visiting == tavern):
         return
 
-    stop_log = logs.make_stop_activity_log(hero, s=s)
-    if stop_log:
-        s.add(stop_log)
-
     hero.activity = activity
     hero.visiting = None
     if hero.employer is not None:
@@ -123,7 +119,6 @@ def injure_hero(hero, s=None):
     if hero.injured:
         raise TavernException("Hero {} already injured.".format(hero))
     hero.injured = True
-    s.add(logs.hero_injured(hero, s=s))
 
 
 @db.needs_session
@@ -140,7 +135,6 @@ def kill_hero(hero, s=None):
         raise TavernException("Hero {} already dead.".format(hero))
     hero.alive = False
     change_hero_activity(hero, HeroActivity.Dead, s=s)
-    s.add(logs.hero_died(hero, s=s))
     hq_controller.distribute_dead_hero_money(hero, s=s)
 
 
