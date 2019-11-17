@@ -57,7 +57,7 @@ def hero_visiting(hero, tavern):
     return TavernLog(text="{hero} is visiting your tavern. They can be hired or will pay {tab} for their drinks when they leave."
                      .format(hero=hero, tab=constants.HERO_BAR_TAB),
                      user=tavern.owner,
-                     time=datetime.now()):
+                     time=datetime.now())
 
 
 def hero_paid_tab(hero, amount, player):
