@@ -58,6 +58,7 @@ def reset_pool(s=None):
     random.shuffle(taverns)
     for hero, tavern in zip(visitors, taverns):
         pool_controller.change_hero_activity(hero, HeroActivity.VisitingTavern, tavern=tavern, s=s)
+        s.add(logs.hero_visiting(hero, tavern))
 
     for hero in pool_heroes:
         pool_controller.change_hero_activity(hero, HeroActivity.CommonPool, s=s)
@@ -65,8 +66,9 @@ def reset_pool(s=None):
     for hero in available:
         pool_controller.change_hero_activity(hero, HeroActivity.Elsewhere, s=s)
 
+    s.add(logs.pool_refreshed(visitors, pool_heroes))
 
-@db.needs_session
+
 def heal_heroes(s=None):
     for hero in s.query(TavernHero).filter(TavernHero.activity.in_([
             HeroActivity.Elsewhere, HeroActivity.CommonPool, HeroActivity.VisitingTavern]),
@@ -76,7 +78,6 @@ def heal_heroes(s=None):
             pool_controller.heal_hero(hero, s=s)
 
 
-@db.needs_session
 def pay_tabs(s=None):
     for hero in s.query(TavernHero).filter(TavernHero.activity == HeroActivity.VisitingTavern):
         pool_controller.pay_tab(hero, s=s)

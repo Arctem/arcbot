@@ -99,10 +99,6 @@ def change_hero_activity(hero, activity, tavern=None, s=None):
     if activity == HeroActivity.Hired:
         tavern.hired_hero = hero
 
-    start_log = logs.make_start_activity_log(hero, s=s)
-    if start_log:
-        s.add(start_log)
-
 
 @db.needs_session
 def pay_tab(hero, s=None):

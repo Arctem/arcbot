@@ -4,6 +4,7 @@ import ircbot.storage as db
 import tavern.pool.controller as pool_controller
 from tavern.shared import TavernException
 from tavern.tavern_models import HeroActivity, TavernLog
+from tavern.util import constants
 
 #########
 # Taverns
