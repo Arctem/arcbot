@@ -48,8 +48,8 @@ def make_arrival_log(hero, s=None):
 
 
 def pool_refreshed(visitors, pool):
-    return TavernLog(text="Heroes in town have moved around. {pool} are available in the town square while {vistors} are visiting taverns."
-                     .format(pool=pool, visitors=visitors),
+    return TavernLog(text="Heroes in town have moved around. {pool} are available in the town square while {visitors} are visiting taverns."
+                     .format(pool=', '.join(map(str, pool)), visitors=', '.join(map(str, visitors))),
                      time=datetime.now())
 
 
