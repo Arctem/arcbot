@@ -45,29 +45,34 @@ def make_arrival_log(hero, s=None):
     return TavernLog(text="The brave hero {} has arrived in town!".format(hero),
                      time=datetime.now())
 
-START_LOGS = {
-    HeroActivity.Elsewhere: None,
-    HeroActivity.CommonPool: "{hero} is hanging out in the town square.",
-    HeroActivity.VisitingTavern: "{hero} is visiting {tavern}.",
-    HeroActivity.Hired: None,
-    HeroActivity.Adventuring: None,
-    HeroActivity.Dead: None,
-}
+
+def pool_refreshed(visitors, pool):
+    return TavernLog(text="Heroes in town have moved around. {pool} are available in the town square while {vistors} are visiting taverns."
+                     .format(pool=pool, visitors=visitors),
+                     time=datetime.now())
 
 
-@db.needs_session
-def make_start_activity_log(hero, s=None):
-    text = START_LOGS[hero.activity]
-    if text:
-        return TavernLog(text=text.format(hero=hero, tavern=hero.visiting,
-                                          patron=hero.patron, employer=hero.employer,
-                                          dungeon=pool_controller.get_dungeon(hero, s=s)),
-                         time=datetime.now())
+def hero_visiting(hero, tavern):
+    return TavernLog(text="{hero} is visiting your tavern. They can be hired or will pay {tab} for their drinks when they leave."
+                     .format(hero=hero, tab=constants.HERO_BAR_TAB),
+                     user=tavern.owner,
+                     time=datetime.now()):
 
 
-@db.needs_session
-def hero_paid_tab(hero, amount, player, s=None):
+def hero_paid_tab(hero, amount, player):
     return TavernLog(text="{hero} paid {amount} gold for drinks.".format(hero=hero, amount=amount),
+                     user=player,
+                     time=datetime.now())
+
+
+def hero_short_on_tab(hero, total, paid, player):
+    return TavernLog(text="{hero} couldn't cover their full tab of {total} gold so only paid {paid}.".format(hero=hero, total=total, paid=paid),
+                     user=player,
+                     time=datetime.now())
+
+
+def hero_broke_tab(hero, player):
+    return TavernLog(text="{hero} is broke and skipped out without paying their tab!".format(hero=hero),
                      user=player,
                      time=datetime.now())
 

@@ -111,7 +111,13 @@ def pay_tab(hero, s=None):
     if hero.money >= constants.HERO_BAR_TAB:
         hero.money -= constants.HERO_BAR_TAB
         hero.visiting.money += constants.HERO_BAR_TAB
-        s.add(logs.hero_paid_tab(hero, constants.HERO_BAR_TAB, hero.visiting.owner, s=s))
+        s.add(logs.hero_paid_tab(hero, constants.HERO_BAR_TAB, hero.visiting.owner))
+    elif hero.money > 0:
+        s.add(logs.hero_short_on_tab(hero, constants.HERO_BAR_TAB, hero.money, hero.visiting.owner))
+        hero.visiting.money += hero.money
+        hero.money = 0
+    else:
+        s.add(logs.hero_broke_tab(hero, hero.visiting.owner))
 
 
 @db.needs_session

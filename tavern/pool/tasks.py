@@ -14,14 +14,13 @@ from tavern.tavern_models import HeroActivity, TavernHero
 from tavern.util import constants
 
 
-@db.needs_session
 def pool_tick(tick, s=None):
     if ensure_hero_count(s=s) > 0:
         pool_controller.print_debug(s=s)
-    if time_to_reset_pool(tick, s=s):
+    if time_to_reset_pool(tick):
+        pay_tabs(s=s)
         reset_pool(s=s)
     heal_heroes(s=s)
-    pay_tabs(s=s)
 
 
 @db.needs_session
@@ -40,12 +39,10 @@ def ensure_hero_count(s=None):
     return created
 
 
-@db.needs_session
-def time_to_reset_pool(tick, s=None):
+def time_to_reset_pool(tick):
     return tick % constants.POOL_RESET_FREQUENCY == 0
 
 
-@db.needs_session
 def reset_pool(s=None):
     available = set(s.query(TavernHero).filter(TavernHero.activity.in_([
         HeroActivity.VisitingTavern, HeroActivity.CommonPool, HeroActivity.Elsewhere

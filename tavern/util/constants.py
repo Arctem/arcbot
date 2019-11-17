@@ -12,7 +12,7 @@ POOL_SIZE = 5
 
 HERO_HEAL_CHANCE = 0.01  # 1% chance to heal per tick
 RESIDENT_HERO_HEAL_CHANCE = 0.05  # resident heroes can heal faster so players can have regular use of them
-HERO_BAR_TAB = 1
+HERO_BAR_TAB = 5
 
 DUNGEONS_MAX_ACTIVE = 10  # Soft max, beaten by DUNGEONS_MIN_KNOWN
 DUNGEONS_MIN_KNOWN = 5
