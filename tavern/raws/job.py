@@ -26,19 +26,19 @@ jobs = {
         ),
     Job('monk',  # Good against fast things, bad against things it can't touch
         adjectives={'holy', 'noble'},
-        nouns={'monk'},
+        nouns={'monk', 'ninja'},
         ),
     Job('rogue',  # Good against big things, bad against observant things
         adjectives={'sneaky', 'thieving', 'tricky'},
         nouns={'bandit', 'cutpurse', 'trickster'},
         ),
-    Job('scholar',  # Good against old things
-        adjectives={'knowledgeable', 'well-read'},
+    Job('scholar',  # Good against old things, bad against that which should remain unknown
+        adjectives={'knowledgeable', 'well-read', 'wizened'},
         nouns={'antiquarian', 'professor', 'scholar', 'teacher'},
         ),
     Job('wizard',  # Good against magic things, weak against mundane things
         adjectives={'ancient', 'magical'},
-        nouns={'witch', 'wizard'},
+        nouns={'warlock', 'witch', 'wizard'},
         ),
 }
 
