@@ -118,15 +118,17 @@ def hero_leveled_monster(hero, monster, player):
                      time=datetime.now())
 
 
-def hero_injured_by_monster(adventure, monster):
+def hero_injured_by_monster(adventure, monster, player=None):
     return TavernLog(text="{hero} was injured by {monster} on {floor}!"
                      .format(hero=adventure.hero, monster=monster, floor=adventure.floor),
+                     user=player,
                      time=datetime.now())
 
 
-def hero_killed_by_monster(adventure, monster):
+def hero_killed_by_monster(adventure, monster, player=None):
     return TavernLog(text="{hero} was killed by {monster} on {floor}!"
                      .format(hero=adventure.hero, monster=monster, floor=adventure.floor),
+                     user=player,
                      time=datetime.now())
 
 
