@@ -41,6 +41,9 @@ def get_known_dungeons(s=None):
 
 @db.needs_session
 def search_dungeons(name, s=None):
+    exact = s.query(TavernDungeon).filter(TavernDungeon.name == name).one_or_none()
+    if exact:
+        return [exact]  # return as list to match the normal interface
     return s.query(TavernDungeon).filter(TavernDungeon.name.like('%{}%'.format(name))).all()
 
 
