@@ -5,6 +5,8 @@ TICK_LENGTH = 60 * 30  # 30 minutes
 HEROES_MAX_ACTIVE = 20  # Soft max of heroes alive, beaten by HEROES_MIN and HEROES_MIN_IDLE
 HEROES_MIN_ALIVE = 10  # Minimum amount of heroes alive.
 HEROES_MIN_IDLE = 7  # Minimum amount of heroes either Elsewhere or CommonPool.
+HERO_START_COST = 10
+HERO_START_MONEY = 5
 
 # POOL_RESET_FREQUENCY = int(24 * 3600 / TICK_LENGTH)  # once a day, reset the pool
 POOL_RESET_FREQUENCY = int(6 * 3600 / TICK_LENGTH)  # once every 6 hours, reset the pool

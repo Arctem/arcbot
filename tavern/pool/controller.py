@@ -10,9 +10,6 @@ from tavern.tavern_models import (HeroActivity, Tavern, TavernAdventure,
 from tavern.util import constants
 from tavern.util.names import SHAKESPEARE_NAMES
 
-START_COST = 10
-START_MONEY = 10
-
 
 @db.needs_session
 def print_debug(s=None):
@@ -58,7 +55,7 @@ def generate_hero(name=None, stat_points=None, s=None):
     primary, secondary = random.sample(job_raws.jobs.keys(), 2)
     epithet = create_epithet(primary, secondary)
     hero = TavernHero(name=name, epithet=epithet, level=1,
-                      cost=START_COST, money=START_MONEY,
+                      cost=constants.HERO_START_COST, money=constants.HERO_START_MONEY,
                       activity=HeroActivity.Elsewhere,
                       primary_class=primary, secondary_class=secondary)
     s.add(hero)
