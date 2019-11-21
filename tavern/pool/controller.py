@@ -146,33 +146,34 @@ def level_hero(hero, s=None):
 @db.needs_session
 def hero_details(hero, s=None):
     info = []
-    info.append(hero.name)
-    if not hero.alive:
-        info.append('Dead.')
-    elif hero.injured:
-        info.append('Recovering from an injury.')
-    info.append(hero_activity_string(hero, s=s))
-    info.append(hero.level_string())
-    info.append('Has {money} and demands {cost} gold.'.format(money=hero.money, cost=hero.cost))
-    if hero.patron:
-        info.append('Patron of {patron}.'.format(patron=hero.patron.name))
-    info.append('Has been on {adv_count} adventures.'.format(adv_count=len(hero.adventures)))
+    info.append('{name}{patron} is a {dead}{job}. They are {activity}.'
+                .format(name=hero.name,
+                        patron=" of {patron}".format(patron=hero.patron.name) if hero.patron else "",
+                        dead="" if hero.alive else "dead ",
+                        job=hero.level_string(),
+                        activity=hero_activity_string(hero, s=s)))
+    info.append('They have {money} gold and charge {cost} for their services.{injured} They have been on {adv_count} adventures.'
+                .format(
+                    money=hero.money,
+                    cost=hero.cost,
+                    injured=" They are injured." if hero.injured else "",
+                    adv_count=len(hero.adventures)))
     return info
 
 
 @db.needs_session
 def hero_activity_string(hero, s=None):
     if hero.activity is HeroActivity.Elsewhere:
-        return 'Is elsewhere.'
+        return 'out of town'
     elif hero.activity is HeroActivity.CommonPool:
-        return 'Is hanging out at the town square'
+        return 'in the town square'
     elif hero.activity is HeroActivity.VisitingTavern:
-        return 'Is visiting {tavern}.'.format(tavern=hero.visiting)
+        return 'visiting {tavern}'.format(tavern=hero.visiting)
     elif hero.activity is HeroActivity.Hired:
-        return 'Has been hired by {tavern}.'.format(tavern=hero.employer)
+        return 'waiting for orders from {tavern}'.format(tavern=hero.employer)
     elif hero.activity is HeroActivity.Adventuring:
         for adventure in hero.adventures:
             if adventure.active:
-                return 'Is on floor {floor} of {dungeon}.'.format(floor=adventure.floor.number, dungeon=adventure.dungeon)
+                return 'on floor {floor} of {dungeon}'.format(floor=adventure.floor.number, dungeon=adventure.dungeon)
     elif hero.activity is HeroActivity.Dead:
-        return 'At the graveyard.'
+        return 'dead as a doornail'

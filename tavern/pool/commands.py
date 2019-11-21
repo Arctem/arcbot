@@ -47,7 +47,7 @@ class Pool():
                     arcuser.base.nick, hero, hero.cost))
                 return
             self.plugin.say(channel, '{}: {} is currently {} and cannot be hired.'.format(
-                arcuser.base.nick, hero, hero.activity_string()))
+                arcuser.base.nick, hero, pool_controller.hero_activity_string(hero, s=s)))
             s.rollback()
             return
         elif len(hero_to_hire) > 1:
