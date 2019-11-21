@@ -118,13 +118,21 @@ def create_name(dungeon_traits):
 # Dungeon Management
 ####################
 
+def complete_dungeon(dungeon, s=None):
+    if not dungeon.active:
+        return DungeonNotActiveException(dungeon)
+
+    dungeon.active = False
+    s.add(logs.dungeon_cleared(dungeon))
+    depopulate_dungeon(dungeon, s=s)
+
 
 def discover_dungeon(dungeon, s=None):
     if not dungeon.secret:
         raise DungeonNotSecretException(dungeon)
 
     dungeon.secret = False
-    s.add(logs.make_discovery_log(dungeon))
+    s.add(logs.dungeon_discovered(dungeon))
     return dungeon
 
 
@@ -132,11 +140,11 @@ def hide_dungeon(dungeon, s=None):
     if dungeon.secret:
         raise DungeonSecretException(dungeon)
     dungeon.secret = True
-    s.add(logs.make_hidden_log(dungeon))
+    s.add(logs.dungeon_hidden(dungeon))
     return dungeon
 
 
-def populate_dungeon(dungeon, s=None):
+def populate_dungeon(dungeon):
     traits = map(lambda t: dungeon_raws.types[t.name], dungeon.traits)
     required = set()
     optional = set()
@@ -157,9 +165,15 @@ def populate_dungeon(dungeon, s=None):
             floor * constants.MONSTERS_PER_FLOOR:(floor + 1) * constants.MONSTERS_PER_FLOOR]
 
 
+def depopulate_dungeon(dungeon, s=None):
+    for floor in dungeon.floors:
+        for monster in floor.monsters:
+            s.delete(monster)
+
 ####################
 # Monster Management
 ####################
+
 
 def kill_monster(monster, s=None):
     s.delete(monster)
@@ -216,6 +230,18 @@ def monster_effective_level(monster):
         level += len(monster_raws.modifiers[monster.modifier].strengths)
         level -= len(monster_raws.modifiers[monster.modifier].weaknesses)
     return level
+
+
+class DungeonActiveException(TavernException):
+
+    def __init__(self, dungeon, *args, **kwargs):
+        TavernException.__init__(self, "Dungeon {} is active.".format(dungeon))
+
+
+class DungeonNotActiveException(TavernException):
+
+    def __init__(self, dungeon, *args, **kwargs):
+        TavernException.__init__(self, "Dungeon {} is not active.".format(dungeon))
 
 
 class DungeonSecretException(TavernException):

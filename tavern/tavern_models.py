@@ -127,6 +127,9 @@ class TavernAdventure(Base):
     money_gained = Column(Integer, nullable=False)
     active = Column(Boolean, default=True, nullable=False)
 
+    start_tick = Column(Integer, nullable=True)
+    end_tick = Column(Integer, nullable=True)
+
 
 class TavernDungeon(Base):
     __tablename__ = 'tavern_dungeons'

@@ -26,3 +26,9 @@ def tick(s=None):
     dungeon.dungeon_tick(tick, s=s)
     pool.pool_tick(tick, s=s)
     return True
+
+
+@db.needs_session
+def current_tick(s=None):
+    tick = s.query(TavernValue).filter(TavernValue.key == TICK).one_or_none()
+    return int(tick.value)

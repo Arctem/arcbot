@@ -1,7 +1,7 @@
 import ircbot.storage as db
 import tavern.dungeon.controller as dungeon_controller
 import tavern.pool.controller as pool_controller
-from tavern import logs
+from tavern import logs, tick
 from tavern.tavern_models import (HeroActivity, Tavern, TavernAdventure,
                                   TavernDungeon, TavernHero)
 from tavern.util import constants
@@ -25,7 +25,7 @@ def start_adventure(hero_id, dungeon_id, hiring_tavern_id=None, s=None):
 
     adventure = TavernAdventure(hero=hero, dungeon=dungeon, employer=tavern,
                                 floor=dungeon_controller.get_floor(dungeon.id, 0, s=s),
-                                active=True, money_gained=0)
+                                active=True, money_gained=0, start_tick=tick.current_tick(s=s))
     s.add(adventure)
     pool_controller.change_hero_activity(hero, HeroActivity.Adventuring, s=s)
     s.add(logs.adventure_started(hero, dungeon, tavern))
@@ -43,6 +43,7 @@ def end_adventure(adventure, s=None):
     hero.money += adventure.money_gained
     pool_controller.increase_cost(hero, adventure.money_gained * constants.MONEY_GAINED_TO_HERO_COST)
     adventure.active = False
+    adventure.end_tick = tick.current_tick(s=s)
     s.add(logs.adventure_ended(hero, dungeon, tavern, adventure.money_gained))
 
 
@@ -55,6 +56,7 @@ def fail_adventure(adventure, s=None):
     if not adventure.active:
         raise TavernException('Adventure {} is not active.'.format(adventure))
     adventure.active = False
+    adventure.end_tick = tick.current_tick(s=s)
     s.add(logs.adventure_failed(hero, dungeon, tavern, adventure.money_gained))
 
 
@@ -70,3 +72,4 @@ def advance_floor(adventure, s=None):
         s.add(logs.adventure_reached_floor(adventure))
     else:
         end_adventure(adventure, s=s)
+        dungeon_controller.complete_dungeon(adventure.dungeon, s=s)

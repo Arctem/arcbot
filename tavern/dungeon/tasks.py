@@ -16,7 +16,6 @@ from tavern.tavern_models import (TavernDungeon, TavernDungeonTrait,
 from tavern.util import constants
 
 
-@db.needs_session
 def dungeon_tick(tick, s=None):
     hide_emptied_dungeons(s=s)
     if ensure_dungeon_count(s=s) > 0:
@@ -38,5 +37,5 @@ def ensure_dungeon_count(s=None):
             constants.DUNGEONS_MIN_FLOORS, constants.DUNGEONS_MAX_FLOORS), s=s)
         created += 1
         dungeon_controller.discover_dungeon(dungeon, s=s)
-        dungeon_controller.populate_dungeon(dungeon, s=s)
+        dungeon_controller.populate_dungeon(dungeon)
     return created

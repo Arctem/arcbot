@@ -26,12 +26,17 @@ def dead_hero_money_distributed(hero, money):
 ##########
 
 
-def make_discovery_log(dungeon):
+def dungeon_cleared(dungeon):
+    return TavernLog(text="{} has been cleared of all evil.".format(dungeon),
+                     time=datetime.now())
+
+
+def dungeon_discovered(dungeon):
     return TavernLog(text="The entrance to {} has been found!".format(dungeon),
                      time=datetime.now())
 
 
-def make_hidden_log(dungeon):
+def dungeon_hidden(dungeon):
     return TavernLog(text="The way to {} has been lost!".format(dungeon),
                      time=datetime.now())
 
