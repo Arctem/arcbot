@@ -37,14 +37,15 @@ class Pool():
                     arcuser.base.nick, hero))
                 return
             if (hero.activity == HeroActivity.VisitingTavern and hero.visiting.id == tavern.id) or hero.activity == HeroActivity.CommonPool:
-                if tavern.money < hero.cost:
+                cost = hero.cost  # fix cost since it may change
+                if tavern.money < cost:
                     self.plugin.say(channel, '{}: You only have {} gold but {} wants {}!'.format(
-                        arcuser.base.nick, tavern.money, hero, hero.cost))
+                        arcuser.base.nick, tavern.money, hero, cost))
                     return
-                pool_controller.hire_hero(tavern.id, hero.id, hero.cost, s=s)
+                pool_controller.hire_hero(tavern.id, hero.id, cost, s=s)
                 s.commit()
                 self.plugin.say(channel, '{}: You hired {} for {}. Use .tavern quest to send them somewhere!'.format(
-                    arcuser.base.nick, hero, hero.cost))
+                    arcuser.base.nick, hero, cost))
                 return
             self.plugin.say(channel, '{}: {} is currently {} and cannot be hired.'.format(
                 arcuser.base.nick, hero, pool_controller.hero_activity_string(hero, s=s)))

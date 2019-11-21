@@ -44,6 +44,12 @@ def time_to_reset_pool(tick):
 
 
 def reset_pool(s=None):
+    unhired = set(s.query(TavernHero).filter(TavernHero.activity.in_([
+        HeroActivity.VisitingTavern, HeroActivity.CommonPool
+    ]), TavernHero.patron == None).all())
+    for hero in unhired:
+        pool_controller.degrade_cost(hero)
+
     available = set(s.query(TavernHero).filter(TavernHero.activity.in_([
         HeroActivity.VisitingTavern, HeroActivity.CommonPool, HeroActivity.Elsewhere
     ]), TavernHero.patron == None).all())

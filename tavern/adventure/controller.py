@@ -4,6 +4,7 @@ import tavern.pool.controller as pool_controller
 from tavern import logs
 from tavern.tavern_models import (HeroActivity, Tavern, TavernAdventure,
                                   TavernDungeon, TavernHero)
+from tavern.util import constants
 
 ##################################
 # Starting and Stopping Adventures
@@ -40,6 +41,7 @@ def end_adventure(adventure, s=None):
         raise TavernException('Adventure {} is not active.'.format(adventure))
     tavern.money += adventure.money_gained
     hero.money += adventure.money_gained
+    pool_controller.increase_cost(hero, adventure.money_gained * constants.MONEY_GAINED_TO_HERO_COST)
     adventure.active = False
     s.add(logs.adventure_ended(hero, dungeon, tavern, adventure.money_gained))
 

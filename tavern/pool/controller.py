@@ -75,6 +75,7 @@ def hire_hero(tavern_id, hero_id, cost, s=None):
     change_hero_activity(hero, HeroActivity.Hired, tavern, s=s)
     tavern.money -= cost
     hero.money += cost
+    increase_cost(hero, constants.HERO_COST_HIRE_BUMP)
 
 
 @db.needs_session
@@ -141,6 +142,16 @@ def kill_hero(hero, s=None):
 def level_hero(hero, s=None):
     hero.level += 1
     s.add(logs.hero_leveled_up(hero, hero.level, s=s))
+
+
+def increase_cost(hero, cost):
+    cost = int(cost) + hero.cost
+    hero.cost = max(cost, constants.HERO_MIN_COST)
+
+
+def degrade_cost(hero):
+    cost = hero.cost * (1 - constants.HERO_COST_DEGRADE_RATE)
+    hero.cost = max(cost, constnats.HERO_MIN_COST)
 
 
 @db.needs_session

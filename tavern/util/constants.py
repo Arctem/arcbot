@@ -8,6 +8,11 @@ HEROES_MIN_IDLE = 7  # Minimum amount of heroes either Elsewhere or CommonPool.
 HERO_START_COST = 10
 HERO_START_MONEY = 5
 
+MONEY_GAINED_TO_HERO_COST = 0.2  # 20% of money made on an adventure goes to a hero's cost
+HERO_MIN_COST = 5
+HERO_COST_HIRE_BUMP = 5
+HERO_COST_DEGRADE_RATE = 0.2
+
 # POOL_RESET_FREQUENCY = int(24 * 3600 / TICK_LENGTH)  # once a day, reset the pool
 POOL_RESET_FREQUENCY = int(6 * 3600 / TICK_LENGTH)  # once every 6 hours, reset the pool
 POOL_SIZE = 5
