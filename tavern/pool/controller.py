@@ -163,11 +163,11 @@ def hero_details(hero, s=None):
                         dead="" if hero.alive else "dead ",
                         job=hero.level_string(),
                         activity=hero_activity_string(hero, s=s)))
-    info.append('They have {money} gold and charge {cost} for their services.{injured} They have been on {adv_count} adventures.'
+    info.append('{injured}They have {money} gold and charge {cost} for their services. They have been on {adv_count} adventures.'
                 .format(
                     money=hero.money,
                     cost=hero.cost,
-                    injured=" They are injured." if hero.injured else "",
+                    injured="They are injured. " if hero.injured else "",
                     adv_count=len(hero.adventures)))
     return info
 
