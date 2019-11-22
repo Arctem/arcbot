@@ -151,7 +151,7 @@ def increase_cost(hero, cost):
 
 def degrade_cost(hero):
     cost = hero.cost * (1 - constants.HERO_COST_DEGRADE_RATE)
-    hero.cost = max(cost, constants.HERO_MIN_COST)
+    hero.cost = int(max(cost, constants.HERO_MIN_COST))
 
 
 @db.needs_session
