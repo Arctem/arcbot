@@ -74,7 +74,7 @@ class HQ():
 
             injured_heroes = list(
                 map(lambda h: h.name,
-                    filter(lambda h: h.injured, pool_controller.get_heroes(s=s))))
+                    filter(lambda h: h.injured and h.alive, pool_controller.get_heroes(s=s))))
             if len(injured_heroes) > 0:
                 messages.append('{} are injured.'.format(', '.join(injured_heroes)))
         elif args == 'dungeons':
