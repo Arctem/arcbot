@@ -99,26 +99,30 @@ def hero_leveled_up(hero, level, s=None):
 # Adventures
 ############
 
-def hero_fled_monster(hero, monster, player):
-    return TavernLog(text="{hero} has narrowly evaded {monster}.".format(hero=hero, monster=monster),
+def hero_fled_monster(adventure, monster, player=None):
+    return TavernLog(text="{hero} has narrowly evaded {monster} on {floor}."
+                     .format(hero=adventure.hero, monster=monster, floor=adventure.floor),
                      user=player,
                      time=datetime.now())
 
 
-def hero_defeated_monster(hero, monster, player):
-    return TavernLog(text="{hero} has defeated {monster}!".format(hero=hero, monster=monster),
+def hero_defeated_monster(adventure, monster, player=None):
+    return TavernLog(text="{hero} has defeated {monster} on {floor}!"
+                     .format(hero=adventure.hero, monster=monster, floor=adventure.floor),
                      user=player,
                      time=datetime.now())
 
 
-def hero_looted_monster(hero, monster, loot, player):
-    return TavernLog(text="{hero} has defeated {monster} and looted {loot} gold!".format(hero=hero, monster=monster, loot=loot),
+def hero_looted_monster(adventure, monster, loot, player=None):
+    return TavernLog(text="{hero} has defeated {monster} on {floor} and looted {loot} gold!"
+                     .format(hero=adventure.hero, monster=monster, floor=adventure.floor, loot=loot),
                      user=player,
                      time=datetime.now())
 
 
-def hero_leveled_monster(hero, monster, player):
-    return TavernLog(text="{hero} has leveled up from their experience defeating {monster}!".format(hero=hero, monster=monster),
+def hero_leveled_monster(adventure, monster, player=None):
+    return TavernLog(text="{hero} has leveled up from their experience defeating {monster} on {floor}!"
+                     .format(hero=adventure.hero, monster=monster, floor=adventure.floor),
                      user=player,
                      time=datetime.now())
 
