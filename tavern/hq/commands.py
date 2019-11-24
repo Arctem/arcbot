@@ -48,6 +48,16 @@ class HQ():
                     messages.append('You have hired {}.'.format(tavern.hired_hero))
                 for visitor in tavern.visiting_heroes:
                     messages.append('{} is visiting your tavern.'.format(visitor.name))
+                adventures = hq_controller.get_active_adventures(tavern, s=s)
+                if len(adventures) > 0:
+                    heroes_per_dungeon = {}
+                    for adventure in adventures:
+                        if adventure.dungeon in heroes_per_dungeon:
+                            heroes_per_dungeon[adventure.dungeon].append(adventure.hero)
+                        else:
+                            heroes_per_dungeon[adventure.dungeon] = [adventure.hero]
+                    messages.append('You have sent {}.'.format(
+                        ', '.join(['{heroes} to {dungeon}'.format(heroes=', '.join(map(str, heroes_per_dungeon[dungeon])), dungeon=dungeon) for dungeon in heroes_per_dungeon])))
         elif args == 'heroes':
             heroes = pool_controller.get_heroes(s=s)
             heroes = {

@@ -7,7 +7,7 @@ import ircbot.storage as db
 import tavern.pool as pool
 from arcuser.arcuser_models import ArcUser
 from tavern import logs
-from tavern.tavern_models import Tavern
+from tavern.tavern_models import Tavern, TavernAdventure
 
 STARTING_MONEY = 100
 
@@ -30,6 +30,10 @@ def count_taverns(s=None):
 @db.needs_session
 def search_taverns(name, s=None):
     return s.query(Tavern).filter(Tavern.name.like('%{}%'.format(name))).all()
+
+
+def get_active_adventures(tavern, s=None):
+    return s.query(TavernAdventure).filter(TavernAdventure.employer == tavern, TavernAdventure.active == True).all()
 
 
 @db.needs_session
