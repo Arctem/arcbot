@@ -73,3 +73,4 @@ def advance_floor(adventure, s=None):
     else:
         end_adventure(adventure, s=s)
         dungeon_controller.complete_dungeon(adventure.dungeon, s=s)
+        pool_controller.change_hero_activity(adventure.hero, HeroActivity.Elsewhere, s=s)

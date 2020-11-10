@@ -45,11 +45,11 @@ class ArcBot(IRCBot):
     links_file = 'links.botdat'
 
     def __init__(self):
-        super(ArcBot, self).__init__(host='irc.sudo-rmrf.net', port=6667,
-            channel='#csb', nick='arcbot',
-            realname="Ultimate Botting Machine:" +
-                " http://i.imgur.com/mrrKP.png" +
-                " https://www.youtube.com/watch?v=L9biyJcBhRs")
+        super(ArcBot, self).__init__(host='fizn.sudo-rmrf.net', port=6667,
+                                     channel='#bot', nick='testbot',
+                                     realname="Ultimate Botting Machine:" +
+                                     " http://i.imgur.com/mrrKP.png" +
+                                     " https://www.youtube.com/watch?v=L9biyJcBhRs")
 
     def init(self):
         Help(intro='The following modules are loaded. To find out more, do ' +

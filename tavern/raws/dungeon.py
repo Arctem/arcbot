@@ -128,7 +128,7 @@ types = {
                        'pantheon', 'parish', 'shrine', 'tabernacle', 'temple'},
                 epithets={'fallen prophets', "god's whisper", 'golden light', 'his favor', 'martyrs', 'saving grace',
                           'the great sacrifice', 'the metatron', 'the pendulous thurible', 'whispering shadows'},
-                monster_reqs={'angel', 'cultist'},
+                monster_reqs={'angel', 'cultist', 'sacrifice'},
                 monster_opts={'imperious'},
                 ),
     DungeonType('tomb',

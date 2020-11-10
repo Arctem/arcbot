@@ -31,7 +31,8 @@ def hide_emptied_dungeons(s=None):
 
 def ensure_dungeon_count(s=None):
     created = 0
-    known = s.query(TavernDungeon).filter(TavernDungeon.secret == False).count()
+    known = s.query(TavernDungeon).filter(TavernDungeon.secret == False,
+                                          TavernDungeon.active == True).count()
     for i in range(constants.DUNGEONS_MIN_KNOWN - known):
         dungeon = dungeon_controller.create_new_dungeon(random.randint(
             constants.DUNGEONS_MIN_FLOORS, constants.DUNGEONS_MAX_FLOORS), s=s)

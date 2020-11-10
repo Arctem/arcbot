@@ -6,7 +6,7 @@ HEROES_MIN_ALIVE = 10  # Minimum amount of heroes alive.
 HEROES_MIN_IDLE = 7  # Minimum amount of heroes either Elsewhere or CommonPool.
 HERO_START_MONEY = 5
 
-MONEY_GAINED_TO_HERO_COST = 0.2  # 20% of money made on an adventure goes to a hero's cost
+MONEY_GAINED_TO_HERO_COST = 0.5  # 50% of money made on an adventure goes to a hero's cost
 HERO_START_COST = 10
 HERO_MIN_COST = 5
 HERO_COST_HIRE_BUMP = 5
@@ -27,4 +27,4 @@ DUNGEON_EMPTY_THRESHHOLD = 0.5  # Hide a dungeon if half floors are empty.
 
 MONSTERS_PER_FLOOR = 10
 MONSTER_NO_MOD_CHANCE = 0.3
-MONSTER_SORT_VARIATION = 0.5
+MONSTER_SORT_VARIATION = 0.25

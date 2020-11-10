@@ -43,6 +43,9 @@ def get_dungeon(hero=None, s=None):
 
 @db.needs_session
 def search_heroes(name, s=None):
+    exact = s.query(TavernHero).filter(TavernHero.name == name).one_or_none()
+    if exact:
+        return [exact]  # return as list to match the normal interface
     return s.query(TavernHero).filter(TavernHero.name.like('%{}%'.format(name))).all()
 
 
